@@ -4,15 +4,16 @@ import { createClient } from "@/lib/supabase/server";
 // GET single product
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const supabase = await createClient();
+    const { id } = await params;
 
     const { data, error } = await supabase
       .from("products")
       .select("*")
-      .eq("id", params.id)
+      .eq("id", id)
       .single();
 
     if (error) {

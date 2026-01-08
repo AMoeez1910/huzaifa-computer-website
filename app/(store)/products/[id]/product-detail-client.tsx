@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { MessageCircle, Phone } from "lucide-react";
 import { ProductImageCarousel } from "@/components/product-image-carousel";
+import Link from "next/link";
 
 interface Product {
   id: string;
@@ -36,7 +37,7 @@ export function ProductDetailClient({ product }: { product: Product | null }) {
   const whatsappUrl = `https://wa.me/923009403751?text=${whatsappMessage}`;
 
   return (
-    <div className="w-full py-12 bg-gradient-to-b from-muted/30 to-background">
+    <div className="w-full py-12 bg-linear-to-brom-muted/30 to-background">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
           {/* Product Image Carousel */}
@@ -101,16 +102,18 @@ export function ProductDetailClient({ product }: { product: Product | null }) {
               <Button
                 size="lg"
                 className="gap-2 shadow-md hover:shadow-lg transition-all bg-primary text-primary-foreground hover:bg-primary/90"
-                onClick={() => window.open(whatsappUrl, "_blank")}
+                asChild
               >
-                <MessageCircle className="h-5 w-5" />
-                Contact via WhatsApp
+                <Link href={whatsappUrl} target="_blank">
+                  <MessageCircle className="h-5 w-5" />
+                  Contact via WhatsApp
+                </Link>
               </Button>
               <Button asChild variant="outline" size="lg" className="gap-2">
-                <a href="tel:03009403751">
+                <Link href="tel:03009403751">
                   <Phone className="h-5 w-5" />
                   Call for Availability
-                </a>
+                </Link>
               </Button>
             </div>
           </div>

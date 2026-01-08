@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function ContactPage() {
   return (
-    <div className="w-full min-h-screen bg-gradient-to-b from-muted/30 to-background py-12">
+    <div className="w-full min-h-screen bg-linear-to-b from-muted/30 to-background py-12">
       <div className="container mx-auto px-4 max-w-5xl">
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">Contact Us</h1>
@@ -19,7 +19,7 @@ export default function ContactPage() {
           <Card className="border-border/50">
             <CardContent className="pt-6">
               <div className="flex gap-4 items-start">
-                <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
                   <MapPin className="h-6 w-6 text-primary" />
                 </div>
                 <div>
@@ -42,7 +42,7 @@ export default function ContactPage() {
           <Card className="border-border/50">
             <CardContent className="pt-6">
               <div className="flex gap-4 items-start">
-                <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
                   <Phone className="h-6 w-6 text-primary" />
                 </div>
                 <div>
@@ -65,7 +65,7 @@ export default function ContactPage() {
           <Card className="border-border/50">
             <CardContent className="pt-6">
               <div className="flex gap-4 items-start">
-                <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
                   <Clock className="h-6 w-6 text-primary" />
                 </div>
                 <div>
@@ -87,7 +87,7 @@ export default function ContactPage() {
           <Card className="border-border/50">
             <CardContent className="pt-6">
               <div className="flex gap-4 items-start">
-                <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
                   <Mail className="h-6 w-6 text-primary" />
                 </div>
                 <div>
@@ -120,11 +120,15 @@ export default function ContactPage() {
               <Button
                 size="lg"
                 className="bg-white text-primary hover:bg-white/90"
-                onClick={() =>
-                  window.open("https://wa.me/923009403751", "_blank")
-                }
+                asChild
               >
-                WhatsApp Us
+                <a
+                  href="https://wa.me/923009403751"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  WhatsApp Us
+                </a>
               </Button>
               <Button
                 asChild
