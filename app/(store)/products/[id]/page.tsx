@@ -1,27 +1,63 @@
-import { createClient } from "@/lib/supabase/server"
-import { ProductDetailClient } from "./product-detail-client"
+import { ProductDetailClient } from "./product-detail-client";
+import { Suspense } from "react";
+import { Spinner } from "@/components/ui/spinner";
 
-export async function generateMetadata({ params }: { params: { id: string } }) {
-  const supabase = await createClient()
+export const dynamic = 'force-dynamic';
 
-  const { data: product } = await supabase.from("products").select("*").eq("id", params.id).single()
+const getProduct = async (id: string) => {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+  const response = await fetch(`${baseUrl}/api/products/${id}`);
+
+  if (!response.ok) {
+    return null;
+  }
+
+  const data = await response.json();
+  return data.product;
+};
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+  const product = await getProduct(id);
 
   if (!product) {
     return {
       title: "Product Not Found",
-    }
+    };
   }
 
   return {
     title: `${product.name} - Huzaifa Computers`,
-    description: product.description || `Buy ${product.name} at Huzaifa Computers`,
-  }
+    description:
+      product.description || `Buy ${product.name} at Huzaifa Computers`,
+  };
 }
 
-export default async function ProductDetailPage({ params }: { params: { id: string } }) {
-  const supabase = await createClient()
+async function ProductContent({ id }: { id: string }) {
+  const product = await getProduct(id);
+  return <ProductDetailClient product={product} />;
+}
 
-  const { data: product } = await supabase.from("products").select("*").eq("id", params.id).single()
+export default async function ProductDetailPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
 
-  return <ProductDetailClient product={product} />
+  return (
+    <Suspense
+      fallback={
+        <div className="container mx-auto px-4 py-16 flex justify-center">
+          <Spinner />
+        </div>
+      }
+    >
+      <ProductContent id={id} />
+    </Suspense>
+  );
 }

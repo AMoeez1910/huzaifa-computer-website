@@ -1,17 +1,44 @@
-import { createClient } from "@/lib/supabase/server"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { ProductCard } from "@/components/product-card"
+
+interface Product {
+  id: string;
+  name: string;
+  category: string;
+  price: number;
+  image_url: string;
+  description?: string;
+}
+
+export const dynamic = 'force-dynamic';
 
 export const metadata = {
   title: "Our Printers - Huzaifa Computers",
   description: "Browse our complete catalog of LaserJet, Inkjet, Dot Matrix printers and scanners",
 }
 
-export default async function ProductsPage() {
-  const supabase = await createClient()
+async function getProducts(): Promise<Product[]> {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+  
+  try {
+    const res = await fetch(`${baseUrl}/api/products`);
+    
+    if (!res.ok) {
+      console.error('Failed to fetch products');
+      return [];
+    }
+    
+    const data = await res.json();
+    return data.products || [];
+  } catch (error) {
+    console.error('Error fetching products:', error);
+    return [];
+  }
+}
 
-  const { data: products } = await supabase.from("products").select("*").order("created_at", { ascending: false })
+export default async function ProductsPage() {
+  const products = await getProducts();
 
   return (
       <main className="flex-1 w-full py-16">

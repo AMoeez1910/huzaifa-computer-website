@@ -4,6 +4,7 @@ import Lottie from "lottie-react";
 import printerAnimation from "@/public/lottie/Laser Printer Printing Paper Animation.json";
 import { Mail, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -26,7 +27,7 @@ export default function Home() {
           </h1>
           <p className="text-lg md:text-xl text-slate-300 max-w-2xl mx-auto">
             Our website is currently under construction. We're working hard to
-            bring you the best printer solutions for your home and office.
+            bring you the best printers for your home and office.
           </p>
         </div>
 
@@ -35,21 +36,23 @@ export default function Home() {
           <Button
             size="lg"
             className="bg-blue-600 hover:bg-blue-700 text-white gap-2 min-w-50"
-            onClick={() => (window.location.href = "tel:+923009403751")}
+            asChild
           >
-            <Phone className="h-5 w-5" />
-            Call Now
+            <Link href="tel:+923009403751">
+              <Phone className="h-5 w-5" />
+              Call Now
+            </Link>
           </Button>
           <Button
             size="lg"
             variant="outline"
-            className="border-slate-600 hover:text-slate-200  hover:bg-slate-800 hover:text-white gap-2 min-w-50"
-            onClick={() =>
-              (window.location.href = "mailto:info@huzaifacomputers.com")
-            }
+            className="border-slate-600 hover:text-slate-200  hover:bg-slate-800 gap-2 min-w-50"
+            asChild
           >
-            <Mail className="h-5 w-5" />
-            Email Us
+            <Link href="mailto:info@huzaifacomputers.com">
+              <Mail className="h-5 w-5" />
+              Email Us
+            </Link>
           </Button>
         </div>
 
@@ -59,21 +62,9 @@ export default function Home() {
             For immediate assistance, please contact us directly
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-4 text-slate-300">
-            <a
-              href="tel:+923009403751"
-              className="hover:text-blue-500 transition-colors"
-            >
-              <Phone className="inline h-4 w-4 mr-2" />
-              +92 (300) 9403751
-            </a>
-            <span className="hidden sm:inline text-slate-600">|</span>
-            <a
-              href="mailto:info@huzaifacomputers.com"
-              className="hover:text-blue-500 transition-colors"
-            >
-              <Mail className="inline h-4 w-4 mr-2" />
-              info@huzaifacomputers.com
-            </a>
+            <Link href={"https://maps.app.goo.gl/xNTPuParQofbxwA97"}>
+              Shop # LG-127, Hafeez Centre, Main Boulevard Gulberg, Lahore
+            </Link>
           </div>
         </div>
       </div>
