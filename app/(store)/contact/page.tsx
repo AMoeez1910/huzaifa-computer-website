@@ -122,7 +122,11 @@ export default function ContactPage() {
                 className="bg-white text-primary hover:bg-white/90"
                 asChild
               >
-                <a href="https://wa.me/923009403751" target="_blank" rel="noopener noreferrer">
+                <a
+                  href="https://wa.me/923009403751"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   WhatsApp Us
                 </a>
               </Button>
