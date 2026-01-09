@@ -20,7 +20,7 @@ export default function Home() {
         </div>
 
         {/* Content */}
-        <div className="space-y-4">
+        <div className="space-y-4 -mt-14">
           <h1 className="text-4xl md:text-6xl font-bold text-white">
             We're Building Something
             <span className="block text-blue-500">Amazing</span>
