@@ -9,9 +9,9 @@ import Link from "next/link";
 export default function Home() {
   return (
     <div className="min-h-screen bg-linear-to-br from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center px-4">
-      <div className="max-w-4xl w-full text-center space-y-8">
+      <div className="max-w-4xl w-full text-center space-y-4">
         {/* Lottie Animation */}
-        <div className="w-full max-w-md mx-auto">
+        <div className="w-full max-w-md  mx-auto">
           <Lottie
             animationData={printerAnimation}
             loop={true}
@@ -57,7 +57,7 @@ export default function Home() {
         </div>
 
         {/* Additional Info */}
-        <div className="pt-8 border-t border-slate-800">
+        <div className="pt-8 border-t border-slate-800 max-sm:pb-6">
           <p className="text-slate-400 text-sm">
             For immediate assistance, please contact us directly
           </p>
