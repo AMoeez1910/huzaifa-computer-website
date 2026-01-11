@@ -6,6 +6,8 @@ import Autoplay from "embla-carousel-autoplay";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
+import { NavigationButton } from "./ui/button/NavigationButton";
+import Image from "next/image";
 
 const slides = [
   {
@@ -13,33 +15,36 @@ const slides = [
     title: "Weekly Deals",
     subtitle: "Save up to 44% on select printers + free shipping",
     description: "Buy direct from America's most trusted printer brand.",
-    image: "/hero-1.jpg",
+    image: "/images/epson-hero.jpg",
     cta: "Shop Now",
     href: "/products",
+    variant: "full-image" as const,
   },
   {
     id: 2,
     title: "HP OfficeJet Pro 9135e",
     subtitle: "Wireless All-in-One Printer with 3 Months of Instant Ink",
     description: "AI-enabled printing for your business needs",
-    image: "/hero-2.jpg",
+    image: "/images/hp-hero.jpg",
     cta: "Learn More",
     href: "/products",
+    variant: "split-left" as const,
   },
   {
     id: 3,
     title: "Professional Printing Solutions",
     subtitle: "LaserJet • Inkjet • Scanner • Repair Services",
     description: "20+ years serving businesses in Lahore",
-    image: "/hero-3.jpg",
+    image: "/images/toner-refil.jpg",
     cta: "Contact Us",
     href: "/contact",
+    variant: "split-right" as const,
   },
 ];
 
 export function HeroCarousel() {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
-    Autoplay({ delay: 5000, stopOnInteraction: false }),
+    Autoplay({ delay: 10000000000, stopOnInteraction: false }),
   ]);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -58,86 +63,139 @@ export function HeroCarousel() {
     };
   }, [emblaApi]);
 
-  const scrollPrev = () => emblaApi?.scrollPrev();
-  const scrollNext = () => emblaApi?.scrollNext();
   const scrollTo = (index: number) => emblaApi?.scrollTo(index);
 
   return (
-    <section className="relative w-full bg-gradient-to-br from-primary via-primary/90 to-accent overflow-hidden">
+    <section className="relative w-full overflow-hidden">
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex">
           {slides.map((slide) => (
             <div key={slide.id} className="flex-[0_0_100%] min-w-0">
-              <div className="relative h-[500px] md:h-[600px] flex items-center">
-                {/* Background pattern */}
-                <div className="absolute inset-0 opacity-10">
-                  <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
-                  <div className="absolute bottom-0 left-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
-                </div>
+              {slide.variant === "full-image" && (
+                <div className="relative h-150 md:h-175 flex flex-col md:flex-row md:items-center">
+                  {/* Image Section */}
+                  <div className="relative flex-1 h-64 md:h-full">
+                    <Image
+                      src={slide.image}
+                      alt={slide.title}
+                      fill
+                      className="object-cover"
+                      priority
+                    />
+                  </div>
 
-                <div className="container mx-auto px-4 relative z-10">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                    {/* Text Content */}
-                    <div className="text-white">
-                      <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-4">
+                  {/* Text Section - appears below on mobile */}
+                  <div className="absolute inset-0 bg-linear-to-r from-black/70 via-black/50 to-transparent hidden md:block"></div>
+                  <div className="px-6 py-8 md:px-8 max-md:pb-0 md:absolute md:inset-0 md:flex md:items-center relative z-10 bg-white md:bg-transparent">
+                    <div className="max-w-2xl">
+                      <h1 className="text-2xl md:text-6xl font-bold tracking-tight mb-3 md:mb-4 text-primary md:text-white md:drop-shadow-lg">
                         {slide.title}
                       </h1>
-                      <p className="text-xl md:text-2xl mb-4 text-white/90 font-medium">
+                      <p className="text-base md:text-2xl mb-3 md:mb-4 text-primary/90 md:text-white/95 font-medium md:drop-shadow-md">
                         {slide.subtitle}
                       </p>
-                      <p className="text-lg mb-8 text-white/80">
+                      <p className="text-sm md:text-lg mb-6 md:mb-8 text-primary/80 md:text-white/90 md:drop-shadow-md">
                         {slide.description}
                       </p>
-                      <Button
+                      <NavigationButton
                         asChild
-                        size="lg"
-                        className="bg-white text-primary hover:bg-white/90 font-semibold"
+                        size="default"
+                        className="bg-primary md:bg-white text-white md:text-primary hover:bg-primary/90 md:hover:bg-white/90 font-semibold shadow-xl"
                       >
                         <Link href={slide.href}>{slide.cta}</Link>
-                      </Button>
-                    </div>
-
-                    {/* Placeholder for image - you'll add actual images later */}
-                    <div className="hidden md:flex items-center justify-center">
-                      <div className="w-full h-80 bg-white/10 backdrop-blur-sm rounded-lg border border-white/20 flex items-center justify-center text-white/50">
-                        Image placeholder - {slide.id}
-                      </div>
+                      </NavigationButton>
                     </div>
                   </div>
                 </div>
-              </div>
+              )}
+
+              {/* Variant 2: Split Layout - Text Left, Image Right */}
+              {slide.variant === "split-left" && (
+                <div className="relative h-150 md:h-175 flex flex-col md:flex-row bg-white">
+                  {/* Image - Full Height - On top for mobile */}
+                  <div className="relative flex-7 h-64 md:h-full md:order-2">
+                    <Image
+                      src={slide.image}
+                      alt={slide.title}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+
+                  {/* Text Content - Below image on mobile */}
+                  <div className="flex-col md:flex-5 flex justify-center text-primary px-6 pt-8 md:px-8 md:py-0 md:order-1">
+                    <div>
+                      <h1 className="text-2xl md:text-6xl font-bold tracking-tight mb-3 md:mb-4">
+                        {slide.title}
+                      </h1>
+                      <p className="text-base md:text-2xl mb-3 md:mb-4 text-primary/90 font-medium">
+                        {slide.subtitle}
+                      </p>
+                      <p className="text-sm md:text-lg mb-6 md:mb-8 text-primary/80">
+                        {slide.description}
+                      </p>
+                      <NavigationButton
+                        asChild
+                        size="default"
+                        className="bg-primary text-white hover:bg-primary/90 font-semibold"
+                      >
+                        <Link href={slide.href}>{slide.cta}</Link>
+                      </NavigationButton>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Variant 3: Split Layout - Image Left, Text Right */}
+              {slide.variant === "split-right" && (
+                <div className="relative h-150 md:h-175 flex flex-col md:flex-row bg-white">
+                  {/* Image - Full Height - On top for mobile */}
+                  <div className="relative flex-7 h-64 md:h-full">
+                    <Image
+                      src={slide.image}
+                      alt={slide.title}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+
+                  {/* Text Content - Below image on mobile */}
+                  <div className="flex-col md:flex-5 flex justify-center text-primary px-6 pt-8 md:px-8 md:py-0">
+                    <div>
+                      <h1 className="text-2xl md:text-6xl font-bold tracking-tight mb-3 md:mb-4">
+                        {slide.title}
+                      </h1>
+                      <p className="text-base md:text-2xl mb-3 md:mb-4 text-primary/90 font-medium">
+                        {slide.subtitle}
+                      </p>
+                      <p className="text-sm md:text-lg mb-6 md:mb-8 text-primary/80">
+                        {slide.description}
+                      </p>
+                      <NavigationButton
+                        asChild
+                        size="default"
+                        className="bg-primary text-white hover:bg-primary/90 font-semibold"
+                      >
+                        <Link href={slide.href}>{slide.cta}</Link>
+                      </NavigationButton>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           ))}
         </div>
       </div>
 
-      {/* Navigation Arrows */}
-      <Button
-        variant="outline"
-        size="icon"
-        className="absolute left-4 top-1/2 -translate-y-1/2 z-20 rounded-full bg-white/90 backdrop-blur-sm shadow-lg hover:bg-white border-0"
-        onClick={scrollPrev}
-      >
-        <ChevronLeft className="h-5 w-5 text-primary" />
-      </Button>
-      <Button
-        variant="outline"
-        size="icon"
-        className="absolute right-4 top-1/2 -translate-y-1/2 z-20 rounded-full bg-white/90 backdrop-blur-sm shadow-lg hover:bg-white border-0"
-        onClick={scrollNext}
-      >
-        <ChevronRight className="h-5 w-5 text-primary" />
-      </Button>
-
       {/* Dots Indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+      <div className="flex gap-2 justify-center items-center py-2 max-md:pt-4 bg-white">
         {slides.map((_, index) => (
           <button
             key={index}
             className={`w-2 h-2 rounded-full transition-all ${
               index === selectedIndex
-                ? "bg-white w-8"
-                : "bg-white/50 hover:bg-white/70"
+                ? "bg-primary w-8"
+                : "bg-primary/50 hover:bg-primary/70"
             }`}
             onClick={() => scrollTo(index)}
             aria-label={`Go to slide ${index + 1}`}

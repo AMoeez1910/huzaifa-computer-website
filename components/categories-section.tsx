@@ -75,13 +75,13 @@ export function CategoriesSection() {
               <Link key={category.id} href={category.href}>
                 <Card className="h-full transition-all duration-300 hover:shadow-lg hover:scale-[1.02] border-border/50 overflow-hidden group">
                   <CardContent
-                    className={`p-8 bg-gradient-to-br ${category.gradient} relative`}
+                    className={`p-8 bg-linear-to-br ${category.gradient} relative`}
                   >
                     {/* Background decoration */}
                     <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-colors"></div>
 
                     <div className="relative z-10 flex items-start gap-6">
-                      <div className="flex-shrink-0 w-16 h-16 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                      <div className="shrink-0 w-16 h-16 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
                         <Icon className="h-8 w-8 text-primary" />
                       </div>
                       <div className="flex-1">
