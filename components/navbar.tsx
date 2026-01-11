@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Printer } from "lucide-react";
+import Image from "next/image";
 
 export function Navbar() {
   return (
@@ -11,8 +12,13 @@ export function Navbar() {
           href="/"
           className="flex items-center gap-2 font-bold text-xl text-primary hover:opacity-80 transition-opacity"
         >
-          <Printer className="h-6 w-6" />
-          Huzaifa Computers
+          <Image
+            src="/images/logo/hc-logo.png"
+            alt="Huzaifa Computers"
+            width={68}
+            height={68}
+            className="object-contain min-w-10"
+          />
         </Link>
 
         <div className="hidden md:flex items-center gap-8">
