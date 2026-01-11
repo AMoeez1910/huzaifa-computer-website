@@ -3,11 +3,13 @@ import { HeroCarousel } from "@/components/hero-carousel";
 import { CategoriesSection } from "@/components/categories-section";
 import { RecentProducts } from "@/components/recent-products";
 import { Spinner } from "@/components/ui/spinner";
+import CompaniesWeDealIn from "@/components/companies-carousel";
 
 export default function Home() {
   return (
     <>
       <HeroCarousel />
+      <CompaniesWeDealIn />
       <CategoriesSection />
       <Suspense
         fallback={
