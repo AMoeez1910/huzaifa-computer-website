@@ -28,7 +28,7 @@ export function ProductImageCarousel({
 
   if (!images || images.length === 0) {
     return (
-      <div className="relative aspect-square bg-gradient-to-br from-secondary/30 to-secondary/10 rounded-lg overflow-hidden">
+      <div className="relative aspect-square bg-linear-to-br from-secondary/30 to-secondary/10 rounded-lg overflow-hidden">
         <Image
           src="/placeholder.svg?height=400&width=400&query=printer"
           alt={productName}
