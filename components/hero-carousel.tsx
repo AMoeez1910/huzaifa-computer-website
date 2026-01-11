@@ -3,8 +3,6 @@
 import { useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
-import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { NavigationButton } from "./ui/button/NavigationButton";
 import Image from "next/image";
@@ -15,7 +13,7 @@ const slides = [
     title: "Weekly Deals",
     subtitle: "Save up to 44% on select printers + free shipping",
     description: "Buy direct from America's most trusted printer brand.",
-    image: "/images/epson-hero.jpg",
+    image: "/images/hero-image.jpg",
     cta: "Shop Now",
     href: "/products",
     variant: "full-image" as const,
@@ -35,7 +33,7 @@ const slides = [
     title: "Professional Printing Solutions",
     subtitle: "LaserJet • Inkjet • Scanner • Repair Services",
     description: "20+ years serving businesses in Lahore",
-    image: "/images/toner-refil.jpg",
+    image: "/images/toner-refil-1.jpg",
     cta: "Contact Us",
     href: "/contact",
     variant: "split-right" as const,
@@ -44,7 +42,7 @@ const slides = [
 
 export function HeroCarousel() {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
-    Autoplay({ delay: 10000000000, stopOnInteraction: false }),
+    Autoplay({ delay: 5000, stopOnInteraction: false }),
   ]);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -72,7 +70,7 @@ export function HeroCarousel() {
           {slides.map((slide) => (
             <div key={slide.id} className="flex-[0_0_100%] min-w-0">
               {slide.variant === "full-image" && (
-                <div className="relative h-150 md:h-175 flex flex-col md:flex-row md:items-center">
+                <div className="relative h-110 md:h-175 flex flex-col md:flex-row md:items-center">
                   {/* Image Section */}
                   <div className="relative flex-1 h-64 md:h-full">
                     <Image
@@ -86,15 +84,15 @@ export function HeroCarousel() {
 
                   {/* Text Section - appears below on mobile */}
                   <div className="absolute inset-0 bg-linear-to-r from-black/70 via-black/50 to-transparent hidden md:block"></div>
-                  <div className="px-6 py-8 md:px-8 max-md:pb-0 md:absolute md:inset-0 md:flex md:items-center relative z-10 bg-white md:bg-transparent">
-                    <div className="max-w-2xl">
-                      <h1 className="text-2xl md:text-6xl font-bold tracking-tight mb-3 md:mb-4 text-primary md:text-white md:drop-shadow-lg">
+                  <div className="px-8 md:py-8 py-4 md:px-16 w-full max-md:pb-0 md:absolute md:inset-0 md:flex md:items-center md:justify-end relative z-10 md:bg-transparent">
+                    <div className="max-w-2xl flex flex-col md:items-end w-full">
+                      <h1 className="text-2xl md:text-6xl font-bold tracking-tight mb-3 md:mb-4 text-primary md:text-white md:drop-shadow-lg md:text-right">
                         {slide.title}
                       </h1>
-                      <p className="text-base md:text-2xl mb-3 md:mb-4 text-primary/90 md:text-white/95 font-medium md:drop-shadow-md">
+                      <p className="text-base md:text-2xl mb-3 md:mb-4 text-primary/90 md:text-white/95 font-medium md:drop-shadow-md md:text-right">
                         {slide.subtitle}
                       </p>
-                      <p className="text-sm md:text-lg mb-6 md:mb-8 text-primary/80 md:text-white/90 md:drop-shadow-md">
+                      <p className="text-sm md:text-lg mb-6 md:mb-8 text-primary/80 md:text-white/90 md:drop-shadow-md md:text-right">
                         {slide.description}
                       </p>
                       <NavigationButton
@@ -111,7 +109,7 @@ export function HeroCarousel() {
 
               {/* Variant 2: Split Layout - Text Left, Image Right */}
               {slide.variant === "split-left" && (
-                <div className="relative h-150 md:h-175 flex flex-col md:flex-row bg-white">
+                <div className="relative h-110 md:h-175 flex flex-col md:flex-row md:bg-white">
                   {/* Image - Full Height - On top for mobile */}
                   <div className="relative flex-7 h-64 md:h-full md:order-2">
                     <Image
@@ -123,7 +121,7 @@ export function HeroCarousel() {
                   </div>
 
                   {/* Text Content - Below image on mobile */}
-                  <div className="flex-col md:flex-5 flex justify-center text-primary px-6 pt-8 md:px-8 md:py-0 md:order-1">
+                  <div className="flex-col md:flex-5 flex justify-center text-primary px-8 md:pt-8 py-4 max-md:pb-0 md:px-16 md:py-0 md:order-1">
                     <div>
                       <h1 className="text-2xl md:text-6xl font-bold tracking-tight mb-3 md:mb-4">
                         {slide.title}
@@ -148,7 +146,7 @@ export function HeroCarousel() {
 
               {/* Variant 3: Split Layout - Image Left, Text Right */}
               {slide.variant === "split-right" && (
-                <div className="relative h-150 md:h-175 flex flex-col md:flex-row bg-white">
+                <div className="relative h-110 md:h-175 flex flex-col md:flex-row md:bg-white">
                   {/* Image - Full Height - On top for mobile */}
                   <div className="relative flex-7 h-64 md:h-full">
                     <Image
@@ -160,7 +158,7 @@ export function HeroCarousel() {
                   </div>
 
                   {/* Text Content - Below image on mobile */}
-                  <div className="flex-col md:flex-5 flex justify-center text-primary px-6 pt-8 md:px-8 md:py-0">
+                  <div className="flex-col md:flex-5 flex justify-center text-primary px-8 md:pt-8 py-4 max-md:pb-0 md:px-16 md:py-0">
                     <div>
                       <h1 className="text-2xl md:text-6xl font-bold tracking-tight mb-3 md:mb-4">
                         {slide.title}
@@ -188,7 +186,7 @@ export function HeroCarousel() {
       </div>
 
       {/* Dots Indicator */}
-      <div className="flex gap-2 justify-center items-center py-2 max-md:pt-4 bg-white">
+      <div className="flex gap-2 justify-center items-center py-4  ">
         {slides.map((_, index) => (
           <button
             key={index}
