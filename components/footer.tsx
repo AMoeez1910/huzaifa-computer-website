@@ -39,7 +39,7 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <SiWhatsapp className="h-5 w-5" />
+                <SiWhatsapp className="h-6 w-6" />
                 Get in Touch
               </a>
             </Button>
@@ -47,7 +47,7 @@ export function Footer() {
             {/* Contact Information */}
             <div className="space-y-4">
               <div className="flex gap-3 items-start">
-                <Phone className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                <Phone className="h-6 w-6 text-primary shrink-0 mt-0.5" />
                 <div className="space-y-1">
                   <a
                     href="tel:03245300625"
@@ -59,7 +59,7 @@ export function Footer() {
               </div>
 
               <div className="flex gap-3 items-start">
-                <Mail className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                <Mail className="h-6 w-6 text-primary shrink-0 mt-0.5" />
                 <a
                   href="mailto:info@huzaifacomputer.com"
                   className="text-foreground/70 hover:text-primary transition-colors"
@@ -69,7 +69,7 @@ export function Footer() {
               </div>
 
               <div className="flex gap-3 items-start">
-                <MapPin className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                <MapPin className="h-6 w-6 text-primary shrink-0 mt-0.5" />
                 <p className="text-foreground/70 leading-relaxed">
                   Shop # LG-127, Hafeez Centre
                   <br />
@@ -80,7 +80,7 @@ export function Footer() {
               </div>
 
               <div className="flex gap-3 items-start">
-                <Clock className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                <Clock className="h-6 w-6 text-primary shrink-0 mt-0.5" />
                 <p className="text-foreground/70">
                   Mon - Sat: 9 AM - 10 PM
                   <br />

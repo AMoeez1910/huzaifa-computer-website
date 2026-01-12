@@ -68,7 +68,7 @@ export function FeaturedCarousel({ products }: { products: Product[] }) {
             className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 rounded-full bg-background shadow-xl border-2 hover:bg-primary hover:border-primary group transition-all"
             onClick={scrollPrev}
           >
-            <ChevronLeft className="h-5 w-5 text-foreground group-hover:text-primary-foreground group-hover:-translate-x-0.5 transition-all duration-200" />
+            <ChevronLeft className="h-6 w-6 text-foreground group-hover:text-primary-foreground group-hover:-translate-x-0.5 transition-all duration-200" />
           </Button>
           <Button
             variant="outline"
@@ -76,7 +76,7 @@ export function FeaturedCarousel({ products }: { products: Product[] }) {
             className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 rounded-full bg-background shadow-xl border-2 hover:bg-primary hover:border-primary group transition-all"
             onClick={scrollNext}
           >
-            <ChevronRight className="h-5 w-5 text-foreground group-hover:text-primary-foreground group-hover:translate-x-0.5 transition-all duration-200" />
+            <ChevronRight className="h-6 w-6 text-foreground group-hover:text-primary-foreground group-hover:translate-x-0.5 transition-all duration-200" />
           </Button>
         </>
       )}

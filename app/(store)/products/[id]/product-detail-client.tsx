@@ -105,13 +105,13 @@ export function ProductDetailClient({ product }: { product: Product | null }) {
                 asChild
               >
                 <Link href={whatsappUrl} target="_blank">
-                  <MessageCircle className="h-5 w-5" />
+                  <MessageCircle className="h-6 w-6" />
                   Contact via WhatsApp
                 </Link>
               </Button>
               <Button asChild variant="outline" size="lg" className="gap-2">
                 <Link href="tel:03009403751">
-                  <Phone className="h-5 w-5" />
+                  <Phone className="h-6 w-6" />
                   Call for Availability
                 </Link>
               </Button>
