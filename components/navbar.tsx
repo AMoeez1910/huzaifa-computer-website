@@ -6,8 +6,8 @@ import Image from "next/image";
 
 export function Navbar() {
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <nav className="container mx-auto px-4 py-4 flex items-center justify-between">
+    <header className="sticky top-0 z-40 w-full border-b border-border bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
+      <nav className="max-w-10xl w-full mx-auto px-4 py-4 flex items-center justify-between">
         <Link
           href="/"
           className="flex items-center gap-2 font-bold text-xl text-primary hover:opacity-80 transition-opacity"

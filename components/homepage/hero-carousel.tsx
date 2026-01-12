@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import Link from "next/link";
-import { NavigationButton } from "./ui/button/NavigationButton";
+import { NavigationButton } from "../ui/button/NavigationButton";
 import Image from "next/image";
 
 const slides = [
@@ -98,7 +98,7 @@ export function HeroCarousel() {
                       <NavigationButton
                         asChild
                         size="default"
-                        className="bg-primary md:bg-white text-white md:text-primary hover:bg-primary/90 md:hover:bg-white/90 font-semibold shadow-xl"
+                        className="bg-primary w-fit md:bg-white text-white md:text-primary hover:bg-primary/90 md:hover:bg-white/90 font-semibold shadow-xl"
                       >
                         <Link href={slide.href}>{slide.cta}</Link>
                       </NavigationButton>

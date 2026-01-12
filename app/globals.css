@@ -3,6 +3,151 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Metropolis Font Family */
+@font-face {
+  font-family: "Metropolis";
+  src: url("/font/Metropolis-Thin.otf") format("opentype");
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Metropolis";
+  src: url("/font/Metropolis-ThinItalic.otf") format("opentype");
+  font-weight: 100;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Metropolis";
+  src: url("/font/Metropolis-ExtraLight.otf") format("opentype");
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Metropolis";
+  src: url("/font/Metropolis-ExtraLightItalic.otf") format("opentype");
+  font-weight: 200;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Metropolis";
+  src: url("/font/Metropolis-Light.otf") format("opentype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Metropolis";
+  src: url("/font/Metropolis-LightItalic.otf") format("opentype");
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Metropolis";
+  src: url("/font/Metropolis-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Metropolis";
+  src: url("/font/Metropolis-RegularItalic.otf") format("opentype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Metropolis";
+  src: url("/font/Metropolis-Medium.otf") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Metropolis";
+  src: url("/font/Metropolis-MediumItalic.otf") format("opentype");
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Metropolis";
+  src: url("/font/Metropolis-SemiBold.otf") format("opentype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Metropolis";
+  src: url("/font/Metropolis-SemiBoldItalic.otf") format("opentype");
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Metropolis";
+  src: url("/font/Metropolis-Bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Metropolis";
+  src: url("/font/Metropolis-BoldItalic.otf") format("opentype");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Metropolis";
+  src: url("/font/Metropolis-ExtraBold.otf") format("opentype");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Metropolis";
+  src: url("/font/Metropolis-ExtraBoldItalic.otf") format("opentype");
+  font-weight: 800;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Metropolis";
+  src: url("/font/Metropolis-Black.otf") format("opentype");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Metropolis";
+  src: url("/font/Metropolis-BlackItalic.otf") format("opentype");
+  font-weight: 900;
+  font-style: italic;
+  font-display: swap;
+}
+
 :root {
   --background: oklch(0.98 0 0);
   --foreground: oklch(0.15 0.01 250);
@@ -12,7 +157,7 @@
   --popover-foreground: oklch(0.15 0.01 250);
   --primary: oklch(0.25 0.05 250);
   --primary-foreground: oklch(0.98 0 0);
-  --secondary: oklch(0.90 0.01 250);
+  --secondary: oklch(0.9 0.01 250);
   --secondary-foreground: oklch(0.15 0.01 250);
   --muted: oklch(0.92 0.01 250);
   --muted-foreground: oklch(0.45 0.01 250);
@@ -37,6 +182,258 @@
   --sidebar-accent-foreground: oklch(0.15 0.01 250);
   --sidebar-border: oklch(0.88 0.01 250);
   --sidebar-ring: oklch(0.55 0.01 250);
+
+  /* Grey Accents */
+
+  /* SPACING */
+
+  /* @link https://utopia.fyi/space/calculator?c=320,10,1.125,1920,18,1.2,10,4,&s=0.75|0.5|0.25|0.125,1.25|1.5|1.75|2|2.25|2.5|2.75|3|3.5|4|4.5|5|6|7|8,xs-l|l-s|10xl-7xl|2xl-5xl&g=2xl,5xl,7xl,12 */
+
+  /* Space 4xs: 1px → 2px */
+  --space-4xs: clamp(0.0625rem, 0.05rem + 0.0625vw, 0.125rem);
+  /* Space 3xs: 3px → 4px */
+  --space-3xs: clamp(0.1875rem, 0.175rem + 0.0625vw, 0.25rem);
+  /* Space 2xs: 5px → 8px */
+  --space-2xs: clamp(0.3125rem, 0.275rem + 0.1875vw, 0.5rem);
+  /* Space xs: 8px → 12px */
+  --space-xs: clamp(0.5rem, 0.45rem + 0.25vw, 0.75rem);
+  /* Space s: 10px → 16px */
+  --space-s: clamp(0.625rem, 0.55rem + 0.375vw, 1rem);
+  /* Space m: 13px → 20px */
+  --space-m: clamp(0.8125rem, 0.725rem + 0.4375vw, 1.25rem);
+  /* Space l: 15px → 24px */
+  --space-l: clamp(0.9375rem, 0.825rem + 0.5625vw, 1.5rem);
+  /* Space xl: 18px → 28px */
+  --space-xl: clamp(1.125rem, 1rem + 0.625vw, 1.75rem);
+  /* Space 2xl: 20px → 32px */
+  --space-2xl: clamp(1.25rem, 1.1rem + 0.75vw, 2rem);
+  /* Space 3xl: 23px → 36px */
+  --space-3xl: clamp(1.4375rem, 1.275rem + 0.8125vw, 2.25rem);
+  /* Space 4xl: 25px → 40px */
+  --space-4xl: clamp(1.5625rem, 1.375rem + 0.9375vw, 2.5rem);
+  /* Space 5xl: 28px → 44px */
+  --space-5xl: clamp(1.75rem, 1.55rem + 1vw, 2.75rem);
+  /* Space 6xl: 30px → 48px */
+  --space-6xl: clamp(1.875rem, 1.65rem + 1.125vw, 3rem);
+  /* Space 7xl: 35px → 56px */
+  --space-7xl: clamp(2.1875rem, 1.925rem + 1.3125vw, 3.5rem);
+  /* Space 8xl: 40px → 64px */
+  --space-8xl: clamp(2.5rem, 2.2rem + 1.5vw, 4rem);
+  /* Space 9xl: 45px → 72px */
+  --space-9xl: clamp(2.8125rem, 2.475rem + 1.6875vw, 4.5rem);
+  /* Space 10xl: 50px → 80px */
+  --space-10xl: clamp(3.125rem, 2.75rem + 1.875vw, 5rem);
+  /* Space 11xl: 60px → 96px */
+  --space-11xl: clamp(3.75rem, 3.3rem + 2.25vw, 6rem);
+  /* Space 12xl: 70px → 112px */
+  --space-12xl: clamp(4.375rem, 3.85rem + 2.625vw, 7rem);
+  /* Space 13xl: 80px → 128px */
+  --space-13xl: clamp(5rem, 4.4rem + 3vw, 8rem);
+
+  /* One-up pairs */
+  /* Space 4xs-3xs: 1px → 4px */
+  --space-4xs-3xs: clamp(0.0625rem, 0.025rem + 0.1875vw, 0.25rem);
+  /* Space 3xs-2xs: 3px → 8px */
+  --space-3xs-2xs: clamp(0.1875rem, 0.125rem + 0.3125vw, 0.5rem);
+  /* Space 2xs-xs: 5px → 12px */
+  --space-2xs-xs: clamp(0.3125rem, 0.225rem + 0.4375vw, 0.75rem);
+  /* Space xs-s: 8px → 16px */
+  --space-xs-s: clamp(0.5rem, 0.4rem + 0.5vw, 1rem);
+  /* Space s-m: 10px → 20px */
+  --space-s-m: clamp(0.625rem, 0.5rem + 0.625vw, 1.25rem);
+  /* Space m-l: 13px → 24px */
+  --space-m-l: clamp(0.8125rem, 0.675rem + 0.6875vw, 1.5rem);
+  /* Space l-xl: 15px → 28px */
+  --space-l-xl: clamp(0.9375rem, 0.775rem + 0.8125vw, 1.75rem);
+  /* Space xl-2xl: 18px → 32px */
+  --space-xl-2xl: clamp(1.125rem, 0.95rem + 0.875vw, 2rem);
+  /* Space 2xl-3xl: 20px → 36px */
+  --space-2xl-3xl: clamp(1.25rem, 1.05rem + 1vw, 2.25rem);
+  /* Space 3xl-4xl: 23px → 40px */
+  --space-3xl-4xl: clamp(1.4375rem, 1.225rem + 1.0625vw, 2.5rem);
+  /* Space 4xl-5xl: 25px → 44px */
+  --space-4xl-5xl: clamp(1.5625rem, 1.325rem + 1.1875vw, 2.75rem);
+  /* Space 5xl-6xl: 28px → 48px */
+  --space-5xl-6xl: clamp(1.75rem, 1.5rem + 1.25vw, 3rem);
+  /* Space 6xl-7xl: 30px → 56px */
+  --space-6xl-7xl: clamp(1.875rem, 1.55rem + 1.625vw, 3.5rem);
+  /* Space 7xl-8xl: 35px → 64px */
+  --space-7xl-8xl: clamp(2.1875rem, 1.825rem + 1.8125vw, 4rem);
+  /* Space 8xl-9xl: 40px → 72px */
+  --space-8xl-9xl: clamp(2.5rem, 2.1rem + 2vw, 4.5rem);
+  /* Space 9xl-10xl: 45px → 80px */
+  --space-9xl-10xl: clamp(2.8125rem, 2.375rem + 2.1875vw, 5rem);
+  /* Space 10xl-11xl: 50px → 96px */
+  --space-10xl-11xl: clamp(3.125rem, 2.55rem + 2.875vw, 6rem);
+  /* Space 11xl-12xl: 60px → 112px */
+  --space-11xl-12xl: clamp(3.75rem, 3.1rem + 3.25vw, 7rem);
+  /* Space 12xl-13xl: 70px → 128px */
+  --space-12xl-13xl: clamp(4.375rem, 3.65rem + 3.625vw, 8rem);
+
+  /* Custom pairs */
+  /* Space xs-l: 8px → 24px */
+  --space-xs-l: clamp(0.5rem, 0.3rem + 1vw, 1.5rem);
+  /* Space l-s: 15px → 16px */
+  --space-l-s: clamp(0.9375rem, 0.925rem + 0.0625vw, 1rem);
+  /* Space 10xl-7xl: 50px → 56px */
+  --space-10xl-7xl: clamp(3.125rem, 3.05rem + 0.375vw, 3.5rem);
+  /* Space 2xl-5xl: 20px → 44px */
+  --space-2xl-5xl: clamp(1.25rem, 0.95rem + 1.5vw, 2.75rem);
+  /* Space 4xl-7xl: 25px → 56px */
+  --space-4xl-7xl: clamp(1.5625rem, 1.175rem + 1.9375vw, 3.5rem);
+
+  /* TYPOGRAPHY */
+
+  /* Step -4: 9.3644px → 7.716px */
+  --step--4: clamp(0.4823rem, 0.6059rem + -0.103vw, 0.5853rem);
+  /* Step -3: 10.535px → 9.2593px */
+  --step--3: clamp(0.5787rem, 0.6744rem + -0.0797vw, 0.6584rem);
+  /* Step -2: 11.8519px → 11.1111px */
+  --step--2: clamp(0.6944rem, 0.75rem + -0.0463vw, 0.7407rem);
+  /* Step -1: 13.3333px → 13.3333px */
+  --step--1: clamp(0.8333rem, 0.8333rem + 0vw, 0.8333rem);
+  /* Step 0: 15px → 16px */
+  --step-0: clamp(0.9375rem, 0.925rem + 0.0625vw, 1rem);
+  /* Step 1: 16.875px → 19.2px */
+  --step-1: clamp(1.0547rem, 1.0256rem + 0.1453vw, 1.2rem);
+  /* Step 2: 18.9844px → 23.04px */
+  --step-2: clamp(1.1865rem, 1.1358rem + 0.2535vw, 1.44rem);
+  /* Step 3: 21.3574px → 27.648px */
+  --step-3: clamp(1.3348rem, 1.2562rem + 0.3932vw, 1.728rem);
+  /* Step 4: 24.0271px → 33.1776px */
+  --step-4: clamp(1.5017rem, 1.3873rem + 0.5719vw, 2.0736rem);
+  /* Step 5: 27.0305px → 39.8131px */
+  --step-5: clamp(1.6894rem, 1.5296rem + 0.7989vw, 2.4883rem);
+  /* Step 6: 30.4093px → 47.7757px */
+  --step-6: clamp(1.9006rem, 1.6835rem + 1.0854vw, 2.986rem);
+  /* Step 7: 34.2105px → 57.3309px */
+  --step-7: clamp(2.1382rem, 1.8491rem + 1.445vw, 3.5832rem);
+  /* Step 8: 38.4868px → 68.7971px */
+  --step-8: clamp(2.4054rem, 2.0265rem + 1.8944vw, 4.2998rem);
+  /* Step 9: 43.2976px → 82.5565px */
+  --step-9: clamp(2.7061rem, 2.2154rem + 2.4537vw, 5.1598rem);
+  /* Step 10: 48.7098px → 99.0678px */
+  --step-10: clamp(3.0444rem, 2.4149rem + 3.1474vw, 6.1917rem);
+
+  /* GRID */
+  --grid-max-width: 88.5rem;
+  --grid-gutter: var(
+    --space-4xl-7xl,
+    clamp(1.5625rem, 0.9968rem + 2.8285vw, 3.5rem)
+  );
+  --grid-columns: 10;
+
+  /* CLAMP */
+  --fluid--25-0: clamp(-1.5625rem, -2.8037rem + 2.3364vw, 0rem);
+  --fluid-0_25-0_75: clamp(0.0156rem, 0.0094rem + 0.0313vw, 0.0469rem);
+  --fluid-0_5-1: clamp(0.0313rem, 0.025rem + 0.0313vw, 0.0625rem);
+  --fluid-0_5-1_5: clamp(0.0313rem, 0.0188rem + 0.0625vw, 0.0938rem);
+  --fluid-1_5-2_5: clamp(0.0938rem, 0.0813rem + 0.0625vw, 0.1563rem);
+  --fluid-2_5-1_5: clamp(0.0938rem, 0.1688rem + -0.0625vw, 0.1563rem);
+  --fluid-2-4: clamp(0.125rem, 0.1rem + 0.125vw, 0.25rem);
+  --fluid-10-25: clamp(0.625rem, 0.4375rem + 0.9375vw, 1.5625rem);
+  --fluid-10-30: clamp(0.625rem, 0.375rem + 1.25vw, 1.875rem);
+  --fluid-14-22: clamp(0.875rem, 0.775rem + 0.5vw, 1.375rem);
+  --fluid-16-20: clamp(1rem, 0.95rem + 0.25vw, 1.25rem);
+  --fluid-16-32: clamp(1rem, 0.8rem + 1vw, 2rem);
+  --fluid-16-40: clamp(1rem, 0.7rem + 1.5vw, 2.5rem);
+  --fluid-16-48: clamp(1rem, 0.6rem + 2vw, 3rem);
+  --fluid-18-20: clamp(1.125rem, 1.1rem + 0.125vw, 1.25rem);
+  --fluid-18-22: clamp(1.125rem, 1.075rem + 0.25vw, 1.375rem);
+  --fluid-18-38: clamp(1.125rem, 0.875rem + 1.25vw, 2.375rem);
+  --fluid-18-42: clamp(1.125rem, 0.825rem + 1.5vw, 2.625rem);
+  --fluid-18-44: clamp(1.125rem, 0.8rem + 1.625vw, 2.75rem);
+  --fluid-18-48: clamp(1.125rem, 0.75rem + 1.875vw, 3rem);
+  --fluid-20-25: clamp(1.25rem, 1.1875rem + 0.3125vw, 1.5625rem);
+  --fluid-20-48: clamp(1.25rem, 1rem + 1.25vw, 3rem);
+  --fluid-22-42: clamp(1.375rem, 1.125rem + 1.25vw, 2.625rem);
+  --fluid-22-44: clamp(1.375rem, 1.1rem + 1.375vw, 2.75rem);
+  --fluid-22-54: clamp(1.375rem, 0.975rem + 2vw, 3.375rem);
+  --fluid-24-28: clamp(1.5rem, 1.45rem + 0.25vw, 1.75rem);
+  --fluid-24-32: clamp(1.5rem, 1.4rem + 0.5vw, 2rem);
+  --fluid-24-44: clamp(1.5rem, 1.3214rem + 0.8929vw, 2.75rem);
+  --fluid-26-28: clamp(1.625rem, 1.6rem + 0.125vw, 1.75rem);
+  --fluid-28-44: clamp(1.75rem, 1.6071rem + 0.7143vw, 2.75rem);
+  --fluid-30-40: clamp(1.875rem, 1.75rem + 0.625vw, 2.5rem);
+  --fluid-30-55: clamp(1.875rem, 1.5625rem + 1.5625vw, 3.4375rem);
+  --fluid-30-60: clamp(1.875rem, 1.5rem + 1.875vw, 3.75rem);
+  --fluid-30-80: clamp(1.875rem, 1.25rem + 3.125vw, 5rem);
+  --fluid-32-38: clamp(2rem, 1.925rem + 0.375vw, 2.375rem);
+  --fluid-32-48: clamp(2rem, 1.8rem + 1vw, 3rem);
+  --fluid-32-60: clamp(2rem, 1.65rem + 1.75vw, 3.75rem);
+  --fluid-35-50: clamp(2.1875rem, 2rem + 0.9375vw, 3.125rem);
+  --fluid-35-55: clamp(2.1875rem, 1.9375rem + 1.25vw, 3.4375rem);
+  --fluid-35-70: clamp(2.1875rem, 1.75rem + 2.1875vw, 4.375rem);
+  --fluid-38-50: clamp(2.375rem, 2.225rem + 0.75vw, 3.125rem);
+  --fluid-38-52: clamp(2.375rem, 2.0707rem + 1.5217vw, 3.25rem);
+  --fluid-38-54: clamp(2.375rem, 2.0272rem + 1.7391vw, 3.375rem);
+  --fluid-40-50: clamp(2.5rem, 2.375rem + 0.625vw, 3.125rem);
+  --fluid-40-70: clamp(2.5rem, 2.125rem + 1.875vw, 4.375rem);
+  --fluid-40-75: clamp(2.5rem, 2.0625rem + 2.1875vw, 4.6875rem);
+  --fluid-40-80: clamp(2.5rem, 2rem + 2.5vw, 5rem);
+  --fluid-48-92: clamp(3rem, 2.45rem + 2.75vw, 5.75rem);
+  --fluid-50-80: clamp(50px, 41.2903px + 2.4194vw, 80px);
+  --fluid-65-125: clamp(4.0625rem, 3.1066rem + 3.9216vw, 7.8125rem);
+  --fluid-75-125: clamp(4.6875rem, 4.0625rem + 3.125vw, 7.8125rem);
+  --fluid-80-100: clamp(5rem, 4.75rem + 1.25vw, 6.25rem);
+  --fluid-100-150: clamp(6.25rem, 5.625rem + 3.125vw, 9.375rem);
+  --fluid-100-400: clamp(6.25rem, -15.2554rem + 107.5269vw, 25rem);
+  --fluid-150-225: clamp(9.375rem, 3.9987rem + 26.8817vw, 14.0625rem);
+  --fluid-150-250: clamp(9.375rem, 7.7303rem + 7.0175vw, 15.625rem);
+  --fluid-150-350: clamp(9.375rem, -4.9619rem + 71.6846vw, 21.875rem);
+  --fluid-176-488: clamp(11rem, -11.3656rem + 111.828vw, 30.5rem);
+  --fluid-192-464: clamp(12rem, 1.7358rem + 51.3208vw, 29rem);
+  --fluid-200-260: clamp(200px, 180px + 5vw, 260px);
+  --fluid-200-300: clamp(12.5rem, 11.25rem + 6.25vw, 18.75rem);
+  --fluid-224-536: clamp(14rem, -8.3656rem + 111.828vw, 33.5rem);
+  --fluid-225-375: clamp(14.0625rem, -8.3105rem + 59.761vw, 23.4375rem);
+  --fluid-225-425: clamp(14.0625rem, 8.3944rem + 15.14vw, 26.5625rem);
+  --fluid-250-280: clamp(15.625rem, 13.4745rem + 10.7527vw, 17.5rem);
+  --fluid-250-350: clamp(15.625rem, 14.375rem + 6.25vw, 21.875rem);
+  --fluid-250-400: clamp(250px, 200px + 12.5vw, 400px);
+  --fluid-250-450: clamp(15.625rem, 9.9569rem + 15.14vw, 28.125rem);
+  --fluid-250-800: clamp(15.625rem, 8.75rem + 34.375vw, 50rem);
+  --fluid-268-408: clamp(16.75rem, 6.75rem + 50vw, 25.5rem);
+  --fluid-268-584: clamp(16.75rem, -5.9023rem + 113.2616vw, 36.5rem);
+  --fluid-275-450: clamp(17.1875rem, 12.228rem + 13.2475vw, 28.125rem);
+  --fluid-150-700: clamp(9.375rem, 1.9426rem + 37.1622vw, 43.75rem);
+  --fluid-275-700: clamp(17.1875rem, 10.5469rem + 33.2031vw, 43.75rem);
+  --fluid-280-320: clamp(17.5rem, 11.5339rem + 15.9363vw, 20rem);
+  --fluid-312-464: clamp(19.5rem, -3.3rem + 60.8vw, 29rem);
+  --fluid-320-450: clamp(20rem, 16.3158rem + 9.841vw, 28.125rem);
+  --fluid-300-500: clamp(18.75rem, 16.0473rem + 13.5135vw, 31.25rem);
+  --fluid-320-500: clamp(20rem, -2.2384rem + 41.8605vw, 31.25rem);
+  --fluid-320-1040: clamp(20rem, 15rem + 45vw, 65rem);
+  --fluid-350-500: clamp(21.875rem, 20.5357rem + 6.6964vw, 31.25rem);
+  --fluid-360-516: clamp(22.5rem, -0.9rem + 62.4vw, 32.25rem);
+  --fluid-425-500: clamp(26.5625rem, 4.6875rem + 50vw, 31.25rem);
+  --fluid-408-568: clamp(25.5rem, 1.5rem + 64vw, 35.5rem);
+  --fluid-500-700: clamp(31.25rem, 6.25rem + 31.25vw, 43.75rem);
+  --fluid-500-750: clamp(31.25rem, 28.825rem + 15.625vw, 46.875rem);
+  --fluid-550-400: clamp(25rem, 51.25rem + -60vw, 34.375rem);
+  --fluid-600-400: clamp(25rem, 60rem + -80vw, 37.5rem);
+  --fluid-625-425: clamp(26.5625rem, 61.5625rem + -80vw, 39.0625rem);
+  --fluid-650-475: clamp(29.6875rem, 60.3125rem + -70vw, 40.625rem);
+  --fluid-675-575: clamp(35.9375rem, 51.1917rem + -16.9492vw, 42.1875rem);
+  --fluid-700-525: clamp(32.8125rem, 70.6731rem + -134.6154vw, 43.75rem);
+  --fluid-700-775: clamp(43.75rem, 29.6875rem + 15.625vw, 48.4375rem);
+  --fluid-725-525: clamp(32.8125rem, 76.0817rem + -153.8462vw, 45.3125rem);
+  --fluid-725-625: clamp(39.0625rem, 60.6971rem + -76.9231vw, 45.3125rem);
+  --fluid-750-575: clamp(35.9375rem, 73.7981rem + -134.6154vw, 46.875rem);
+  --fluid-750-600: clamp(37.5rem, 55.7432rem + -20.2703vw, 46.875rem);
+  --fluid-750-625: clamp(39.0625rem, 66.1058rem + -96.1538vw, 46.875rem);
+  --fluid-775-675: clamp(42.1875rem, 77.6042rem + -66.6667vw, 48.4375rem);
+  --fluid-775-725: clamp(45.3125rem, 63.0208rem + -33.3333vw, 48.4375rem);
+  --fluid-800-750: clamp(46.875rem, 64.5833rem + -33.3333vw, 50rem);
+  --fluid-850-800: clamp(50rem, 67.7083rem + -33.3333vw, 53.125rem);
+  --fluid-900-850: clamp(53.125rem, 70.8333rem + -33.3333vw, 56.25rem);
+  /* Dynamic Variable */
+  --dynamic-850: 1rem;
+  --dynamic-600: 100rem;
+  /* This serves as a breakpoint for inline css using clamp values. */
+
+  /* Border Radius */
+  --border-radius-pill: 1000px;
 }
 
 .dark {
@@ -44,38 +441,38 @@
   --foreground: oklch(0.95 0 0);
   --card: oklch(0.12 0.01 250);
   --card-foreground: oklch(0.95 0 0);
-  --popover: oklch(0.10 0.01 250);
+  --popover: oklch(0.1 0.01 250);
   --popover-foreground: oklch(0.95 0 0);
   --primary: oklch(0.45 0.08 250);
   --primary-foreground: oklch(0.98 0 0);
   --secondary: oklch(0.18 0.02 250);
   --secondary-foreground: oklch(0.95 0 0);
-  --muted: oklch(0.20 0.01 250);
-  --muted-foreground: oklch(0.60 0 0);
+  --muted: oklch(0.2 0.01 250);
+  --muted-foreground: oklch(0.6 0 0);
   --accent: oklch(0.35 0.05 250);
   --accent-foreground: oklch(0.95 0 0);
-  --destructive: oklch(0.50 0.20 27);
+  --destructive: oklch(0.5 0.2 27);
   --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(0.20 0.01 250);
-  --input: oklch(0.20 0.01 250);
+  --border: oklch(0.2 0.01 250);
+  --input: oklch(0.2 0.01 250);
   --ring: oklch(0.45 0.08 250);
   --chart-1: oklch(0.45 0.08 250);
-  --chart-2: oklch(0.50 0.08 250);
+  --chart-2: oklch(0.5 0.08 250);
   --chart-3: oklch(0.55 0.08 250);
-  --chart-4: oklch(0.60 0.08 250);
+  --chart-4: oklch(0.6 0.08 250);
   --chart-5: oklch(0.65 0.08 250);
-  --sidebar: oklch(0.10 0.01 250);
+  --sidebar: oklch(0.1 0.01 250);
   --sidebar-foreground: oklch(0.95 0 0);
   --sidebar-primary: oklch(0.45 0.08 250);
   --sidebar-primary-foreground: oklch(0.98 0 0);
   --sidebar-accent: oklch(0.15 0.01 250);
   --sidebar-accent-foreground: oklch(0.95 0 0);
-  --sidebar-border: oklch(0.20 0.01 250);
+  --sidebar-border: oklch(0.2 0.01 250);
   --sidebar-ring: oklch(0.35 0.01 250);
 }
 
 @theme inline {
-  --font-sans: "Geist", "Geist Fallback";
+  --font-sans: "Metropolis";
   --font-mono: "Geist Mono", "Geist Mono Fallback";
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -113,6 +510,7 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --container-10xl: 1664px;
 }
 
 @layer base {

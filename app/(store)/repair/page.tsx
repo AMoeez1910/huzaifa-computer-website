@@ -70,7 +70,7 @@ export default function RepairPage() {
 
   return (
     <div className="w-full min-h-screen bg-linear-to-b from-muted/30 to-background py-12">
-      <div className="container mx-auto px-4 max-w-4xl">
+      <div className="max-w-10xl w-full mx-auto px-4 max-w-4xl">
         {/* Header */}
         <div className="text-center mb-12">
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">

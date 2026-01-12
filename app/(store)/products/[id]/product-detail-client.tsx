@@ -38,7 +38,7 @@ export function ProductDetailClient({ product }: { product: Product | null }) {
 
   return (
     <div className="w-full py-12 bg-linear-to-brom-muted/30 to-background">
-      <div className="container mx-auto px-4">
+      <div className="max-w-10xl w-full mx-auto px-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
           {/* Product Image Carousel */}
           <div className="flex items-center justify-center">

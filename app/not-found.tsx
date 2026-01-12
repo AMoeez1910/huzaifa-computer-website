@@ -7,7 +7,7 @@ import Lottie from "lottie-react";
 export default function NotFound() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="container mx-auto px-4 py-16 text-center">
+      <div className="max-w-10xl w-full mx-auto px-4 py-16 text-center">
         <div className="max-w-md mx-auto">
           {/* Lottie Animation */}
           <Lottie

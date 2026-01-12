@@ -13,7 +13,7 @@ export async function RecentProducts() {
 
   return (
     <section className="w-full py-16 md:py-24 bg-background">
-      <div className="container mx-auto px-4">
+      <div className="max-w-10xl w-full mx-auto px-4">
         <div className="mb-12 text-center">
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-3">
             Featured Printers

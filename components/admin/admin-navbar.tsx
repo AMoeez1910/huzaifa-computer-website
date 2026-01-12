@@ -16,7 +16,7 @@ export function AdminNavbar() {
 
   return (
     <header className="border-b border-border bg-card/80 backdrop-blur-sm sticky top-0 z-50 shadow-sm">
-      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+      <div className="max-w-10xl w-full mx-auto px-4 py-4 flex justify-between items-center">
         <Link href="/admin/dashboard">
           <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
             Huzaifa Computers
