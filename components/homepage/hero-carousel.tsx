@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import Link from "next/link";
-import { NavigationButton } from "./ui/button/NavigationButton";
+import { NavigationButton } from "../ui/button/NavigationButton";
 import Image from "next/image";
 
 const slides = [
@@ -86,10 +86,10 @@ export function HeroCarousel() {
                   <div className="absolute inset-0 bg-linear-to-r from-black/70 via-black/50 to-transparent hidden md:block"></div>
                   <div className="px-8 md:py-8 py-4 md:px-16 w-full max-md:pb-0 md:absolute md:inset-0 md:flex md:items-center md:justify-end relative z-10 md:bg-transparent">
                     <div className="max-w-2xl flex flex-col md:items-end w-full">
-                      <h1 className="text-2xl md:text-6xl font-bold tracking-tight mb-3 md:mb-4 text-primary md:text-white md:drop-shadow-lg md:text-right">
+                      <h1 className="text-2xl md:text-5xl font-semibold tracking-tight mb-3 md:mb-4 text-primary md:text-white md:drop-shadow-lg md:text-right">
                         {slide.title}
                       </h1>
-                      <p className="text-base md:text-2xl mb-3 md:mb-4 text-primary/90 md:text-white/95 font-medium md:drop-shadow-md md:text-right">
+                      <p className="text-base md:text-xl mb-3 md:mb-4 text-primary/90 md:text-white/95 font-medium md:drop-shadow-md md:text-right">
                         {slide.subtitle}
                       </p>
                       <p className="text-sm md:text-lg mb-6 md:mb-8 text-primary/80 md:text-white/90 md:drop-shadow-md md:text-right">
@@ -98,7 +98,7 @@ export function HeroCarousel() {
                       <NavigationButton
                         asChild
                         size="default"
-                        className="bg-primary md:bg-white text-white md:text-primary hover:bg-primary/90 md:hover:bg-white/90 font-semibold shadow-xl"
+                        className="bg-primary w-fit md:bg-white text-white md:text-primary hover:bg-primary/90 md:hover:bg-white/90 font-semibold shadow-xl"
                       >
                         <Link href={slide.href}>{slide.cta}</Link>
                       </NavigationButton>
@@ -123,10 +123,10 @@ export function HeroCarousel() {
                   {/* Text Content - Below image on mobile */}
                   <div className="flex-col md:flex-5 flex justify-center text-primary px-8 md:pt-8 py-4 max-md:pb-0 md:px-16 md:py-0 md:order-1">
                     <div>
-                      <h1 className="text-2xl md:text-6xl font-bold tracking-tight mb-3 md:mb-4">
+                      <h1 className="text-2xl md:text-5xl font-semibold tracking-tight mb-3 md:mb-4">
                         {slide.title}
                       </h1>
-                      <p className="text-base md:text-2xl mb-3 md:mb-4 text-primary/90 font-medium">
+                      <p className="text-base md:text-xl mb-3 md:mb-4 text-primary/90 font-medium">
                         {slide.subtitle}
                       </p>
                       <p className="text-sm md:text-lg mb-6 md:mb-8 text-primary/80">
@@ -160,10 +160,10 @@ export function HeroCarousel() {
                   {/* Text Content - Below image on mobile */}
                   <div className="flex-col md:flex-5 flex justify-center text-primary px-8 md:pt-8 py-4 max-md:pb-0 md:px-16 md:py-0">
                     <div>
-                      <h1 className="text-2xl md:text-6xl font-bold tracking-tight mb-3 md:mb-4">
+                      <h1 className="text-2xl md:text-5xl font-semibold tracking-tight mb-3 md:mb-4">
                         {slide.title}
                       </h1>
-                      <p className="text-base md:text-2xl mb-3 md:mb-4 text-primary/90 font-medium">
+                      <p className="text-base md:text-xl mb-3 md:mb-4 text-primary/90 font-medium">
                         {slide.subtitle}
                       </p>
                       <p className="text-sm md:text-lg mb-6 md:mb-8 text-primary/80">

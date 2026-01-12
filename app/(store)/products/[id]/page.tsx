@@ -2,7 +2,7 @@ import { ProductDetailClient } from "./product-detail-client";
 import { Suspense } from "react";
 import { Spinner } from "@/components/ui/spinner";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 const getProduct = async (id: string) => {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
@@ -52,7 +52,7 @@ export default async function ProductDetailPage({
   return (
     <Suspense
       fallback={
-        <div className="container mx-auto px-4 py-16 flex justify-center">
+        <div className="max-w-10xl w-full mx-auto px-4 py-16 flex justify-center">
           <Spinner />
         </div>
       }

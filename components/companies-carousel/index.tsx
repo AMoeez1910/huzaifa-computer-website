@@ -11,10 +11,6 @@ const logos = [
     alt: "canon",
   },
   {
-    src: `/svg/samsung.svg`,
-    alt: "Samsung",
-  },
-  {
     src: `/svg/epson.svg`,
     alt: "Epson",
   },

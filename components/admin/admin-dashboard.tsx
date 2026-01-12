@@ -42,7 +42,7 @@ export function AdminDashboard({ userId }: { userId: string }) {
     <div className="min-h-screen bg-gradient-to-b from-background to-secondary/10">
       <AdminNavbar />
 
-      <main className="container mx-auto px-4 py-8">
+      <main className="max-w-10xl w-full mx-auto px-4 py-8">
         <Tabs
           value={activeTab}
           onValueChange={(val) => {

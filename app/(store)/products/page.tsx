@@ -43,7 +43,7 @@ export default async function ProductsPage() {
 
   return (
     <main className="flex-1 w-full py-16">
-      <div className="container mx-auto px-4">
+      <div className="max-w-10xl w-full mx-auto px-4">
         <div className="mb-12">
           <h1 className="text-4xl font-bold mb-2">Our Printers</h1>
           <p className="text-foreground/60">
