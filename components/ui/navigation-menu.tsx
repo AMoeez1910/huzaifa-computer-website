@@ -59,7 +59,7 @@ function NavigationMenuItem({
 }
 
 const navigationMenuTriggerStyle = cva(
-  "group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground disabled:pointer-events-none disabled:opacity-50 data-[state=open]:hover:bg-accent data-[state=open]:text-accent-foreground data-[state=open]:focus:bg-accent data-[state=open]:bg-accent/50 focus-visible:ring-ring/50 outline-none transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1"
+  "group inline-flex h-9 w-max items-center justify-center rounded-md bg-transparent px-4 py-2 text-sm font-medium hover:bg-muted hover:text-foreground focus:bg-muted focus:text-foreground disabled:pointer-events-none disabled:opacity-50 data-[state=open]:hover:bg-muted data-[state=open]:text-foreground data-[state=open]:focus:bg-muted data-[state=open]:bg-muted focus-visible:ring-ring/50 outline-none transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1"
 );
 
 function NavigationMenuTrigger({
@@ -110,9 +110,8 @@ function NavigationMenuViewport({
         data-slot="navigation-menu-viewport"
         className={cn(
           "origin-top-center relative mt-1.5 overflow-hidden rounded-md border shadow-md transition-[width,height] duration-300",
-          // MATCH NAVBAR BACKGROUND HERE
           "bg-background text-popover-foreground",
-          "h-[var(--radix-navigation-menu-viewport-height)] w-full md:w-[var(--radix-navigation-menu-viewport-width)]",
+          "h-(--radix-navigation-menu-viewport-height) w-full md:w-(--radix-navigation-menu-viewport-width)",
           className
         )}
         {...props}
@@ -130,7 +129,7 @@ function NavigationMenuLink({
       data-slot="navigation-menu-link"
       className={cn(
         "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors",
-        "hover:bg-muted hover:text-accent-foreground focus:bg-muted focus:text-accent-foreground", // Muted gray hover
+        "hover:bg-muted hover:text-accent focus:bg-muted focus:text-accent-foreground", // Muted gray hover
         className
       )}
       {...props}

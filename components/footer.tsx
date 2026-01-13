@@ -6,6 +6,10 @@ import { MapPin, Phone, Clock, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SiWhatsapp } from "react-icons/si";
 
+// Simple blur placeholder for logo
+const logoBlurDataURL =
+  "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iI2YzZjRmNiIvPjwvc3ZnPg==";
+
 export function Footer() {
   return (
     <footer
@@ -25,21 +29,23 @@ export function Footer() {
                 width={200}
                 height={100}
                 className="max-h-16 w-auto"
+                placeholder="blur"
+                blurDataURL={logoBlurDataURL}
                 unoptimized
               />
             </Link>
-            <Button
-              asChild
-              variant={"ghost"}
-              size="lg"
-              className="border-2 w-fit border-primary gap-2"
-            >
+            <Button asChild variant={"ghost"} size="lg" className="w-fit gap-2">
               <a
                 href="https://wa.me/923009403751"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <SiWhatsapp className="h-6 w-6" />
+                <SiWhatsapp
+                  style={{
+                    width: "var(--space-l-s)",
+                    height: "var(--space-l-s)",
+                  }}
+                />
                 Get in Touch
               </a>
             </Button>
@@ -47,30 +53,30 @@ export function Footer() {
             {/* Contact Information */}
             <div className="space-y-4">
               <div className="flex gap-3 items-start">
-                <Phone className="h-6 w-6 text-primary shrink-0 mt-0.5" />
+                <Phone className="w-(--space-l-s) h-(--space-l-s) text-primary shrink-0 mt-0.5" />
                 <div className="space-y-1">
                   <a
                     href="tel:03245300625"
-                    className="text-foreground/70 hover:text-primary transition-colors block"
+                    className="text-foreground/70 hover:text-primary transition-colors text-sm block"
                   >
                     +92 324 5300 625
                   </a>
                 </div>
               </div>
 
-              <div className="flex gap-3 items-start">
-                <Mail className="h-6 w-6 text-primary shrink-0 mt-0.5" />
+              <div className="flex gap-3 items-center">
+                <Mail className="w-(--space-l-s) h-(--space-l-s) text-primary shrink-0 mt-0.5" />
                 <a
                   href="mailto:info@huzaifacomputer.com"
-                  className="text-foreground/70 hover:text-primary transition-colors"
+                  className="text-foreground/70 hover:text-primary transition-colors text-sm"
                 >
                   info@huzaifacomputer.com
                 </a>
               </div>
 
               <div className="flex gap-3 items-start">
-                <MapPin className="h-6 w-6 text-primary shrink-0 mt-0.5" />
-                <p className="text-foreground/70 leading-relaxed">
+                <MapPin className="w-(--space-l-s) h-(--space-l-s) text-primary shrink-0 mt-0.5" />
+                <p className="text-foreground/70 text-sm leading-relaxed">
                   Shop # LG-127, Hafeez Centre
                   <br />
                   Main Boulevard, Gulberg
@@ -80,8 +86,8 @@ export function Footer() {
               </div>
 
               <div className="flex gap-3 items-start">
-                <Clock className="h-6 w-6 text-primary shrink-0 mt-0.5" />
-                <p className="text-foreground/70">
+                <Clock className="w-(--space-l-s) h-(--space-l-s) text-primary shrink-0 mt-0.5" />
+                <p className="text-foreground/70 text-sm">
                   Mon - Sat: 9 AM - 10 PM
                   <br />
                   Sunday: Closed
@@ -93,7 +99,7 @@ export function Footer() {
             <li>
               <Link
                 href="/products?category=printers"
-                className="text-foreground/70 hover:text-primary transition-colors text-lg whitespace-nowrap"
+                className="text-foreground/70 hover:text-primary transition-colors text-sm  whitespace-nowrap"
               >
                 Printers
               </Link>
@@ -101,7 +107,7 @@ export function Footer() {
             <li>
               <Link
                 href="/products?category=accessories"
-                className="text-foreground/70 hover:text-primary transition-colors text-lg whitespace-nowrap"
+                className="text-foreground/70 hover:text-primary transition-colors text-sm  whitespace-nowrap"
               >
                 Accessories
               </Link>
@@ -109,7 +115,7 @@ export function Footer() {
             <li>
               <Link
                 href="/products"
-                className="text-foreground/70 hover:text-primary transition-colors text-lg whitespace-nowrap"
+                className="text-foreground/70 hover:text-primary transition-colors text-sm  whitespace-nowrap"
               >
                 Products
               </Link>
@@ -117,7 +123,7 @@ export function Footer() {
             <li>
               <Link
                 href="/repair"
-                className="text-foreground/70 hover:text-primary transition-colors text-lg whitespace-nowrap"
+                className="text-foreground/70 hover:text-primary transition-colors text-sm  whitespace-nowrap"
               >
                 Repair Services
               </Link>
@@ -125,7 +131,7 @@ export function Footer() {
             <li>
               <Link
                 href="/contact"
-                className="text-foreground/70 hover:text-primary transition-colors text-lg whitespace-nowrap"
+                className="text-foreground/70 hover:text-primary transition-colors text-sm  whitespace-nowrap"
               >
                 Contact Us
               </Link>

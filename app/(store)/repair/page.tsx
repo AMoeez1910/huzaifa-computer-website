@@ -256,7 +256,7 @@ export default function RepairPage() {
                             type="button"
                             variant="destructive"
                             size="icon"
-                            className="absolute -top-2 -right-2 h-6 w-6 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                            className="absolute -top-2 -right-2 w-(--space-l-s) h-(--space-l-s) rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
                             onClick={() => removeImage(index)}
                           >
                             <X className="h-3 w-3" />
