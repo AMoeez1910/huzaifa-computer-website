@@ -34,7 +34,7 @@ export function Footer() {
                 unoptimized
               />
             </Link>
-            <Button asChild variant={"ghost"} size="lg" className="w-fit gap-2">
+            <Button asChild variant={"outline"} size="lg" className="w-fit gap-2">
               <a
                 href="https://wa.me/923009403751"
                 target="_blank"
