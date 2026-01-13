@@ -20,22 +20,18 @@ const printerTypes = [
   {
     title: "LaserJet",
     href: "/products?type=laserjet",
-    description: "High-speed laser printers for offices",
   },
   {
     title: "Inkjet",
     href: "/products?type=inkjet",
-    description: "Quality photo and document printing",
   },
   {
     title: "All-in-One",
     href: "/products?type=all-in-one",
-    description: "Print, scan, copy in one device",
   },
   {
     title: "Black & White",
     href: "/products?type=black-and-white",
-    description: "Cost-effective monochrome printing",
   },
 ];
 
@@ -43,22 +39,18 @@ const printerBrands = [
   {
     title: "HP",
     href: "/products?brand=hp",
-    description: "Hewlett-Packard printers",
   },
   {
     title: "Canon",
     href: "/products?brand=canon",
-    description: "Canon imaging products",
   },
   {
     title: "Epson",
     href: "/products?brand=epson",
-    description: "Epson printing solutions",
   },
   {
     title: "View All Brands",
     href: "/products",
-    description: "Browse all printer brands",
   },
 ];
 
@@ -66,29 +58,25 @@ const accessories = [
   {
     title: "Toners",
     href: "/products?category=toners",
-    description: "Original and compatible toner cartridges",
   },
   {
     title: "Ink Cartridges",
     href: "/products?category=cartridges",
-    description: "Quality ink cartridges for all models",
   },
   {
     title: "Drums",
     href: "/products?category=drums",
-    description: "Imaging drums and units",
   },
   {
     title: "Other Accessories",
     href: "/products?category=accessories",
-    description: "Cables, paper, and more",
   },
 ];
 
 export function Navbar() {
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
-      <nav className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
+      <nav className="max-w-10xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
         {/* Logo Section */}
         <Link
           href="/"
@@ -111,7 +99,7 @@ export function Navbar() {
                 <NavigationMenuTrigger>Printers</NavigationMenuTrigger>
                 <NavigationMenuContent>
                   {/* Changed w-100/125 to [400px]/[500px] */}
-                  <ul className="grid gap-3 p-4 md:w-[450px] lg:w-[550px] lg:grid-cols-2">
+                  <ul className="grid gap-3 p-4 md:w-112.5 lg:w-137.5 lg:grid-cols-2">
                     <div className="flex flex-col gap-2">
                       <h4 className="font-bold text-sm px-2 text-muted-foreground uppercase tracking-wider">
                         By Type
@@ -121,9 +109,7 @@ export function Navbar() {
                           key={item.title}
                           title={item.title}
                           href={item.href}
-                        >
-                          {item.description}
-                        </ListItem>
+                        />
                       ))}
                     </div>
                     <div className="flex flex-col gap-2">
@@ -135,9 +121,7 @@ export function Navbar() {
                           key={item.title}
                           title={item.title}
                           href={item.href}
-                        >
-                          {item.description}
-                        </ListItem>
+                        />
                       ))}
                     </div>
                   </ul>
@@ -148,15 +132,13 @@ export function Navbar() {
               <NavigationMenuItem>
                 <NavigationMenuTrigger>Accessories</NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <ul className="grid w-[300px] gap-2 p-4">
+                  <ul className="grid w-75 gap-2 p-4">
                     {accessories.map((item) => (
                       <ListItem
                         key={item.title}
                         title={item.title}
                         href={item.href}
-                      >
-                        {item.description}
-                      </ListItem>
+                      />
                     ))}
                   </ul>
                 </NavigationMenuContent>
@@ -164,17 +146,13 @@ export function Navbar() {
             </NavigationMenuList>
           </NavigationMenu>
           {/* WhatsApp Get In Touch Button */}
-          <Button
-            asChild
-            variant="ghost"
-            className="gap-2 hover:bg-gray-100 transition-colors"
-          >
+          <Button asChild variant="ghost" className="gap-2">
             <a
               href="https://wa.me/923009403751"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <SiWhatsapp className="h-5 w-5" />
+              <SiWhatsapp className="w-(--space-l-s) h-(--space-l-s)" />
               Get in Touch
             </a>
           </Button>
@@ -182,7 +160,7 @@ export function Navbar() {
           {/* Request Service Button */}
           <Button asChild variant="default" className="gap-2">
             <Link href="/repair">
-              <Wrench className="h-5 w-5" />
+              <Wrench className="w-(--space-l-s) h-(--space-l-s)" />
               Request Service
             </Link>
           </Button>
@@ -201,7 +179,7 @@ export function Navbar() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <SiWhatsapp className="h-4 w-4" />
+              <SiWhatsapp className="w-(--space-l-s) h-(--space-l-s)" />
             </a>
           </Button>
           <Button
@@ -211,7 +189,7 @@ export function Navbar() {
             className="border-2 border-primary"
           >
             <Link href="/repair">
-              <Wrench className="h-4 w-4" />
+              <Wrench className="w-(--space-l-s) h-(--space-l-s)" />
             </Link>
           </Button>
         </div>
@@ -221,23 +199,12 @@ export function Navbar() {
 }
 
 // Fixed ListItem to use the updated NavigationMenuLink
-function ListItem({
-  title,
-  children,
-  href,
-}: {
-  title: string;
-  children: React.ReactNode;
-  href: string;
-}) {
+function ListItem({ title, href }: { title: string; href: string }) {
   return (
     <li>
       <NavigationMenuLink asChild>
         <Link href={href}>
           <div className="text-sm font-semibold leading-none">{title}</div>
-          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground mt-1">
-            {children}
-          </p>
         </Link>
       </NavigationMenuLink>
     </li>
