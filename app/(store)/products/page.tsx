@@ -1,15 +1,7 @@
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { ProductCard } from "@/components/product-card";
-
-interface Product {
-  id: string;
-  name: string;
-  category: string;
-  price: number;
-  image_url: string;
-  description?: string;
-}
+import { getProducts } from "@/server-api/products";
 
 export const dynamic = "force-dynamic";
 
@@ -18,25 +10,6 @@ export const metadata = {
   description:
     "Browse our complete catalog of LaserJet, Inkjet, Dot Matrix printers and scanners",
 };
-
-async function getProducts(): Promise<Product[]> {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-
-  try {
-    const res = await fetch(`${baseUrl}/api/products`);
-
-    if (!res.ok) {
-      console.error("Failed to fetch products");
-      return [];
-    }
-
-    const data = await res.json();
-    return data.products || [];
-  } catch (error) {
-    console.error("Error fetching products:", error);
-    return [];
-  }
-}
 
 export default async function ProductsPage() {
   const products = await getProducts();

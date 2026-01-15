@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -14,26 +15,11 @@ import { Spinner } from "@/components/ui/spinner";
 import { Trash2, Pencil } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
-interface Product {
-  id: string;
-  name: string;
-  category: string;
-  price: number;
-  description?: string;
-  image_url: string;
-  images?: string[];
-  is_featured: boolean;
-}
-
-interface AdminProductListProps {
-  onProductUpdated: () => void;
-  onEdit: (product: Product) => void;
-}
-
 export function AdminProductList({
   onProductUpdated,
   onEdit,
 }: AdminProductListProps) {
+  const router = useRouter();
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -73,7 +59,11 @@ export function AdminProductList({
       if (!response.ok) throw new Error("Failed to delete product");
 
       setProducts(products.filter((p) => p.id !== id));
-      onProductUpdated();
+      if (onProductUpdated) {
+        onProductUpdated();
+      } else {
+        router.refresh();
+      }
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Failed to delete product");
     } finally {
@@ -129,7 +119,7 @@ export function AdminProductList({
                 <Badge variant="outline">
                   {product.images
                     ? product.images.length
-                    : product.image_url
+                    : product.main_image
                     ? 1
                     : 0}
                 </Badge>
@@ -147,7 +137,15 @@ export function AdminProductList({
                     variant="ghost"
                     size="sm"
                     disabled={deleting !== null}
-                    onClick={() => onEdit(product)}
+                    onClick={() => {
+                      if (onEdit) {
+                        onEdit(product);
+                      } else {
+                        router.push(
+                          `/admin/dashboard/products/edit/${product.id}`
+                        );
+                      }
+                    }}
                     className="hover:bg-primary/10 hover:text-primary"
                   >
                     <Pencil className="h-4 w-4" />

@@ -6,14 +6,6 @@ import { ProductCard } from "./product-card";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-interface Product {
-  id: string;
-  name: string;
-  category: string;
-  price: number;
-  image_url: string;
-  description?: string;
-}
 
 export function FeaturedCarousel({ products }: { products: Product[] }) {
   const [emblaRef, emblaApi] = useEmblaCarousel({

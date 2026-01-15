@@ -1,15 +1,11 @@
 import { createClient } from "@/lib/supabase/server";
-import { FeaturedCarousel } from "./featured-carousel";
+import { FeaturedCarousel } from "../featured-carousel";
+import { getProducts } from "@/server-api/products";
 
 export async function RecentProducts() {
   const supabase = await createClient();
 
-  const { data: products } = await supabase
-    .from("products")
-    .select("*")
-    .eq("is_featured", true)
-    .order("created_at", { ascending: false })
-    .limit(6);
+  const recentProducts = await getProducts({ featured: true, limit: 10 });
 
   return (
     <section className="w-full py-16 md:py-24 bg-background">
@@ -23,7 +19,7 @@ export async function RecentProducts() {
           </p>
         </div>
 
-        <FeaturedCarousel products={products || []} />
+        <FeaturedCarousel products={recentProducts || []} />
       </div>
     </section>
   );

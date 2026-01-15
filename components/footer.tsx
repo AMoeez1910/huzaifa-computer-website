@@ -22,9 +22,9 @@ export function Footer() {
           {/* Left Section - Logo, Button, Contact Info */}
           <div className="flex flex-col gap-6">
             {/* Logo */}
-            <Link href="/" className="inline-block">
+            <Link href="/" className="flex gap-2 items-center">
               <Image
-                src="/images/logo/logo-full.jpg"
+                src="/images/logo/hc-logo.png"
                 alt="Huzaifa Computer"
                 width={200}
                 height={100}
@@ -33,8 +33,16 @@ export function Footer() {
                 blurDataURL={logoBlurDataURL}
                 unoptimized
               />
+              <h1 className="text-2xl font-bold bg-linear-to-r from-primary to-accent bg-clip-text text-transparent">
+                Huzaifa Computer
+              </h1>
             </Link>
-            <Button asChild variant={"outline"} size="lg" className="w-fit gap-2">
+            <Button
+              asChild
+              variant={"outline"}
+              size="lg"
+              className="w-fit gap-2"
+            >
               <a
                 href="https://wa.me/923009403751"
                 target="_blank"
@@ -56,10 +64,10 @@ export function Footer() {
                 <Phone className="w-(--space-l-s) h-(--space-l-s) text-primary shrink-0 mt-0.5" />
                 <div className="space-y-1">
                   <a
-                    href="tel:03245300625"
+                    href="tel:03009403751"
                     className="text-foreground/70 hover:text-primary transition-colors text-sm block"
                   >
-                    +92 324 5300 625
+                    +92 300 9403751
                   </a>
                 </div>
               </div>
@@ -95,48 +103,46 @@ export function Footer() {
               </div>
             </div>
           </div>
-          <ul className="flex pt-4 lg:gap-12 gap-4 lg:justify-center max-lg:flex-col w-full flex-1">
-            <li>
-              <Link
-                href="/products?category=printers"
-                className="text-foreground/70 hover:text-primary transition-colors text-sm  whitespace-nowrap"
-              >
-                Printers
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/products?category=accessories"
-                className="text-foreground/70 hover:text-primary transition-colors text-sm  whitespace-nowrap"
-              >
-                Accessories
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/products"
-                className="text-foreground/70 hover:text-primary transition-colors text-sm  whitespace-nowrap"
-              >
-                Products
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/repair"
-                className="text-foreground/70 hover:text-primary transition-colors text-sm  whitespace-nowrap"
-              >
-                Repair Services
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/contact"
-                className="text-foreground/70 hover:text-primary transition-colors text-sm  whitespace-nowrap"
-              >
-                Contact Us
-              </Link>
-            </li>
-          </ul>
+          <div className="flex flex-col w-full flex-1 gap-8">
+            <ul className="flex pt-4 lg:gap-12 gap-4 lg:justify-center max-lg:flex-col ">
+              <li>
+                <Link
+                  href="/products?category=printers"
+                  className="text-foreground/70 hover:text-primary transition-colors text-sm  whitespace-nowrap"
+                >
+                  Printers
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/products?category=accessories"
+                  className="text-foreground/70 hover:text-primary transition-colors text-sm  whitespace-nowrap"
+                >
+                  Accessories
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/products"
+                  className="text-foreground/70 hover:text-primary transition-colors text-sm  whitespace-nowrap"
+                >
+                  Products
+                </Link>
+              </li>
+            </ul>
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4167.470528873578!2d74.3433854!3d31.516092600000004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3919059ec9c13881%3A0xd7eada72dd063ade!2sHuzaifa%20Computer!5e1!3m2!1sen!2s!4v1768310377814!5m2!1sen!2s"
+              width="600"
+              height="450"
+              className="lg:mx-auto"
+              style={{
+                border: 0,
+              }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
         </div>
 
         {/* Divider */}

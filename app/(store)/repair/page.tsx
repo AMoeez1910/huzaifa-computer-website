@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Wrench, CheckCircle, Upload, X } from "lucide-react";
+import { Send, CheckCircle, Upload, X } from "lucide-react";
 
 export default function RepairPage() {
   const [formData, setFormData] = useState({
@@ -48,9 +48,6 @@ export default function RepairPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would typically send the form data to your backend
-    console.log("Form data:", formData);
-    console.log("Images:", images);
     setSubmitted(true);
 
     // Reset form after submission
@@ -74,7 +71,7 @@ export default function RepairPage() {
         {/* Header */}
         <div className="text-center mb-12">
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
-            <Wrench className="h-8 w-8 text-primary" />
+            <Send className="h-8 w-8 text-primary" />
           </div>
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
             Printer Repair Services

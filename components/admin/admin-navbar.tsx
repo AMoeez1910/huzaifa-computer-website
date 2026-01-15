@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export function AdminNavbar() {
   const router = useRouter();
@@ -17,11 +18,15 @@ export function AdminNavbar() {
   return (
     <header className="border-b border-border bg-card/80 backdrop-blur-sm sticky top-0 z-50 shadow-sm">
       <div className="max-w-10xl w-full mx-auto px-4 py-4 flex justify-between items-center">
-        <Link href="/admin/dashboard">
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-            Huzaifa Computers
-          </h1>
-          <p className="text-sm text-muted-foreground">Admin Panel</p>
+        <Link href="/admin/dashboard" className="relative">
+          <Image
+            src="/images/logo/hc-logo.png"
+            alt="Logo"
+            width={68}
+            height={68}
+            className="object-contain"
+          />
+          <p className="text-sm text-primary absolute top-0 left-full whitespace-nowrap">Admin Panel</p>
         </Link>
         <div className="flex gap-3">
           <Button

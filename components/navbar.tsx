@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Wrench } from "lucide-react";
+import { Send } from "lucide-react";
 import Image from "next/image";
 import {
   NavigationMenu,
@@ -16,22 +16,52 @@ import {
 import { Button } from "@/components/ui/button";
 import { SiWhatsapp } from "react-icons/si";
 
-const printerTypes = [
+const printerCategories = [
   {
-    title: "LaserJet",
-    href: "/products?type=laserjet",
+    title: "Inkjet Printers",
+    href: "/products?category=Inkjet",
   },
   {
-    title: "Inkjet",
-    href: "/products?type=inkjet",
+    title: "LaserJet Printers",
+    href: "/products?category=LaserJet",
+  },
+  {
+    title: "Scanners",
+    href: "/products?category=Scanner",
+  },
+  {
+    title: "All Products",
+    href: "/products",
+  },
+];
+
+const printerTypes = [
+  {
+    title: "Color",
+    href: "/products?type=Color",
+  },
+  {
+    title: "Black and White",
+    href: "/products?type=Black and White",
+  },
+];
+
+const printerFunctions = [
+  {
+    title: "Printer Only",
+    href: "/products?function=Printer",
+  },
+  {
+    title: "Printer-Scanner",
+    href: "/products?function=Printer-Scanner",
   },
   {
     title: "All-in-One",
-    href: "/products?type=all-in-one",
+    href: "/products?function=All-in-One",
   },
   {
-    title: "Black & White",
-    href: "/products?type=black-and-white",
+    title: "Scan Only",
+    href: "/products?function=Scan",
   },
 ];
 
@@ -98,13 +128,34 @@ export function Navbar() {
               <NavigationMenuItem>
                 <NavigationMenuTrigger>Printers</NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  {/* Changed w-100/125 to [400px]/[500px] */}
-                  <ul className="grid gap-3 p-4 md:w-112.5 lg:w-137.5 lg:grid-cols-2">
+                  <ul className="grid gap-3 p-4 md:w-112.5 lg:w-137.5 lg:grid-cols-3">
+                    <div className="flex flex-col gap-2">
+                      <h4 className="font-bold text-sm px-2 text-muted-foreground uppercase tracking-wider">
+                        By Category
+                      </h4>
+                      {printerCategories.map((item) => (
+                        <ListItem
+                          key={item.title}
+                          title={item.title}
+                          href={item.href}
+                        />
+                      ))}
+                    </div>
                     <div className="flex flex-col gap-2">
                       <h4 className="font-bold text-sm px-2 text-muted-foreground uppercase tracking-wider">
                         By Type
                       </h4>
                       {printerTypes.map((item) => (
+                        <ListItem
+                          key={item.title}
+                          title={item.title}
+                          href={item.href}
+                        />
+                      ))}
+                      <h4 className="font-bold text-sm px-2 text-muted-foreground uppercase tracking-wider mt-2">
+                        By Function
+                      </h4>
+                      {printerFunctions.map((item) => (
                         <ListItem
                           key={item.title}
                           title={item.title}
@@ -160,7 +211,7 @@ export function Navbar() {
           {/* Request Service Button */}
           <Button asChild variant="default" className="gap-2">
             <Link href="/repair">
-              <Wrench className="w-(--space-l-s) h-(--space-l-s)" />
+              <Send className="w-(--space-l-s) h-(--space-l-s)" />
               Request Service
             </Link>
           </Button>
@@ -189,7 +240,7 @@ export function Navbar() {
             className="border-2 border-primary"
           >
             <Link href="/repair">
-              <Wrench className="w-(--space-l-s) h-(--space-l-s)" />
+              <Send className="w-(--space-l-s) h-(--space-l-s)" />
             </Link>
           </Button>
         </div>

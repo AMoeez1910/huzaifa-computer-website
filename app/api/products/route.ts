@@ -7,6 +7,10 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const featured = searchParams.get("featured");
     const category = searchParams.get("category");
+    const type = searchParams.get("type");
+    const brand = searchParams.get("brand");
+    const is_new = searchParams.get("is_new");
+    const limit = searchParams.get("limit");
 
     const supabase = await createClient();
 
@@ -21,6 +25,22 @@ export async function GET(request: Request) {
 
     if (category) {
       query = query.eq("category", category);
+    }
+
+    if (type) {
+      query = query.eq("type", type);
+    }
+
+    if (brand) {
+      query = query.ilike("name", `%${brand}%`);
+    }
+
+    if (is_new === "true") {
+      query = query.eq("is_new", true);
+    }
+
+    if (limit) {
+      query = query.limit(parseInt(limit));
     }
 
     const { data, error } = await query;

@@ -1,20 +1,9 @@
 import { ProductDetailClient } from "./product-detail-client";
 import { Suspense } from "react";
 import { Spinner } from "@/components/ui/spinner";
+import { getProduct } from "@/server-api/products";
 
 export const dynamic = "force-dynamic";
-
-const getProduct = async (id: string) => {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-  const response = await fetch(`${baseUrl}/api/products/${id}`);
-
-  if (!response.ok) {
-    return null;
-  }
-
-  const data = await response.json();
-  return data.product;
-};
 
 export async function generateMetadata({
   params,
@@ -37,11 +26,6 @@ export async function generateMetadata({
   };
 }
 
-async function ProductContent({ id }: { id: string }) {
-  const product = await getProduct(id);
-  return <ProductDetailClient product={product} />;
-}
-
 export default async function ProductDetailPage({
   params,
 }: {
@@ -49,6 +33,7 @@ export default async function ProductDetailPage({
 }) {
   const { id } = await params;
 
+  const product = await getProduct(id);
   return (
     <Suspense
       fallback={
@@ -57,7 +42,7 @@ export default async function ProductDetailPage({
         </div>
       }
     >
-      <ProductContent id={id} />
+      <ProductDetailClient product={product} />
     </Suspense>
   );
 }

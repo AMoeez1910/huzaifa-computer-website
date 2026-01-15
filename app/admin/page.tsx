@@ -1,14 +1,14 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 
-export default async function AdminDashboardPage() {
+export default async function AdminPage() {
   const supabase = await createClient();
 
   const { data, error } = await supabase.auth.getUser();
+
   if (error || !data?.user) {
     redirect("/admin/login");
   }
 
-  // Redirect to products page as the main dashboard
-  redirect("/admin/dashboard/products");
+  redirect("/admin/dashboard");
 }
