@@ -2,17 +2,19 @@
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 export function AdminNavbar() {
   const router = useRouter();
-  const supabase = createClient();
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
-    router.push("/admin/login");
+    try {
+      await fetch("/api/auth/logout", { method: "POST" });
+      router.push("/admin/login");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
   };
 
   return (
@@ -26,9 +28,12 @@ export function AdminNavbar() {
             height={68}
             className="object-contain"
           />
-          <p className="text-sm text-primary absolute top-0 left-full whitespace-nowrap">Admin Panel</p>
+          <p className="text-sm text-primary absolute top-0 left-full whitespace-nowrap">
+            Admin Panel
+          </p>
         </Link>
-        <div className="flex gap-3">
+        <nav className="flex items-center gap-4">
+  
           <Button
             asChild
             variant="outline"
@@ -43,7 +48,7 @@ export function AdminNavbar() {
           >
             Logout
           </Button>
-        </div>
+        </nav>
       </div>
     </header>
   );

@@ -7,14 +7,14 @@ const categories = [
     name: "Inkjet Printers",
     description: "Professional quality at affordable prices",
     img: "/images/epson-hero.jpg",
-    href: "/products?category=Inkjet",
+    href: "/printers?category=Inkjet",
   },
   {
     id: "2",
     name: "LaserJet Printers",
     description: "Speed, performance, and reliability",
     img: "/images/hp-hero.jpg",
-    href: "/products?category=LaserJet",
+    href: "/printers?category=LaserJet",
     gradient: "from-accent/20 to-primary/10",
   },
   {
@@ -22,14 +22,14 @@ const categories = [
     name: "Accessories",
     description: "Toners, ink cartridges, and more",
     img: "/images/toner-refil.jpg",
-    href: "/products?category=Office",
+    href: "/printers?category=Office",
   },
   {
     id: "4",
-    name: "View All Products",
-    description: "Explore our complete range of products",
+    name: "View All Printers",
+    description: "Explore our complete range of Printers",
     img: "/images/all-products.jpg",
-    href: "/products?category=Home",
+    href: "/printers?category=Home",
   },
 ];
 

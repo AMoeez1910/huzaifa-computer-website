@@ -1,13 +1,13 @@
-import { getProducts } from "@/server-api/products";
+import { getPrinters } from "@/server-api/printers";
 import { UsageSection } from "./usage-section";
 
 export async function UsageSectionWrapper() {
   // Fetch featured products for each usage type
   const [homeProducts, businessProducts, enterpriseProducts] =
     await Promise.all([
-      getProducts({ usage: "Home", featured: true, limit: 3 }),
-      getProducts({ usage: "Business", featured: true, limit: 3 }),
-      getProducts({ usage: "Enterprise", featured: true, limit: 3 }),
+      getPrinters({ usage: "Home", featured: true, limit: 3 }),
+      getPrinters({ usage: "Business", featured: true, limit: 3 }),
+      getPrinters({ usage: "Enterprise", featured: true, limit: 3 }),
     ]);
 
   return (

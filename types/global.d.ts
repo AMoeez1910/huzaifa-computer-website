@@ -26,6 +26,18 @@ declare global {
     main_image?: string; // Main thumbnail image
   }
 
+  interface Accessory {
+    id: string;
+    created_at?: string;
+    name: string;
+    category: string;
+    price: number;
+    description?: SerializedEditorState | null;
+    discount?: number; // Percentage (0-100)
+    images?: string[]; // Additional images
+    main_image?: string; // Main thumbnail image
+  }
+
   interface AdminProductFormProps {
     onSuccess?: () => void;
     editProduct?: Product | null;
@@ -41,5 +53,15 @@ declare global {
   interface AdminProductListProps {
     onProductUpdated?: () => void;
     onEdit?: (product: Product) => void;
+  }
+
+  interface AdminAccessoryFormProps {
+    onSuccess?: () => void;
+    editAccessory?: Accessory | null;
+  }
+
+  interface AdminAccessoryListProps {
+    onAccessoryUpdated?: () => void;
+    onEdit?: (accessory: Accessory) => void;
   }
 }

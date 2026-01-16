@@ -1,14 +1,9 @@
-import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
+import { requireAuth } from "@/lib/auth/require-auth";
 
 export default async function AdminPage() {
-  const supabase = await createClient();
-
-  const { data, error } = await supabase.auth.getUser();
-
-  if (error || !data?.user) {
-    redirect("/admin/login");
-  }
+  // Check authentication
+  await requireAuth();
 
   redirect("/admin/dashboard");
 }

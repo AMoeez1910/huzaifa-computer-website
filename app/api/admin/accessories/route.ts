@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 
-// POST - Create new product (Admin only)
+// POST - Create new accessory (Admin only)
 export async function POST(request: Request) {
   try {
     const supabase = await createClient();
@@ -19,7 +19,7 @@ export async function POST(request: Request) {
     const body = await request.json();
 
     const { data, error } = await supabase
-      .from("products")
+      .from("accessories")
       .insert(body)
       .select()
       .single();
@@ -28,7 +28,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    return NextResponse.json({ product: data }, { status: 201 });
+    return NextResponse.json({ accessory: data }, { status: 201 });
   } catch (error) {
     return NextResponse.json(
       { error: "Internal server error" },
@@ -37,7 +37,7 @@ export async function POST(request: Request) {
   }
 }
 
-// PUT - Update product (Admin only)
+// PUT - Update accessory (Admin only)
 export async function PUT(request: Request) {
   try {
     const supabase = await createClient();
@@ -57,13 +57,13 @@ export async function PUT(request: Request) {
 
     if (!id) {
       return NextResponse.json(
-        { error: "Product ID is required" },
+        { error: "Accessory ID is required" },
         { status: 400 }
       );
     }
 
     const { data, error } = await supabase
-      .from("products")
+      .from("accessories")
       .update(updateData)
       .eq("id", id)
       .select()
@@ -73,7 +73,7 @@ export async function PUT(request: Request) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    return NextResponse.json({ product: data });
+    return NextResponse.json({ accessory: data });
   } catch (error) {
     return NextResponse.json(
       { error: "Internal server error" },
@@ -82,7 +82,7 @@ export async function PUT(request: Request) {
   }
 }
 
-// DELETE - Delete product (Admin only)
+// DELETE - Delete accessory (Admin only)
 export async function DELETE(request: Request) {
   try {
     const supabase = await createClient();
@@ -102,12 +102,12 @@ export async function DELETE(request: Request) {
 
     if (!id) {
       return NextResponse.json(
-        { error: "Product ID is required" },
+        { error: "Accessory ID is required" },
         { status: 400 }
       );
     }
 
-    const { error } = await supabase.from("products").delete().eq("id", id);
+    const { error } = await supabase.from("accessories").delete().eq("id", id);
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 500 });

@@ -22,7 +22,7 @@ export function ProductCard({ product }: { product: Product }) {
       : null;
 
   return (
-    <Link href={`/products/${product.id}`} className="block h-full">
+    <Link href={`/printers/${product.id}`} className="block h-full">
       <Card className="flex flex-col h-full hover:bg-secondary/60 transition-all duration-300 overflow-hidden group cursor-pointer">
         {/* Image */}
         <div className="relative w-full aspect-4/3 bg-muted/50 overflow-hidden">

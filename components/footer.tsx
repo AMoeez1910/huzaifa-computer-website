@@ -107,7 +107,7 @@ export function Footer() {
             <ul className="flex pt-4 lg:gap-12 gap-4 lg:justify-center max-lg:flex-col ">
               <li>
                 <Link
-                  href="/products?category=printers"
+                  href="/printers?category=printers"
                   className="text-foreground/70 hover:text-primary transition-colors text-sm  whitespace-nowrap"
                 >
                   Printers
@@ -115,7 +115,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="/products?category=accessories"
+                  href="/printers?category=accessories"
                   className="text-foreground/70 hover:text-primary transition-colors text-sm  whitespace-nowrap"
                 >
                   Accessories
@@ -123,7 +123,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="/products"
+                  href="/printers"
                   className="text-foreground/70 hover:text-primary transition-colors text-sm  whitespace-nowrap"
                 >
                   Products

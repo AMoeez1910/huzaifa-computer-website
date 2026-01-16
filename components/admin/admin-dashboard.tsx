@@ -29,7 +29,7 @@ export function AdminDashboard({ userId }: { userId: string }) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-secondary/10">
+    <div className="min-h-screen bg-linear-to-b from-background to-secondary/10">
       <AdminNavbar />
 
       <main className="max-w-10xl w-full mx-auto px-4 py-8">

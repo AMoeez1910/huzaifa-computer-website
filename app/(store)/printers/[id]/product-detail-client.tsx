@@ -4,10 +4,11 @@ import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { MessageCircle, Phone, Calendar, Tag } from "lucide-react";
+import { Phone, Tag } from "lucide-react";
 import { ProductImageCarousel } from "@/components/product-image-carousel";
 import { EditorReadonly } from "@/components/ui/blocks/editor-00";
 import Link from "next/link";
+import { SiWhatsapp } from "react-icons/si";
 
 export function ProductDetailClient({ product }: { product: Product | null }) {
   if (!product) {
@@ -191,7 +192,12 @@ export function ProductDetailClient({ product }: { product: Product | null }) {
                 asChild
               >
                 <Link href={whatsappUrl} target="_blank">
-                  <MessageCircle className="h-5 w-5" />
+                  <SiWhatsapp
+                    style={{
+                      width: "var(--space-l-s)",
+                      height: "var(--space-l-s)",
+                    }}
+                  />{" "}
                   Contact via WhatsApp
                 </Link>
               </Button>

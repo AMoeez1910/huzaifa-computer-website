@@ -1,7 +1,7 @@
 import { ProductDetailClient } from "./product-detail-client";
 import { Suspense } from "react";
 import { Spinner } from "@/components/ui/spinner";
-import { getProduct } from "@/server-api/products";
+import { getPrinter } from "@/server-api/printers";
 
 export const dynamic = "force-dynamic";
 
@@ -11,7 +11,7 @@ export async function generateMetadata({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const product = await getProduct(id);
+  const product = await getPrinter(id);
 
   if (!product) {
     return {
@@ -33,7 +33,7 @@ export default async function ProductDetailPage({
 }) {
   const { id } = await params;
 
-  const product = await getProduct(id);
+  const product = await getPrinter(id);
   return (
     <Suspense
       fallback={

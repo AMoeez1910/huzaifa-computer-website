@@ -1,4 +1,4 @@
-export const getProduct = async (id: string) => {
+export const getPrinter = async (id: string) => {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
   const response = await fetch(`${baseUrl}/api/printers/${id}`);
 
@@ -20,7 +20,7 @@ export interface ProductFilters {
   limit?: number;
 }
 
-export async function getProducts(
+export async function getPrinters(
   filters?: ProductFilters
 ): Promise<Product[]> {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";

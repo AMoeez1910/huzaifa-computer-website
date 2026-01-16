@@ -15,7 +15,7 @@ const slides = [
     description: "Buy direct from America's most trusted printer brand.",
     image: "/images/hero-image.jpg",
     cta: "Shop Now",
-    href: "/products",
+    href: "/printers",
     variant: "full-image" as const,
   },
   {
@@ -25,7 +25,7 @@ const slides = [
     description: "AI-enabled printing for your business needs",
     image: "/images/hp-hero.jpg",
     cta: "Learn More",
-    href: "/products",
+    href: "/printers",
     variant: "split-left" as const,
   },
   {

@@ -1,11 +1,11 @@
 import { createClient } from "@/lib/supabase/server";
 import { FeaturedCarousel } from "../featured-carousel";
-import { getProducts } from "@/server-api/products";
+import { getPrinters } from "@/server-api/printers";
 
 export async function RecentProducts() {
   const supabase = await createClient();
 
-  const recentProducts = await getProducts({ featured: true, limit: 10 });
+  const recentProducts = await getPrinters({ featured: true, limit: 10 });
 
   return (
     <section className="w-full py-8 md:py-12 bg-background">

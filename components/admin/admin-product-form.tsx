@@ -169,7 +169,7 @@ export function AdminProductForm({
       if (onSuccess) {
         onSuccess();
       } else {
-        router.push("/admin/dashboard/products");
+        router.push("/admin/dashboard?tab=printers");
       }
     } catch (err: unknown) {
       setError(
@@ -457,7 +457,7 @@ export function AdminProductForm({
               if (onSuccess) {
                 onSuccess();
               } else {
-                router.push("/admin/dashboard/products");
+                router.push("/admin/dashboard?tab=printers");
               }
             }}
             disabled={isLoading}
