@@ -31,6 +31,7 @@ const CATEGORIES = ["Inkjet", "LaserJet", "Scanner"];
 const FUNCTIONS = ["Printer", "Printer-Scanner", "All-in-One", "Scan"];
 const TYPES = ["Color", "Black and White"];
 const USAGES = ["Home", "Business", "Enterprise"];
+const BRANDS = ["HP", "Canon", "Epson"];
 
 const initialEditorState = {
   root: {
@@ -89,6 +90,7 @@ export function AdminProductForm({
   // Initialize formData directly from editProduct
   const [formData, setFormData] = useState({
     name: editProduct?.name || "",
+    brand: editProduct?.brand || "",
     category: editProduct?.category || "",
     price: editProduct?.price?.toString() || "",
     discount: editProduct?.discount?.toString() || "",
@@ -107,6 +109,7 @@ export function AdminProductForm({
     try {
       const productData = {
         name: formData.name,
+        brand: formData.brand || null,
         category: formData.category,
         price: Number.parseFloat(formData.price),
         discount:
@@ -125,7 +128,7 @@ export function AdminProductForm({
 
       if (editProduct?.id) {
         // Update existing product via API
-        const response = await fetch("/api/admin/products", {
+        const response = await fetch("/api/admin/printers", {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ id: editProduct.id, ...productData }),
@@ -137,7 +140,7 @@ export function AdminProductForm({
         }
       } else {
         // Insert new product via API
-        const response = await fetch("/api/admin/products", {
+        const response = await fetch("/api/admin/printers", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(productData),
@@ -152,6 +155,7 @@ export function AdminProductForm({
       // Reset form
       setFormData({
         name: "",
+        brand: "",
         category: "",
         price: "",
         discount: "",
@@ -195,6 +199,27 @@ export function AdminProductForm({
             required
             disabled={isLoading}
           />
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="brand">Brand *</Label>
+          <Select
+            value={formData.brand}
+            onValueChange={(value) =>
+              setFormData({ ...formData, brand: value })
+            }
+          >
+            <SelectTrigger id="brand" disabled={isLoading}>
+              <SelectValue placeholder="Select brand" />
+            </SelectTrigger>
+            <SelectContent>
+              {BRANDS.map((brand) => (
+                <SelectItem key={brand} value={brand}>
+                  {brand}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         <div className="space-y-2">

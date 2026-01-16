@@ -60,7 +60,7 @@ export function AdminProductList({
     setDeleting(id);
 
     try {
-      const response = await fetch(`/api/admin/products?id=${id}`, {
+      const response = await fetch(`/api/admin/printers?id=${id}`, {
         method: "DELETE",
       });
 

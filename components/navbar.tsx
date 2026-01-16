@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Send, Menu } from "lucide-react";
+import { Phone, Menu } from "lucide-react";
 import Image from "next/image";
 import {
   NavigationMenu,
@@ -95,11 +95,7 @@ const printerBrands = [
 
 const accessories = [
   {
-    title: "All Accessories",
-    href: "/accessories",
-  },
-  {
-    title: "Toners",
+    title: "Toners Cartridges",
     href: "/accessories?category=Toners",
   },
   {
@@ -111,12 +107,12 @@ const accessories = [
     href: "/accessories?category=Drums",
   },
   {
-    title: "Cables",
-    href: "/accessories?category=Cables",
-  },
-  {
     title: "Paper",
     href: "/accessories?category=Paper",
+  },
+  {
+    title: "All Accessories",
+    href: "/accessories",
   },
 ];
 
@@ -225,11 +221,11 @@ export function Navbar() {
             </a>
           </Button>
 
-          {/* Request Service Button */}
+          {/* Contact Us Button */}
           <Button asChild variant="default" className="gap-2">
-            <Link href="/repair">
-              <Send className="w-(--space-l-s) h-(--space-l-s)" />
-              Request Service
+            <Link href="tel:03009403751">
+              <Phone className="w-(--space-l-s) h-(--space-l-s)" />
+              Contact Us
             </Link>
           </Button>
         </div>
@@ -238,13 +234,13 @@ export function Navbar() {
         <div className="lg:hidden flex ">
           <Sheet>
             <SheetTrigger asChild>
-                <Menu className="w-6 h-6" />
+              <Menu className="w-6 h-6" />
             </SheetTrigger>
             <SheetContent side="right" className="overflow-y-auto lg:hidden">
               <SheetHeader className="pb-0">
                 <SheetTitle>Menu</SheetTitle>
                 <SheetDescription>
-                  Browse our products and services
+                  Browse our printers and accessories
                 </SheetDescription>
               </SheetHeader>
 
@@ -345,9 +341,9 @@ export function Navbar() {
                 <div className="flex flex-col gap-3 mt-2 p-6 border-t">
                   <SheetClose asChild>
                     <Button asChild className="w-full">
-                      <Link href="/repair">
-                        <Send className="w-4 h-4 mr-2" />
-                        Request Service
+                      <Link href="tel:03009403751">
+                        <Phone className="w-4 h-4 mr-2" />
+                        Contact Us
                       </Link>
                     </Button>
                   </SheetClose>

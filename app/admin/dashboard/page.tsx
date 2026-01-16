@@ -12,7 +12,7 @@ export default async function AdminDashboardPage() {
     <div className="min-h-screen bg-linear-to-b from-background to-secondary/10">
       <AdminNavbar />
 
-      <main className="max-w-7xl w-full mx-auto px-4 py-8">
+      <main className="max-w-10xl w-full mx-auto px-4 py-8">
         <Suspense
           fallback={
             <div className="flex justify-center py-8">

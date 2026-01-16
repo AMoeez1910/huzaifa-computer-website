@@ -44,7 +44,7 @@ export function UsageSection({
 
   return (
     <section className="w-full py-12 md:py-20 bg-muted/30">
-      <div className="max-w-7xl w-full mx-auto px-4">
+      <div className="max-w-10xl w-full mx-auto px-4">
         <div className="mb-12 text-center">
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-3">
             Discover Printer Suited For You
@@ -62,13 +62,13 @@ export function UsageSection({
               onClick={() => setActiveTab(name)}
               className="group flex flex-col items-center gap-3 transition-all"
             >
-                <Icon
-                  className={`w-16 h-16 md:w-20 md:h-20 transition-all ease-in-out duration-300 ${
-                    activeTab === name
-                      ? "text-blue-900"
-                      : "text-muted-foreground group-hover:text-gray-400"
-                  }`}
-                />
+              <Icon
+                className={`w-16 h-16 md:w-20 md:h-20 transition-all ease-in-out duration-300 ${
+                  activeTab === name
+                    ? "text-blue-900"
+                    : "text-muted-foreground group-hover:text-gray-400"
+                }`}
+              />
               <span
                 className={`text-sm md:text-base font-semibold transition-colors ${
                   activeTab === name

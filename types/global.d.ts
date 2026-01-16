@@ -13,6 +13,7 @@ declare global {
     id: string;
     created_at?: string;
     name: string;
+    brand?: string;
     category: string;
     price: number;
     description?: SerializedEditorState | null;
