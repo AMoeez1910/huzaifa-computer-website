@@ -59,86 +59,45 @@ export function AdminProductForm({
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [images, setImages] = useState<string[]>([]);
-  const [mainImage, setMainImage] = useState<string>("");
-  const [description, setDescription] =
-    useState<SerializedEditorState>(initialEditorState);
-  const [showPreview, setShowPreview] = useState(false);
-  const [hasDiscount, setHasDiscount] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    category: "",
-    price: "",
-    discount: "",
-    type: "",
-    function: "",
-    usage: "",
-    is_featured: false,
-    is_new: false,
-  });
 
-  useEffect(() => {
-    if (editProduct) {
-      setFormData({
-        name: editProduct.name,
-        category: editProduct.category,
-        price: editProduct.price.toString(),
-        discount: editProduct.discount?.toString() || "",
-        type: editProduct.type || "",
-        function: editProduct.function || "",
-        usage: editProduct.usage || "",
-        is_featured: editProduct.is_featured || false,
-        is_new: editProduct.is_new || false,
-      });
+  // Initialize images directly from editProduct
+  const [images, setImages] = useState<string[]>(editProduct?.images || []);
+  const [mainImage, setMainImage] = useState<string>(
+    editProduct?.main_image || ""
+  );
 
-      // Set discount toggle
-      setHasDiscount(!!editProduct.discount && editProduct.discount > 0);
-
-      // Set description if available
-      if (editProduct.description) {
-        try {
-          // Parse description if it's a string
-          const parsedDescription =
-            typeof editProduct.description === "string"
-              ? JSON.parse(editProduct.description)
-              : editProduct.description;
-          setDescription(parsedDescription);
-        } catch (err) {
-          console.error("Failed to parse description:", err);
-          setDescription(initialEditorState);
-        }
-      } else {
-        setDescription(initialEditorState);
-      }
-
-      // Set main image (thumbnail)
-      if (editProduct.main_image) {
-        setMainImage(editProduct.main_image);
-      }
-
-      // Set additional images
-      if (editProduct.images) {
-        setImages(editProduct.images);
-      }
-    } else {
-      // Reset form when editProduct is null
-      setFormData({
-        name: "",
-        category: "",
-        price: "",
-        discount: "",
-        type: "",
-        function: "",
-        usage: "",
-        is_featured: false,
-        is_new: false,
-      });
-      setImages([]);
-      setMainImage("");
-      setDescription(initialEditorState);
-      setHasDiscount(false);
+  // Initialize description - parse if it's a string
+  const getInitialDescription = () => {
+    if (!editProduct?.description) return initialEditorState;
+    try {
+      return typeof editProduct.description === "string"
+        ? JSON.parse(editProduct.description)
+        : editProduct.description;
+    } catch {
+      return initialEditorState;
     }
-  }, [editProduct]);
+  };
+
+  const [description, setDescription] = useState<SerializedEditorState>(
+    getInitialDescription()
+  );
+  const [showPreview, setShowPreview] = useState(false);
+  const [hasDiscount, setHasDiscount] = useState(
+    !!editProduct?.discount && editProduct.discount > 0
+  );
+
+  // Initialize formData directly from editProduct
+  const [formData, setFormData] = useState({
+    name: editProduct?.name || "",
+    category: editProduct?.category || "",
+    price: editProduct?.price?.toString() || "",
+    discount: editProduct?.discount?.toString() || "",
+    type: editProduct?.type || "",
+    function: editProduct?.function || "",
+    usage: editProduct?.usage || "",
+    is_featured: editProduct?.is_featured || false,
+    is_new: editProduct?.is_new || false,
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

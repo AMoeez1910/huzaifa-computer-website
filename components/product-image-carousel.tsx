@@ -97,20 +97,19 @@ export function ProductImageCarousel({
         <Button
           variant="outline"
           size="icon"
-          className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-background/80 backdrop-blur-sm shadow-lg hover:bg-background"
+          className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 rounded-full bg-background shadow-xl border-2 hover:bg-primary hover:border-primary group transition-all"
           onClick={scrollPrev}
         >
-          <ChevronLeft className="h-4 w-4" />
+          <ChevronLeft className="w-(--space-l-s) h-(--space-l-s) text-foreground group-hover:text-primary-foreground group-hover:-translate-x-0.5 transition-all duration-200" />
         </Button>
         <Button
           variant="outline"
           size="icon"
-          className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-background/80 backdrop-blur-sm shadow-lg hover:bg-background"
+          className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 rounded-full bg-background shadow-xl border-2 hover:bg-primary hover:border-primary group transition-all"
           onClick={scrollNext}
         >
-          <ChevronRight className="h-4 w-4" />
+          <ChevronRight className="w-(--space-l-s) h-(--space-l-s) text-foreground group-hover:text-primary-foreground group-hover:translate-x-0.5 transition-all duration-200" />
         </Button>
-
         {/* Slide indicators */}
         <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2">
           {images.map((_, index) => (

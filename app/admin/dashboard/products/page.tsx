@@ -26,7 +26,7 @@ export default async function ProductsPage() {
       <AdminNavbar />
 
       <main className="max-w-7xl w-full mx-auto px-4 py-8">
-        <Card className="border-border/50 shadow-lg">
+        <Card className="border-border/50 shadow-lg py-6">
           <CardHeader>
             <div className="flex items-center justify-between">
               <div>

@@ -10,6 +10,7 @@ export async function GET(request: Request) {
     const type = searchParams.get("type");
     const brand = searchParams.get("brand");
     const is_new = searchParams.get("is_new");
+    const usage = searchParams.get("usage");
     const limit = searchParams.get("limit");
 
     const supabase = await createClient();
@@ -37,6 +38,10 @@ export async function GET(request: Request) {
 
     if (is_new === "true") {
       query = query.eq("is_new", true);
+    }
+
+    if (usage) {
+      query = query.eq("usage", usage);
     }
 
     if (limit) {

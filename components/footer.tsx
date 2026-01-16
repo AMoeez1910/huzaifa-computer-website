@@ -134,7 +134,7 @@ export function Footer() {
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4167.470528873578!2d74.3433854!3d31.516092600000004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3919059ec9c13881%3A0xd7eada72dd063ade!2sHuzaifa%20Computer!5e1!3m2!1sen!2s!4v1768310377814!5m2!1sen!2s"
               width="600"
               height="450"
-              className="lg:mx-auto"
+              className="lg:mx-auto max-w-full aspect-square max-md:h-auto"
               style={{
                 border: 0,
               }}

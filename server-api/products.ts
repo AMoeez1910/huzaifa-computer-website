@@ -16,6 +16,7 @@ export interface ProductFilters {
   type?: string;
   brand?: string;
   is_new?: boolean;
+  usage?: string;
   limit?: number;
 }
 
@@ -32,6 +33,7 @@ export async function getProducts(
     if (filters?.type) params.append("type", filters.type);
     if (filters?.brand) params.append("brand", filters.brand);
     if (filters?.is_new) params.append("is_new", "true");
+    if (filters?.usage) params.append("usage", filters.usage);
     if (filters?.limit) params.append("limit", filters.limit.toString());
 
     const queryString = params.toString();

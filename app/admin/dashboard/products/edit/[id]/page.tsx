@@ -44,7 +44,6 @@ export default async function EditProductPage({
   if (!product) {
     notFound();
   }
-
   return (
     <div className="min-h-screen bg-linear-to-b from-background to-secondary/10">
       <AdminNavbar />
