@@ -8,7 +8,13 @@ import { SerializedEditorState } from "lexical";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Input as SelectInput } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Dialog,
   DialogContent,
@@ -19,6 +25,15 @@ import {
 import { ImageUpload } from "./image-upload";
 import { Editor } from "@/components/ui/blocks/editor-00/editor";
 import { Eye } from "lucide-react";
+import { toast } from "sonner";
+
+const CATEGORIES = [
+  "Ink Cartridges",
+  "Toner Cartridges",
+  "Printheads",
+  "Paper",
+  "Drums",
+];
 
 const initialEditorState = {
   root: {
@@ -97,10 +112,12 @@ export function AdminAccessoryForm({
     try {
       // Validate required fields
       if (!formData.name || !formData.category || !formData.price) {
+        toast.error("Please fill in all required fields");
         throw new Error("Please fill in all required fields");
       }
 
       if (!mainImage) {
+        toast.error("Please upload a main image");
         throw new Error("Please upload a main image");
       }
 
@@ -130,8 +147,15 @@ export function AdminAccessoryForm({
 
       if (!response.ok) {
         const errorData = await response.json();
+        toast.error(errorData.error || "Failed to save accessory");
         throw new Error(errorData.error || "Failed to save accessory");
       }
+
+      toast.success(
+        editAccessory
+          ? "Accessory updated successfully!"
+          : "Accessory created successfully!"
+      );
 
       if (onSuccess) {
         onSuccess();
@@ -147,7 +171,7 @@ export function AdminAccessoryForm({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className="space-y-6 py-6">
       {error && (
         <div className="bg-destructive/10 text-destructive p-3 rounded-md">
           {error}
@@ -170,14 +194,24 @@ export function AdminAccessoryForm({
       {/* Category */}
       <div className="space-y-2">
         <Label htmlFor="category">Category *</Label>
-        <Input
-          id="category"
-          name="category"
+        <Select
           value={formData.category}
-          onChange={handleInputChange}
+          onValueChange={(value) =>
+            setFormData((prev) => ({ ...prev, category: value }))
+          }
           required
-          placeholder="e.g., Cables, Toner, Paper, etc."
-        />
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="Select category" />
+          </SelectTrigger>
+          <SelectContent>
+            {CATEGORIES.map((category) => (
+              <SelectItem key={category} value={category}>
+                {category}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
 
       {/* Price */}

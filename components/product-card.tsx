@@ -13,7 +13,50 @@ import {
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 
-export function ProductCard({ product }: { product: Product }) {
+// Helper function to extract plain text from Lexical editor state
+function extractPlainText(description: any): string {
+  if (!description) return "";
+
+  try {
+    // If it's a string, try parsing it first
+    let parsedDescription = description;
+    if (typeof description === "string") {
+      try {
+        parsedDescription = JSON.parse(description);
+      } catch {
+        // If parsing fails, return the string as-is
+        return description;
+      }
+    }
+
+    // Handle Lexical SerializedEditorState
+    if (parsedDescription?.root && parsedDescription.root.children) {
+      const extractText = (nodes: any[]): string[] => {
+        const texts: string[] = [];
+        nodes.forEach((node: any) => {
+          if (node.text && node.text.trim()) {
+            texts.push(node.text.trim());
+          }
+          if (node.children) {
+            texts.push(...extractText(node.children));
+          }
+        });
+        return texts;
+      };
+      return extractText(parsedDescription.root.children).join(" • ");
+    }
+  } catch (error) {
+    console.error("Error extracting text:", error);
+    return "";
+  }
+  return "";
+}
+
+export function ProductCard({ product }: { product: Product | Accessory }) {
+  // Check if it's a printer (has usage property)
+  const isPrinter = "usage" in product;
+  const printerProduct = product as Product;
+
   // Calculate discounted price if discount exists
   const hasDiscount = product.discount && product.discount > 0;
   const discountedPrice =
@@ -21,8 +64,16 @@ export function ProductCard({ product }: { product: Product }) {
       ? product.price * (1 - product.discount / 100)
       : null;
 
+  // Get plain text description
+  const plainDescription = extractPlainText(product.description);
+
+  // Build the link based on product type
+  const linkHref = isPrinter
+    ? `/printers/${product.id}`
+    : `/accessories/${product.id}`;
+
   return (
-    <Link href={`/printers/${product.id}`} className="block h-full">
+    <Link href={linkHref} className="block h-full">
       <Card className="flex flex-col h-full hover:bg-secondary/60 transition-all duration-300 overflow-hidden group cursor-pointer">
         {/* Image */}
         <div className="relative w-full aspect-4/3 bg-muted/50 overflow-hidden">
@@ -37,7 +88,7 @@ export function ProductCard({ product }: { product: Product }) {
               {product.discount}% OFF
             </Badge>
           )}
-          {product.is_new && (
+          {isPrinter && printerProduct.is_new && (
             <Badge className="absolute top-12 left-2 z-10 bg-green-500/90 text-white border-0 hover:bg-green-500 shadow-md">
               New
             </Badge>
@@ -56,11 +107,24 @@ export function ProductCard({ product }: { product: Product }) {
           />
         </div>
 
-        <CardContent className="flex flex-col gap-4 pt-4 pb-6 justify-center items-center">
+        <CardContent className="flex flex-col gap-3 pt-4 pb-6 justify-center items-center">
           {/* Name */}
           <CardTitle className="line-clamp-2 text-lg font-normal group-hover:text-primary transition-colors text-center">
             {product.name}
           </CardTitle>
+
+          {/* Usage & Description */}
+          {((isPrinter && printerProduct.usage) || plainDescription) && (
+            <p className="text-sm font-medium text-muted-foreground text-center w-full whitespace-normal wrap-break-word">
+              {isPrinter && printerProduct.usage && (
+                <span>{printerProduct.usage}</span>
+              )}
+              {isPrinter && printerProduct.usage && plainDescription && (
+                <span> • </span>
+              )}
+              {plainDescription && <span>{plainDescription}</span>}
+            </p>
+          )}
 
           {/* Price */}
           <div className="w-full flex items-center gap-2 justify-center flex-wrap">

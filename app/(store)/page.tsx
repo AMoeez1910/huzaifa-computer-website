@@ -26,7 +26,7 @@ export default function Home() {
       <Suspense
         fallback={
           <section className="w-full py-12 md:py-20 bg-muted/30">
-            <div className="max-w-7xl w-full mx-auto px-4 flex justify-center">
+            <div className="max-w-10xl w-full mx-auto px-4 flex justify-center">
               <Spinner />
             </div>
           </section>

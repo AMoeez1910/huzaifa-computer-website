@@ -30,7 +30,7 @@ export default async function EditAccessoryPage({
     <div className="min-h-screen bg-linear-to-b from-background to-secondary/10">
       <AdminNavbar />
 
-      <main className="max-w-7xl w-full mx-auto px-4 py-8">
+      <main className="max-w-10xl w-full mx-auto px-4 py-8">
         <Card className="border-border/50 shadow-lg">
           <CardHeader>
             <CardTitle className="text-2xl">Edit Accessory</CardTitle>

@@ -21,7 +21,7 @@ const categories = [
     id: "3",
     name: "Accessories",
     description: "Toners, ink cartridges, and more",
-    img: "/images/toner-refil.jpg",
+    img: "/images/toner-refil-1.jpg",
     href: "/printers?category=Office",
   },
   {

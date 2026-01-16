@@ -136,7 +136,7 @@ export function AdminInventory() {
 
   return (
     <>
-      <Card className="border-border/50 shadow-lg">
+      <Card className="border-border/50 shadow-lg py-6">
         <CardHeader>
           <div className="flex items-center justify-between flex-wrap gap-4">
             {/* Tabs */}
