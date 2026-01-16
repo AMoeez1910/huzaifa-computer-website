@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Wrench } from "lucide-react";
+import { Send, Menu } from "lucide-react";
 import Image from "next/image";
 import {
   NavigationMenu,
@@ -15,61 +15,108 @@ import {
 } from "@/components/ui/navigation-menu";
 import { Button } from "@/components/ui/button";
 import { SiWhatsapp } from "react-icons/si";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+
+const printerCategories = [
+  {
+    title: "Inkjet Printers",
+    href: "/printers?category=Inkjet",
+  },
+  {
+    title: "LaserJet Printers",
+    href: "/printers?category=LaserJet",
+  },
+  {
+    title: "Scanners",
+    href: "/printers?category=Scanner",
+  },
+  {
+    title: "All Printers",
+    href: "/printers",
+  },
+];
 
 const printerTypes = [
   {
-    title: "LaserJet",
-    href: "/products?type=laserjet",
+    title: "Color",
+    href: "/printers?type=Color",
   },
   {
-    title: "Inkjet",
-    href: "/products?type=inkjet",
+    title: "Black and White",
+    href: "/printers?type=Black and White",
+  },
+];
+
+const printerFunctions = [
+  {
+    title: "Printer Only",
+    href: "/printers?function=Printer",
+  },
+  {
+    title: "Printer-Scanner",
+    href: "/printers?function=Printer-Scanner",
   },
   {
     title: "All-in-One",
-    href: "/products?type=all-in-one",
+    href: "/printers?function=All-in-One",
   },
   {
-    title: "Black & White",
-    href: "/products?type=black-and-white",
+    title: "Scan Only",
+    href: "/printers?function=Scan",
   },
 ];
 
 const printerBrands = [
   {
     title: "HP",
-    href: "/products?brand=hp",
+    href: "/printers?brand=hp",
   },
   {
     title: "Canon",
-    href: "/products?brand=canon",
+    href: "/printers?brand=canon",
   },
   {
     title: "Epson",
-    href: "/products?brand=epson",
+    href: "/printers?brand=epson",
   },
   {
     title: "View All Brands",
-    href: "/products",
+    href: "/printers",
   },
 ];
 
 const accessories = [
   {
+    title: "All Accessories",
+    href: "/accessories",
+  },
+  {
     title: "Toners",
-    href: "/products?category=toners",
+    href: "/accessories?category=Toners",
   },
   {
     title: "Ink Cartridges",
-    href: "/products?category=cartridges",
+    href: "/accessories?category=Ink Cartridges",
   },
   {
     title: "Drums",
-    href: "/products?category=drums",
+    href: "/accessories?category=Drums",
   },
   {
-    title: "Other Accessories",
-    href: "/products?category=accessories",
+    title: "Cables",
+    href: "/accessories?category=Cables",
+  },
+  {
+    title: "Paper",
+    href: "/accessories?category=Paper",
   },
 ];
 
@@ -98,13 +145,34 @@ export function Navbar() {
               <NavigationMenuItem>
                 <NavigationMenuTrigger>Printers</NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  {/* Changed w-100/125 to [400px]/[500px] */}
-                  <ul className="grid gap-3 p-4 md:w-112.5 lg:w-137.5 lg:grid-cols-2">
+                  <ul className="grid gap-3 p-4 md:w-112.5 lg:w-137.5 lg:grid-cols-3">
+                    <div className="flex flex-col gap-2">
+                      <h4 className="font-bold text-sm px-2 text-muted-foreground uppercase tracking-wider">
+                        By Category
+                      </h4>
+                      {printerCategories.map((item) => (
+                        <ListItem
+                          key={item.title}
+                          title={item.title}
+                          href={item.href}
+                        />
+                      ))}
+                    </div>
                     <div className="flex flex-col gap-2">
                       <h4 className="font-bold text-sm px-2 text-muted-foreground uppercase tracking-wider">
                         By Type
                       </h4>
                       {printerTypes.map((item) => (
+                        <ListItem
+                          key={item.title}
+                          title={item.title}
+                          href={item.href}
+                        />
+                      ))}
+                      <h4 className="font-bold text-sm px-2 text-muted-foreground uppercase tracking-wider mt-2">
+                        By Function
+                      </h4>
+                      {printerFunctions.map((item) => (
                         <ListItem
                           key={item.title}
                           title={item.title}
@@ -160,38 +228,143 @@ export function Navbar() {
           {/* Request Service Button */}
           <Button asChild variant="default" className="gap-2">
             <Link href="/repair">
-              <Wrench className="w-(--space-l-s) h-(--space-l-s)" />
+              <Send className="w-(--space-l-s) h-(--space-l-s)" />
               Request Service
             </Link>
           </Button>
         </div>
 
         {/* Mobile Menu */}
-        <div className="lg:hidden flex gap-2">
-          <Button
-            asChild
-            variant="ghost"
-            size="sm"
-            className="border-2 border-primary"
-          >
-            <a
-              href="https://wa.me/923009403751"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <SiWhatsapp className="w-(--space-l-s) h-(--space-l-s)" />
-            </a>
-          </Button>
-          <Button
-            asChild
-            size="sm"
-            variant="ghost"
-            className="border-2 border-primary"
-          >
-            <Link href="/repair">
-              <Wrench className="w-(--space-l-s) h-(--space-l-s)" />
-            </Link>
-          </Button>
+        <div className="lg:hidden flex ">
+          <Sheet>
+            <SheetTrigger asChild>
+                <Menu className="w-6 h-6" />
+            </SheetTrigger>
+            <SheetContent side="right" className="overflow-y-auto lg:hidden">
+              <SheetHeader className="pb-0">
+                <SheetTitle>Menu</SheetTitle>
+                <SheetDescription>
+                  Browse our products and services
+                </SheetDescription>
+              </SheetHeader>
+
+              <div className="flex flex-col gap-2  ">
+                {/* Printers Section */}
+                <div className="space-y-3 pl-4 pt-0 ">
+                  <div className="flex items-center gap-2">
+                    <h3 className="font-semibold text-lg">Printers</h3>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div className="space-y-1">
+                      <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider px-4">
+                        By Category
+                      </p>
+                      {printerCategories.map((item) => (
+                        <SheetClose asChild key={item.title}>
+                          <Link
+                            href={item.href}
+                            className="block text-xs hover:text-primary hover:bg-primary/5 transition-colors py-1 px-4 rounded-md"
+                          >
+                            {item.title}
+                          </Link>
+                        </SheetClose>
+                      ))}
+                    </div>
+
+                    <div className="space-y-1">
+                      <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider px-4">
+                        By Type
+                      </p>
+                      {printerTypes.map((item) => (
+                        <SheetClose asChild key={item.title}>
+                          <Link
+                            href={item.href}
+                            className="block text-xs hover:text-primary hover:bg-primary/5 transition-colors py-1 px-4 rounded-md"
+                          >
+                            {item.title}
+                          </Link>
+                        </SheetClose>
+                      ))}
+                    </div>
+
+                    <div className="space-y-1">
+                      <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider px-4">
+                        By Function
+                      </p>
+                      {printerFunctions.map((item) => (
+                        <SheetClose asChild key={item.title}>
+                          <Link
+                            href={item.href}
+                            className="block text-xs hover:text-primary hover:bg-primary/5 transition-colors py-1 px-4 rounded-md"
+                          >
+                            {item.title}
+                          </Link>
+                        </SheetClose>
+                      ))}
+                    </div>
+
+                    <div className="space-y-1">
+                      <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider px-4">
+                        By Brand
+                      </p>
+                      {printerBrands.map((item) => (
+                        <SheetClose asChild key={item.title}>
+                          <Link
+                            href={item.href}
+                            className="block text-xs hover:text-primary hover:bg-primary/5 transition-colors py-1 px-4 rounded-md"
+                          >
+                            {item.title}
+                          </Link>
+                        </SheetClose>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Accessories Section */}
+                <div className="space-y-3 pl-4 pt-0">
+                  <div className="flex items-center gap-2">
+                    <h3 className="font-semibold text-lg">Accessories</h3>
+                  </div>
+                  <div className="space-y-1">
+                    {accessories.map((item) => (
+                      <SheetClose asChild key={item.title}>
+                        <Link
+                          href={item.href}
+                          className="block text-xs hover:text-primary hover:bg-primary/5 transition-colors py-1 px-4 rounded-md"
+                        >
+                          {item.title}
+                        </Link>
+                      </SheetClose>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex flex-col gap-3 mt-2 p-6 border-t">
+                  <SheetClose asChild>
+                    <Button asChild className="w-full">
+                      <Link href="/repair">
+                        <Send className="w-4 h-4 mr-2" />
+                        Request Service
+                      </Link>
+                    </Button>
+                  </SheetClose>
+                  <Button asChild variant="outline" className="w-full">
+                    <a
+                      href="https://wa.me/923009403751"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <SiWhatsapp className="w-4 h-4 mr-2" />
+                      Get in Touch
+                    </a>
+                  </Button>
+                </div>
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
       </nav>
     </header>

@@ -1,14 +1,28 @@
-import { createClient } from "@/lib/supabase/server"
-import { redirect } from "next/navigation"
-import { AdminDashboard } from "@/components/admin/admin-dashboard"
+import { AdminNavbar } from "@/components/admin/admin-navbar";
+import { AdminInventory } from "@/components/admin/admin-inventory";
+import { requireAuth } from "@/lib/auth/require-auth";
+import { Suspense } from "react";
+import { Spinner } from "@/components/ui/spinner";
 
 export default async function AdminDashboardPage() {
-  const supabase = await createClient()
+  // Check authentication
+  await requireAuth();
 
-  const { data, error } = await supabase.auth.getUser()
-  if (error || !data?.user) {
-    redirect("/admin/login")
-  }
+  return (
+    <div className="min-h-screen bg-linear-to-b from-background to-secondary/10">
+      <AdminNavbar />
 
-  return <AdminDashboard userId={data.user.id} />
+      <main className="max-w-7xl w-full mx-auto px-4 py-8">
+        <Suspense
+          fallback={
+            <div className="flex justify-center py-8">
+              <Spinner />
+            </div>
+          }
+        >
+          <AdminInventory />
+        </Suspense>
+      </main>
+    </div>
+  );
 }

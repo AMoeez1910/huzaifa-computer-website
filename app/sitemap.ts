@@ -4,18 +4,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl =
     process.env.NEXT_PUBLIC_BASE_URL || "https://www.huzaifacomputer.pk/";
 
-  // Fetch all products to include in sitemap
-  let products: { id: string; updated_at?: string }[] = [];
+  // Fetch all printers to include in sitemap
+  let printers: { id: string; updated_at?: string }[] = [];
   try {
-    const res = await fetch(`${baseUrl}/api/products`, {
+    const res = await fetch(`${baseUrl}/api/printers`, {
       cache: "no-store",
     });
     if (res.ok) {
       const data = await res.json();
-      products = data.products || [];
+      printers = data.printers || [];
     }
   } catch (error) {
-    console.error("Error fetching products for sitemap:", error);
+    console.error("Error fetching printers for sitemap:", error);
   }
 
   // Static pages
@@ -27,7 +27,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 1,
     },
     {
-      url: `${baseUrl}/products`,
+      url: `${baseUrl}/printers`,
       lastModified: new Date(),
       changeFrequency: "daily",
       priority: 0.9,
@@ -41,8 +41,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
 
   // Dynamic product pages
-  const productPages: MetadataRoute.Sitemap = products.map((product) => ({
-    url: `${baseUrl}/products/${product.id}`,
+  const productPages: MetadataRoute.Sitemap = printers.map((product) => ({
+    url: `${baseUrl}/printers/${product.id}`,
     lastModified: product.updated_at
       ? new Date(product.updated_at)
       : new Date(),

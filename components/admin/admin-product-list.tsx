@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -13,31 +14,26 @@ import {
 import { Spinner } from "@/components/ui/spinner";
 import { Trash2, Pencil } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-
-interface Product {
-  id: string;
-  name: string;
-  category: string;
-  price: number;
-  description?: string;
-  image_url: string;
-  images?: string[];
-  is_featured: boolean;
-}
-
-interface AdminProductListProps {
-  onProductUpdated: () => void;
-  onEdit: (product: Product) => void;
-}
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 export function AdminProductList({
   onProductUpdated,
   onEdit,
 }: AdminProductListProps) {
+  const router = useRouter();
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [deleting, setDeleting] = useState<string | null>(null);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [productToDelete, setProductToDelete] = useState<Product | null>(null);
 
   useEffect(() => {
     fetchProducts();
@@ -61,8 +57,6 @@ export function AdminProductList({
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Are you sure you want to delete this product?")) return;
-
     setDeleting(id);
 
     try {
@@ -73,12 +67,28 @@ export function AdminProductList({
       if (!response.ok) throw new Error("Failed to delete product");
 
       setProducts(products.filter((p) => p.id !== id));
-      onProductUpdated();
+      if (onProductUpdated) {
+        onProductUpdated();
+      } else {
+        router.refresh();
+      }
+      setDeleteDialogOpen(false);
+      setProductToDelete(null);
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Failed to delete product");
     } finally {
       setDeleting(null);
     }
+  };
+
+  const openDeleteDialog = (product: Product) => {
+    setProductToDelete(product);
+    setDeleteDialogOpen(true);
+  };
+
+  const closeDeleteDialog = () => {
+    setDeleteDialogOpen(false);
+    setProductToDelete(null);
   };
 
   if (isLoading) {
@@ -129,7 +139,7 @@ export function AdminProductList({
                 <Badge variant="outline">
                   {product.images
                     ? product.images.length
-                    : product.image_url
+                    : product.main_image
                     ? 1
                     : 0}
                 </Badge>
@@ -147,7 +157,15 @@ export function AdminProductList({
                     variant="ghost"
                     size="sm"
                     disabled={deleting !== null}
-                    onClick={() => onEdit(product)}
+                    onClick={() => {
+                      if (onEdit) {
+                        onEdit(product);
+                      } else {
+                        router.push(
+                          `/admin/dashboard/products/edit/${product.id}`
+                        );
+                      }
+                    }}
                     className="hover:bg-primary/10 hover:text-primary"
                   >
                     <Pencil className="h-4 w-4" />
@@ -156,7 +174,7 @@ export function AdminProductList({
                     variant="ghost"
                     size="sm"
                     disabled={deleting !== null}
-                    onClick={() => handleDelete(product.id)}
+                    onClick={() => openDeleteDialog(product)}
                     className="hover:bg-destructive/10 hover:text-destructive"
                   >
                     {deleting === product.id ? (
@@ -177,6 +195,47 @@ export function AdminProductList({
           No products yet.
         </p>
       )}
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Delete Product</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to delete{" "}
+              <span className="font-semibold text-foreground">
+                {productToDelete?.name}
+              </span>
+              ? This action cannot be undone.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={closeDeleteDialog}
+              disabled={deleting !== null}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={() =>
+                productToDelete && handleDelete(productToDelete.id)
+              }
+              disabled={deleting !== null}
+            >
+              {deleting ? (
+                <>
+                  <Spinner className="mr-2" />
+                  Deleting...
+                </>
+              ) : (
+                "Delete"
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

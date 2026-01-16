@@ -13,16 +13,6 @@ import { AdminProductList } from "./admin-product-list";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AdminNavbar } from "./admin-navbar";
 
-interface Product {
-  id: string;
-  name: string;
-  category: string;
-  price: number;
-  description?: string;
-  image_url: string;
-  images?: string[];
-  is_featured: boolean;
-}
 
 export function AdminDashboard({ userId }: { userId: string }) {
   const [activeTab, setActiveTab] = useState("products");
@@ -39,7 +29,7 @@ export function AdminDashboard({ userId }: { userId: string }) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-secondary/10">
+    <div className="min-h-screen bg-linear-to-b from-background to-secondary/10">
       <AdminNavbar />
 
       <main className="max-w-10xl w-full mx-auto px-4 py-8">
@@ -75,7 +65,7 @@ export function AdminDashboard({ userId }: { userId: string }) {
           </TabsContent>
 
           <TabsContent value="add" className="mt-6">
-            <Card className="border-border/50 shadow-lg">
+            <Card className="border-border/50 shadow-lg py-4">
               <CardHeader>
                 <CardTitle className="text-2xl">
                   {editingProduct ? "Edit Product" : "Add New Product"}
