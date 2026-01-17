@@ -22,7 +22,7 @@ export function ProductDetailClient({ product }: { product: Product | null }) {
   ];
 
   const whatsappMessage = encodeURIComponent(
-    `Hi, is the ${product.name} available? I would like to know more about it.`
+    `Hi, is the ${product.name} available? I would like to know more about it.\n${process.env.NEXT_PUBLIC_BASE_URL}/printers/${product.id}`
   );
   const whatsappUrl = `https://wa.me/923009403751?text=${whatsappMessage}`;
 
@@ -40,40 +40,39 @@ export function ProductDetailClient({ product }: { product: Product | null }) {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
           {/* Product Image Carousel */}
           <div className="flex items-center justify-center">
-            <ProductImageCarousel
-              images={productImages}
-              productName={product.name}
-            />
+            <div className="relative w-full">
+              <div className={product.sold_out ? "grayscale opacity-70" : ""}>
+                <ProductImageCarousel
+                  images={productImages}
+                  productName={product.name}
+                />
+              </div>
+              {product.sold_out && (
+                <>
+                  <div className="absolute inset-0 bg-black/60 backdrop-blur-sm z-10 rounded-lg pointer-events-none" />
+                  <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
+                    <Badge className="text-4xl font-bold py-6 px-12 bg-red-600/90 text-white border-4 border-white shadow-2xl">
+                      SOLD OUT
+                    </Badge>
+                  </div>
+                </>
+              )}
+            </div>
           </div>
 
           {/* Product Details */}
           <div className="flex flex-col">
             <div>
-              {/* Badges */}
-              <div className="flex flex-wrap gap-2 mb-4">
-                {product.is_new && (
-                  <Badge className="bg-green-500/10 text-green-600 border-0 hover:bg-green-500/20">
-                    New Arrival
+              <div className="flex items-start justify-between gap-4 mb-4">
+                <h1 className="text-3xl md:text-4xl font-bold">
+                  {product.name}
+                </h1>
+                {product.sold_out && (
+                  <Badge className="text-lg font-bold py-2 px-4 bg-red-600 text-white">
+                    SOLD OUT
                   </Badge>
                 )}
-                {product.is_featured && (
-                  <Badge className="bg-yellow-500/10 text-yellow-600 border-0 hover:bg-yellow-500/20">
-                    Featured
-                  </Badge>
-                )}
-                {discountPercentage && discountPercentage > 0 && (
-                  <Badge className="bg-red-500/10 text-red-600 border-0 hover:bg-red-500/20">
-                    {discountPercentage}% OFF
-                  </Badge>
-                )}
-                <Badge className="bg-primary/10 text-primary border-0 hover:bg-primary/20">
-                  {product.category}
-                </Badge>
               </div>
-
-              <h1 className="text-3xl md:text-4xl font-bold mb-4">
-                {product.name}
-              </h1>
 
               {/* Price Section */}
               <div className="flex items-baseline gap-3 mb-6">
@@ -145,12 +144,14 @@ export function ProductDetailClient({ product }: { product: Product | null }) {
                         <p className="font-semibold">{product.function}</p>
                       </div>
                     )}
-                    {product.usage && (
+                    {product.usage && product.usage.length > 0 && (
                       <div>
                         <p className="text-sm text-muted-foreground mb-1">
                           Usage
                         </p>
-                        <p className="font-semibold">{product.usage}</p>
+                        <p className="font-semibold">
+                          {product.usage.join(", ")}
+                        </p>
                       </div>
                     )}
                     {discountPercentage && discountPercentage > 0 && (
@@ -186,6 +187,14 @@ export function ProductDetailClient({ product }: { product: Product | null }) {
 
             {/* CTA Buttons */}
             <div className="flex flex-col gap-3 pt-8 border-t border-border">
+              {product.sold_out && (
+                <div className="bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-800 rounded-lg p-4 mb-2">
+                  <p className="text-red-800 dark:text-red-200 font-medium text-center">
+                    This product is currently sold out. Contact us for
+                    availability or similar products.
+                  </p>
+                </div>
+              )}
               <Button
                 size="lg"
                 className="gap-2 shadow-md hover:shadow-lg transition-all bg-primary text-primary-foreground hover:bg-primary/90"
@@ -198,13 +207,15 @@ export function ProductDetailClient({ product }: { product: Product | null }) {
                       height: "var(--space-l-s)",
                     }}
                   />{" "}
-                  Contact via WhatsApp
+                  {product.sold_out
+                    ? "Enquire on WhatsApp"
+                    : "Contact via WhatsApp"}
                 </Link>
               </Button>
               <Button asChild variant="outline" size="lg" className="gap-2">
                 <Link href="tel:03009403751">
                   <Phone className="h-5 w-5" />
-                  Call for Availability
+                  Call for {product.sold_out ? "Enquiry" : "Availability"}
                 </Link>
               </Button>
             </div>

@@ -1,10 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { ProductCard } from "../product-card";
+import { Button } from "../ui/button";
 import { HomePrinterIcon } from "../icons/HomePrinterIcon";
 import { BusinessPrinterIcon } from "../icons/BusinessPrinterIcon";
 import { EnterprisePrinterIcon } from "../icons/EnterprisePrinterIcon";
+import { ArrowRight } from "lucide-react";
 
 interface UsageSectionProps {
   homeProducts: Product[];
@@ -43,7 +46,7 @@ export function UsageSection({
     tabs.find((tab) => tab.name === activeTab)?.products || [];
 
   return (
-    <section className="w-full py-12 md:py-20 bg-muted/30">
+    <section className="w-full py-12 md:py-20 bg-white">
       <div className="max-w-10xl w-full mx-auto px-4">
         <div className="mb-12 text-center">
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-3">
@@ -83,10 +86,14 @@ export function UsageSection({
         </div>
 
         {/* Products Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {activeProducts.length > 0 ? (
             activeProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
+              <ProductCard
+                key={product.id}
+                product={product}
+                imageFit="object-contain"
+              />
             ))
           ) : (
             <div className="col-span-full text-center py-12">
@@ -95,6 +102,16 @@ export function UsageSection({
               </p>
             </div>
           )}
+        </div>
+
+        {/* View All Button */}
+        <div className="flex justify-center mt-10">
+          <Button asChild size="lg" variant="default">
+            <Link href={`/printers?usage=${activeTab}`}>
+              View All {activeTab} Printers
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
+          </Button>
         </div>
       </div>
     </section>

@@ -26,8 +26,8 @@ const categories = [
   },
   {
     id: "4",
-    name: "View All Products",
-    description: "Explore our complete range of Products",
+    name: "View All Printers",
+    description: "Explore our complete range of Printers",
     img: "/images/all-products.jpg",
     href: "/printers",
   },

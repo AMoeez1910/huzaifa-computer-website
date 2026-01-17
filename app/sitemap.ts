@@ -18,6 +18,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.error("Error fetching printers for sitemap:", error);
   }
 
+  // Fetch all accessories to include in sitemap
+  let accessories: { id: string; updated_at?: string }[] = [];
+  try {
+    const res = await fetch(`${baseUrl}/api/accessories`, {
+      cache: "no-store",
+    });
+    if (res.ok) {
+      const data = await res.json();
+      accessories = data.accessories || [];
+    }
+  } catch (error) {
+    console.error("Error fetching accessories for sitemap:", error);
+  }
+
   // Static pages
   const staticPages: MetadataRoute.Sitemap = [
     {
@@ -33,15 +47,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.9,
     },
     {
-      url: `${baseUrl}/repair`,
+      url: `${baseUrl}/accessories`,
       lastModified: new Date(),
-      changeFrequency: "monthly",
+      changeFrequency: "daily",
       priority: 0.8,
     },
   ];
 
-  // Dynamic product pages
-  const productPages: MetadataRoute.Sitemap = printers.map((product) => ({
+  // Dynamic printer pages
+  const printerPages: MetadataRoute.Sitemap = printers.map((product) => ({
     url: `${baseUrl}/printers/${product.id}`,
     lastModified: product.updated_at
       ? new Date(product.updated_at)
@@ -50,5 +64,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
-  return [...staticPages, ...productPages];
+  // Dynamic accessory pages
+  const accessoryPages: MetadataRoute.Sitemap = accessories.map(
+    (accessory) => ({
+      url: `${baseUrl}/accessories/${accessory.id}`,
+      lastModified: accessory.updated_at
+        ? new Date(accessory.updated_at)
+        : new Date(),
+      changeFrequency: "weekly" as const,
+      priority: 0.6,
+    })
+  );
+
+  return [...staticPages, ...printerPages, ...accessoryPages];
 }

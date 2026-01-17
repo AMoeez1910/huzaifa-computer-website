@@ -97,7 +97,7 @@ export function ProductImageCarousel({
         <Button
           variant="outline"
           size="icon"
-          className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 rounded-full bg-background shadow-xl border-2 hover:bg-primary hover:border-primary group transition-all"
+          className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 rounded-full bg-white shadow-xl border-2 hover:bg-primary hover:border-primary group transition-all"
           onClick={scrollPrev}
         >
           <ChevronLeft className="w-(--space-l-s) h-(--space-l-s) text-foreground group-hover:text-primary-foreground group-hover:-translate-x-0.5 transition-all duration-200" />
@@ -105,7 +105,7 @@ export function ProductImageCarousel({
         <Button
           variant="outline"
           size="icon"
-          className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 rounded-full bg-background shadow-xl border-2 hover:bg-primary hover:border-primary group transition-all"
+          className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 rounded-full bg-white shadow-xl border-2 hover:bg-primary hover:border-primary group transition-all"
           onClick={scrollNext}
         >
           <ChevronRight className="w-(--space-l-s) h-(--space-l-s) text-foreground group-hover:text-primary-foreground group-hover:translate-x-0.5 transition-all duration-200" />

@@ -16,8 +16,9 @@ export interface ProductFilters {
   type?: string;
   brand?: string;
   is_new?: boolean;
-  usage?: string;
+  usage?: string | string[];
   limit?: number;
+  sortBy?: "price-low" | "price-high" | "name-asc" | "name-desc" | "newest";
 }
 
 export async function getPrinters(
@@ -28,12 +29,18 @@ export async function getPrinters(
   try {
     // Build query string from filters
     const params = new URLSearchParams();
+    if (filters?.sortBy) params.append("sort", filters.sortBy);
     if (filters?.featured) params.append("featured", "true");
     if (filters?.category) params.append("category", filters.category);
     if (filters?.type) params.append("type", filters.type);
     if (filters?.brand) params.append("brand", filters.brand);
     if (filters?.is_new) params.append("is_new", "true");
-    if (filters?.usage) params.append("usage", filters.usage);
+    if (filters?.usage) {
+      const usages = Array.isArray(filters.usage)
+        ? filters.usage
+        : [filters.usage];
+      usages.forEach((usage) => params.append("usage", usage));
+    }
     if (filters?.limit) params.append("limit", filters.limit.toString());
 
     const queryString = params.toString();

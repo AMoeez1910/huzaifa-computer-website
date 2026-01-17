@@ -2,12 +2,19 @@
 
 import type React from "react";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { SerializedEditorState } from "lexical";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import {
   Select,
   SelectContent,
@@ -16,22 +23,30 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { ImageUpload } from "./image-upload";
 import { Editor } from "@/components/ui/blocks/editor-00/editor";
-import { Eye } from "lucide-react";
+import { toast } from "sonner";
+import { BookmarkX, CheckCircle2, EyeIcon, StarIcon } from "lucide-react";
 
 const CATEGORIES = ["Inkjet", "LaserJet", "Scanner"];
 const FUNCTIONS = ["Printer", "Printer-Scanner", "All-in-One", "Scan"];
 const TYPES = ["Color", "Black and White"];
 const USAGES = ["Home", "Business", "Enterprise"];
-const BRANDS = ["HP", "Canon", "Epson"];
+const BRANDS = ["HP", "Canon", "Epson", "Pantum"];
+
+type ProductFormData = {
+  name: string;
+  brand: string;
+  category: string;
+  price: string;
+  discount: string;
+  type: string;
+  function: string;
+  is_featured: boolean;
+  is_new: boolean;
+  is_active: boolean;
+  sold_out: boolean;
+};
 
 const initialEditorState = {
   root: {
@@ -82,13 +97,9 @@ export function AdminProductForm({
   const [description, setDescription] = useState<SerializedEditorState>(
     getInitialDescription()
   );
-  const [showPreview, setShowPreview] = useState(false);
-  const [hasDiscount, setHasDiscount] = useState(
-    !!editProduct?.discount && editProduct.discount > 0
-  );
 
   // Initialize formData directly from editProduct
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<ProductFormData>({
     name: editProduct?.name || "",
     brand: editProduct?.brand || "",
     category: editProduct?.category || "",
@@ -96,10 +107,16 @@ export function AdminProductForm({
     discount: editProduct?.discount?.toString() || "",
     type: editProduct?.type || "",
     function: editProduct?.function || "",
-    usage: editProduct?.usage || "",
     is_featured: editProduct?.is_featured || false,
     is_new: editProduct?.is_new || false,
+    is_active: editProduct?.is_active !== false,
+    sold_out: editProduct?.sold_out ?? false,
   });
+
+  // Separate state for multi-select usage
+  const [selectedUsages, setSelectedUsages] = useState<string[]>(
+    editProduct?.usage || []
+  );
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -113,17 +130,19 @@ export function AdminProductForm({
         category: formData.category,
         price: Number.parseFloat(formData.price),
         discount:
-          hasDiscount && formData.discount
+          formData.discount && Number.parseFloat(formData.discount) > 0
             ? Number.parseFloat(formData.discount)
             : null,
         description: JSON.stringify(description),
         type: formData.type || null,
         function: formData.function || null,
-        usage: formData.usage || null,
+        usage: selectedUsages.length > 0 ? selectedUsages : null,
         main_image: mainImage || "",
         images: images,
         is_featured: formData.is_featured,
         is_new: formData.is_new,
+        is_active: formData.is_active,
+        sold_out: formData.sold_out,
       };
 
       if (editProduct?.id) {
@@ -136,8 +155,10 @@ export function AdminProductForm({
 
         if (!response.ok) {
           const error = await response.json();
+          toast.error(error.error || "Failed to update product");
           throw new Error(error.error || "Failed to update product");
         }
+        toast.success("Product updated successfully!");
       } else {
         // Insert new product via API
         const response = await fetch("/api/admin/printers", {
@@ -148,8 +169,10 @@ export function AdminProductForm({
 
         if (!response.ok) {
           const error = await response.json();
+          toast.error(error.error || "Failed to add product");
           throw new Error(error.error || "Failed to add product");
         }
+        toast.success("Product created successfully!");
       }
 
       // Reset form
@@ -161,14 +184,15 @@ export function AdminProductForm({
         discount: "",
         type: "",
         function: "",
-        usage: "",
         is_featured: false,
         is_new: false,
+        is_active: true,
+        sold_out: false,
       });
+      setSelectedUsages([]);
       setImages([]);
       setMainImage("");
       setDescription(initialEditorState);
-      setHasDiscount(false);
 
       if (onSuccess) {
         onSuccess();
@@ -188,7 +212,63 @@ export function AdminProductForm({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="flex w-full md:justify-end">
+        <ToggleGroup
+          type="multiple"
+          variant="outline"
+          spacing={2}
+          size="sm"
+          value={[
+            ...(formData.is_featured ? ["featured"] : []),
+            ...(formData.is_new ? ["new"] : []),
+            ...(formData.is_active ? ["active"] : []),
+            ...(formData.sold_out ? ["sold_out"] : []),
+          ]}
+          onValueChange={(values: string[]) => {
+            setFormData({
+              ...formData,
+              is_featured: values.includes("featured"),
+              is_new: values.includes("new"),
+              is_active: values.includes("active"),
+              sold_out: values.includes("sold_out"),
+            });
+          }}
+        >
+          <ToggleGroupItem
+            value="featured"
+            aria-label="Toggle featured"
+            className="data-[state=on]:bg-primary data-[state=on]:*:[svg]:text-yellow-600 [&[data-state=on]>svg]:fill-yellow-500"
+          >
+            <StarIcon className="w-4 h-4 mr-2 " />
+            Featured
+          </ToggleGroupItem>
+          <ToggleGroupItem
+            value="new"
+            aria-label="Toggle new"
+            className="data-[state=on]:bg-primary data-[state=on]:*:[svg]:text-green-400 [&>svg]:fill-none"
+          >
+            <CheckCircle2 className="w-4 h-4 mr-2 " />
+            New
+          </ToggleGroupItem>
+          <ToggleGroupItem
+            value="sold_out"
+            aria-label="Toggle sold out"
+            className="data-[state=on]:bg-primary data-[state=on]:*:[svg]:text-red-600 [&>svg]:fill-none"
+          >
+            <BookmarkX className="w-4 h-4 mr-2 " />
+            Sold Out
+          </ToggleGroupItem>
+          <ToggleGroupItem
+            value="active"
+            aria-label="Toggle active"
+            className="data-[state=on]:bg-primary data-[state=on]:*:[svg]:text-blue-300 [&>svg]:fill-none"
+          >
+            <EyeIcon className="w-4 h-4 mr-2 " />
+            Product Visible
+          </ToggleGroupItem>
+        </ToggleGroup>
+      </div>
+      <div className="grid gap-6 md:grid-cols-3">
         <div className="space-y-2">
           <Label htmlFor="name">Product Name *</Label>
           <Input
@@ -209,7 +289,7 @@ export function AdminProductForm({
               setFormData({ ...formData, brand: value })
             }
           >
-            <SelectTrigger id="brand" disabled={isLoading}>
+            <SelectTrigger id="brand" disabled={isLoading} className="w-full">
               <SelectValue placeholder="Select brand" />
             </SelectTrigger>
             <SelectContent>
@@ -230,7 +310,11 @@ export function AdminProductForm({
               setFormData({ ...formData, category: value })
             }
           >
-            <SelectTrigger id="category" disabled={isLoading}>
+            <SelectTrigger
+              id="category"
+              disabled={isLoading}
+              className="w-full"
+            >
               <SelectValue placeholder="Select category" />
             </SelectTrigger>
             <SelectContent>
@@ -244,7 +328,76 @@ export function AdminProductForm({
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="price">Price (PKR) *</Label>
+          <div className="flex w-full justify-between relative">
+            <Label htmlFor="price">Price (PKR) *</Label>
+            <div className="space-y-2 md:col-span-2 absolute right-0 -top-4">
+              <div className="flex items-center space-x-2">
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      size={"sm"}
+                      disabled={!formData.price || formData.price.trim() === ""}
+                    >
+                      Apply Discount
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-80">
+                    <div className="grid gap-4">
+                      <div className="flex flex-col gap-2">
+                        <Label htmlFor="discount">Discount Percentage</Label>
+                        <Input
+                          id="discount"
+                          type="number"
+                          placeholder="15"
+                          step="1"
+                          min="0"
+                          max="100"
+                          value={formData.discount}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              discount: e.target.value,
+                            })
+                          }
+                          disabled={isLoading}
+                        />
+                        <p className="text-xs text-muted-foreground mt-1">
+                          Enter percentage (0-100)
+                        </p>
+                      </div>
+
+                      {formData.price &&
+                        formData.discount &&
+                        parseFloat(formData.discount) > 0 && (
+                          <div className="flex-1">
+                            <Label>Discounted Price</Label>
+                            <div className="text-2xl font-bold text-green-600">
+                              PKR{" "}
+                              {(
+                                parseFloat(formData.price) *
+                                (1 - parseFloat(formData.discount) / 100)
+                              ).toLocaleString("en-PK", {
+                                maximumFractionDigits: 0,
+                              })}
+                            </div>
+                            <p className="text-xs text-muted-foreground">
+                              Save PKR{" "}
+                              {(
+                                parseFloat(formData.price) *
+                                (parseFloat(formData.discount) / 100)
+                              ).toLocaleString("en-PK", {
+                                maximumFractionDigits: 0,
+                              })}
+                            </p>
+                          </div>
+                        )}
+                    </div>
+                  </PopoverContent>
+                </Popover>
+              </div>
+            </div>
+          </div>
           <Input
             id="price"
             type="number"
@@ -259,81 +412,13 @@ export function AdminProductForm({
           />
         </div>
 
-        {/* Discount Toggle and Input */}
-        <div className="space-y-2 md:col-span-2">
-          <div className="flex items-center space-x-2">
-            <Checkbox
-              id="has_discount"
-              checked={hasDiscount}
-              onCheckedChange={(checked) => {
-                setHasDiscount(checked as boolean);
-                if (!checked) {
-                  setFormData({ ...formData, discount: "" });
-                }
-              }}
-              disabled={
-                isLoading || !formData.price || parseFloat(formData.price) <= 0
-              }
-            />
-            <Label htmlFor="has_discount" className="cursor-pointer">
-              Apply Discount
-            </Label>
-          </div>
-
-          {hasDiscount && (
-            <div className="flex gap-4 items-end">
-              <div className="flex-1">
-                <Label htmlFor="discount">Discount Percentage</Label>
-                <Input
-                  id="discount"
-                  type="number"
-                  placeholder="15"
-                  step="1"
-                  min="0"
-                  max="100"
-                  value={formData.discount}
-                  onChange={(e) =>
-                    setFormData({ ...formData, discount: e.target.value })
-                  }
-                  disabled={isLoading}
-                />
-                <p className="text-xs text-muted-foreground mt-1">
-                  Enter percentage (0-100)
-                </p>
-              </div>
-
-              {formData.price &&
-                formData.discount &&
-                parseFloat(formData.discount) > 0 && (
-                  <div className="flex-1">
-                    <Label>Discounted Price</Label>
-                    <div className="text-2xl font-bold text-green-600">
-                      PKR{" "}
-                      {(
-                        parseFloat(formData.price) *
-                        (1 - parseFloat(formData.discount) / 100)
-                      ).toLocaleString("en-PK", { maximumFractionDigits: 0 })}
-                    </div>
-                    <p className="text-xs text-muted-foreground">
-                      Save PKR{" "}
-                      {(
-                        parseFloat(formData.price) *
-                        (parseFloat(formData.discount) / 100)
-                      ).toLocaleString("en-PK", { maximumFractionDigits: 0 })}
-                    </p>
-                  </div>
-                )}
-            </div>
-          )}
-        </div>
-
         <div className="space-y-2">
           <Label htmlFor="type">Type</Label>
           <Select
             value={formData.type}
             onValueChange={(value) => setFormData({ ...formData, type: value })}
           >
-            <SelectTrigger id="type" disabled={isLoading}>
+            <SelectTrigger id="type" disabled={isLoading} className="w-full">
               <SelectValue placeholder="Select type" />
             </SelectTrigger>
             <SelectContent>
@@ -354,7 +439,11 @@ export function AdminProductForm({
               setFormData({ ...formData, function: value })
             }
           >
-            <SelectTrigger id="function" disabled={isLoading}>
+            <SelectTrigger
+              id="function"
+              disabled={isLoading}
+              className="w-full"
+            >
               <SelectValue placeholder="Select function" />
             </SelectTrigger>
             <SelectContent>
@@ -368,24 +457,41 @@ export function AdminProductForm({
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="usage">Usage</Label>
-          <Select
-            value={formData.usage}
-            onValueChange={(value) =>
-              setFormData({ ...formData, usage: value })
-            }
-          >
-            <SelectTrigger id="usage" disabled={isLoading}>
-              <SelectValue placeholder="Select usage" />
-            </SelectTrigger>
-            <SelectContent>
-              {USAGES.map((usage) => (
-                <SelectItem key={usage} value={usage}>
+          <Label>Usage</Label>
+          <div className="border rounded-md p-4 space-y-2">
+            {USAGES.map((usage) => (
+              <div key={usage} className="flex items-center space-x-2">
+                <Checkbox
+                  id={`usage-${usage}`}
+                  checked={selectedUsages.includes(usage)}
+                  onCheckedChange={(checked) => {
+                    if (checked) {
+                      setSelectedUsages([...selectedUsages, usage]);
+                    } else {
+                      setSelectedUsages(
+                        selectedUsages.filter((u) => u !== usage)
+                      );
+                    }
+                  }}
+                  disabled={isLoading}
+                />
+                <Label
+                  htmlFor={`usage-${usage}`}
+                  className="text-sm font-normal cursor-pointer"
+                >
                   {usage}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+                </Label>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="space-y-2 md:col-span-2">
+          <Label>Description</Label>
+          <Editor
+            key={`editor-${editProduct?.id || "new"}`}
+            editorSerializedState={description}
+            onSerializedChange={(value) => setDescription(value)}
+          />
         </div>
       </div>
 
@@ -417,52 +523,13 @@ export function AdminProductForm({
         </p>
       </div>
 
-      <div className="space-y-2">
-        <Label>Description (Rich Text)</Label>
-        <Editor
-          key={`editor-${editProduct?.id || "new"}`}
-          editorSerializedState={description}
-          onSerializedChange={(value) => setDescription(value)}
-        />
-      </div>
-
-      <div className="flex items-center gap-6">
-        <div className="flex items-center space-x-2">
-          <Checkbox
-            id="is_featured"
-            checked={formData.is_featured}
-            onCheckedChange={(checked) =>
-              setFormData({ ...formData, is_featured: checked as boolean })
-            }
-            disabled={isLoading}
-          />
-          <Label htmlFor="is_featured" className="cursor-pointer">
-            Featured Product
-          </Label>
-        </div>
-
-        <div className="flex items-center space-x-2">
-          <Checkbox
-            id="is_new"
-            checked={formData.is_new}
-            onCheckedChange={(checked) =>
-              setFormData({ ...formData, is_new: checked as boolean })
-            }
-            disabled={isLoading}
-          />
-          <Label htmlFor="is_new" className="cursor-pointer">
-            New Arrival
-          </Label>
-        </div>
-      </div>
-
       {error && (
         <p className="text-sm text-destructive bg-destructive/10 p-3 rounded-md">
           {error}
         </p>
       )}
 
-      <div className="flex gap-3 flex-wrap">
+      <div className="flex gap-3 ml-auto w-min">
         <Button type="submit" size="lg" disabled={isLoading || !mainImage}>
           {isLoading
             ? editProduct

@@ -6,7 +6,6 @@ import { ProductCard } from "./product-card";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-
 export function FeaturedCarousel({ products }: { products: Product[] }) {
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: true,
@@ -44,7 +43,7 @@ export function FeaturedCarousel({ products }: { products: Product[] }) {
           {products.map((product) => (
             <div
               key={product.id}
-              className="flex-[0_0_100%] md:flex-[0_0_calc(50%-0.5rem)] lg:flex-[0_0_calc(33.333%-0.67rem)] min-w-0 pl-4"
+              className="flex-[0_0_100%] md:flex-[0_0_calc(50%-0.5rem)] lg:flex-[0_0_calc(25%-0.75rem)] min-w-0 pl-4"
             >
               <ProductCard product={product} />
             </div>
@@ -57,7 +56,7 @@ export function FeaturedCarousel({ products }: { products: Product[] }) {
           <Button
             variant="outline"
             size="icon"
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 rounded-full bg-background shadow-xl border-2 hover:bg-primary hover:border-primary group transition-all"
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 rounded-full bg-white shadow-xl border-2 hover:bg-primary hover:border-primary group transition-all"
             onClick={scrollPrev}
           >
             <ChevronLeft className="w-(--space-l-s) h-(--space-l-s) text-foreground group-hover:text-primary-foreground group-hover:-translate-x-0.5 transition-all duration-200" />
@@ -65,7 +64,7 @@ export function FeaturedCarousel({ products }: { products: Product[] }) {
           <Button
             variant="outline"
             size="icon"
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 rounded-full bg-background shadow-xl border-2 hover:bg-primary hover:border-primary group transition-all"
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 rounded-full bg-white shadow-xl border-2 hover:bg-primary hover:border-primary group transition-all"
             onClick={scrollNext}
           >
             <ChevronRight className="w-(--space-l-s) h-(--space-l-s) text-foreground group-hover:text-primary-foreground group-hover:translate-x-0.5 transition-all duration-200" />
