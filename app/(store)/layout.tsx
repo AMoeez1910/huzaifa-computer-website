@@ -1,6 +1,6 @@
 import type React from "react";
-// import { Navbar } from "@/components/navbar";
-// import { Footer } from "@/components/footer";
+import { Footer } from "@/components/footer";
+import { Navbar } from "@/components/navbar";
 
 export default function StoreLayout({
   children,
@@ -9,9 +9,9 @@ export default function StoreLayout({
 }) {
   return (
     <div className="flex flex-col min-h-screen">
-      {/* <Navbar /> */}
+      <Navbar />
       <main className="flex-1">{children}</main>
-      {/* <Footer /> */}
+      <Footer />
     </div>
   );
 }

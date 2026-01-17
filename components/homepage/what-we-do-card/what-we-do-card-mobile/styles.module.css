@@ -1,0 +1,118 @@
+.cardContainer {
+  display: flex;
+  height: var(--fluid-350-500);
+  padding: 0px var(--space-5xl) var(--space-5xl) var(--space-5xl);
+  gap: var(--space-3xl);
+  border-radius: var(--space-6xl);
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  border-radius: var(--space-6xl);
+  top: 0;
+  left: 0;
+  transition: all 0.25s ease-in-out;
+  transform: scale(1.05);
+}
+
+.hover .img {
+  background: rgba(0, 0, 0, 0.05);
+  filter: blur(12.5px);
+}
+
+.cardHeader {
+  z-index: 1;
+  position: relative;
+  width: 100%;
+}
+
+.cardHeading {
+  color: #ffffff;
+  font-size: var(--step-3);
+  font-style: normal;
+  font-weight: 500;
+  line-height: 120%;
+  margin-bottom: 0;
+  transition: all 0.3s ease-in-out;
+}
+
+.hover .cardHeading {
+  margin-bottom: var(--space-l);
+}
+
+.cardDescription {
+  color: #ffffff;
+  font-size: var(--step-1);
+  font-style: normal;
+  font-weight: 400;
+  line-height: 160%;
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: opacity 0.5s ease-in-out, max-height 0.3s ease-in-out;
+}
+
+.hover .cardDescription {
+  opacity: 1;
+  max-height: 500px;
+}
+
+.cta {
+  z-index: 1;
+  background: #ffffff;
+  color: #1f1f1f;
+  padding: var(--space-s) var(--space-s) /* Optically centered */;
+  gap: 0;
+  transition: gap 0.3s ease-in-out;
+}
+
+.hover .cta {
+  gap: var(--space-2xs);
+  padding: calc(var(--space-s) + var(--space-4xs)) var(--space-l) var(--space-s)
+    var(--space-xl) /* Optically centered */;
+}
+
+.cta:hover {
+  background: #e5e5e5;
+}
+
+.ctaText {
+  max-width: 0;
+  opacity: 0;
+  transform: translateX(15%);
+  white-space: nowrap;
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out,
+    max-width 0.3s ease-in-out;
+  overflow: hidden;
+}
+
+.hover .ctaText {
+  opacity: 1;
+  max-width: 300px;
+  transform: translateX(0);
+}
+
+.chevronRight {
+  width: var(--space-l-s);
+  height: var(--space-l-s);
+  transition: transform 0.3s ease-in-out;
+}
+
+.hover .chevronRight {
+  transform: rotate(90deg);
+}
+
+@media (min-width: 769px) {
+  .cardContainer {
+    display: none;
+  }
+}

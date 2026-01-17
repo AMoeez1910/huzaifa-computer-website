@@ -1,11 +1,8 @@
 import React from "react";
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
-
-const _geist = Geist({ subsets: ["latin"] });
-const _geistMono = Geist_Mono({ subsets: ["latin"] });
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: "Huzaifa Computers - Premium Printers in Lahore",
@@ -27,31 +24,36 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const isProduction = process.env.NEXT_PUBLIC_ENVIRONMENT === "Production";
+
   return (
-    <html lang="en">
+    <html lang="en" className="light" style={{ colorScheme: "light" }}>
       <head>
-        <script
-          async
-          src={`https://www.googletagmanager.com/gtag/js?id=${
-            process.env.NEXT_PUBLIC_GA_ID || "G-XXXXXXXXXX"
-          }`}
-        ></script>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', '${
-                process.env.NEXT_PUBLIC_GA_ID || "G-XXXXXXXXXX"
-              }');
-            `,
-          }}
-        ></script>
+        {isProduction && (
+          <>
+            <meta name="robots" content="index, follow" />
+            <script
+              async
+              src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
+            ></script>
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+                  gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}');
+                `,
+              }}
+            ></script>
+          </>
+        )}
+        {!isProduction && <meta name="robots" content="noindex, nofollow" />}
       </head>
       <body className={`font-sans antialiased`}>
         {children}
         <Analytics />
+        <Toaster />
       </body>
     </html>
   );

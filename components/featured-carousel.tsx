@@ -6,20 +6,13 @@ import { ProductCard } from "./product-card";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-interface Product {
-  id: string;
-  name: string;
-  category: string;
-  price: number;
-  image_url: string;
-  description?: string;
-}
-
 export function FeaturedCarousel({ products }: { products: Product[] }) {
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: true,
     align: "start",
     slidesToScroll: 1,
+    containScroll: "trimSnaps",
+    skipSnaps: false,
   });
 
   useEffect(() => {
@@ -44,13 +37,13 @@ export function FeaturedCarousel({ products }: { products: Product[] }) {
   }
 
   return (
-    <div className="relative">
+    <div className="relative px-2">
       <div className="overflow-hidden" ref={emblaRef}>
-        <div className="flex gap-6">
+        <div className="flex gap-4 -ml-4">
           {products.map((product) => (
             <div
               key={product.id}
-              className="flex-[0_0_100%] md:flex-[0_0_50%] lg:flex-[0_0_33.333%] min-w-0"
+              className="flex-[0_0_100%] md:flex-[0_0_calc(50%-0.5rem)] lg:flex-[0_0_calc(25%-0.75rem)] min-w-0 pl-4"
             >
               <ProductCard product={product} />
             </div>
@@ -63,18 +56,18 @@ export function FeaturedCarousel({ products }: { products: Product[] }) {
           <Button
             variant="outline"
             size="icon"
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 rounded-full bg-background/80 backdrop-blur-sm shadow-lg hover:bg-background"
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 rounded-full bg-white shadow-xl border-2 hover:bg-primary hover:border-primary group transition-all"
             onClick={scrollPrev}
           >
-            <ChevronLeft className="h-4 w-4" />
+            <ChevronLeft className="w-(--space-l-s) h-(--space-l-s) text-foreground group-hover:text-primary-foreground group-hover:-translate-x-0.5 transition-all duration-200" />
           </Button>
           <Button
             variant="outline"
             size="icon"
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 rounded-full bg-background/80 backdrop-blur-sm shadow-lg hover:bg-background"
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 rounded-full bg-white shadow-xl border-2 hover:bg-primary hover:border-primary group transition-all"
             onClick={scrollNext}
           >
-            <ChevronRight className="h-4 w-4" />
+            <ChevronRight className="w-(--space-l-s) h-(--space-l-s) text-foreground group-hover:text-primary-foreground group-hover:translate-x-0.5 transition-all duration-200" />
           </Button>
         </>
       )}
