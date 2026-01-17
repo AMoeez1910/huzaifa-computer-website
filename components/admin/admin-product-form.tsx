@@ -26,7 +26,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { ImageUpload } from "./image-upload";
 import { Editor } from "@/components/ui/blocks/editor-00/editor";
 import { toast } from "sonner";
-import { CheckCircle2, EyeIcon, StarIcon } from "lucide-react";
+import { BookmarkX, CheckCircle2, EyeIcon, StarIcon } from "lucide-react";
 
 const CATEGORIES = ["Inkjet", "LaserJet", "Scanner"];
 const FUNCTIONS = ["Printer", "Printer-Scanner", "All-in-One", "Scan"];
@@ -255,7 +255,7 @@ export function AdminProductForm({
             aria-label="Toggle sold out"
             className="data-[state=on]:bg-primary data-[state=on]:*:[svg]:text-red-600 [&>svg]:fill-none"
           >
-            <EyeIcon className="w-4 h-4 mr-2 " />
+            <BookmarkX className="w-4 h-4 mr-2 " />
             Sold Out
           </ToggleGroupItem>
           <ToggleGroupItem

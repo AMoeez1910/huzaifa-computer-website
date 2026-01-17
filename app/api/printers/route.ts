@@ -60,16 +60,12 @@ export async function GET(request: Request) {
       query = query.eq("is_featured", true);
     }
 
-    // 5. Handle New Filter
+    // 5. Handle New/Used Filter
     const isNew = searchParams.get("is_new");
     if (isNew === "true") {
       query = query.eq("is_new", true);
-    }
-
-    // 6. Handle Used Filter
-    const isUsed = searchParams.get("is_used");
-    if (isUsed === "true") {
-      query = query.eq("is_used", true);
+    } else if (isNew === "false") {
+      query = query.eq("is_new", false);
     }
 
     // 7. Handle Sorting

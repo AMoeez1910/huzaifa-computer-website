@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/popover";
 import { ImageUpload } from "./image-upload";
 import { Editor } from "@/components/ui/blocks/editor-00/editor";
-import { EyeIcon } from "lucide-react";
+import { BookmarkX, EyeIcon } from "lucide-react";
 import { toast } from "sonner";
 
 const CATEGORIES = ["Ink Cartridges", "Toner Cartridges", "Paper"];
@@ -218,7 +218,7 @@ export function AdminAccessoryForm({
             aria-label="Toggle sold out"
             className="data-[state=on]:bg-primary data-[state=on]:*:[svg]:text-red-600 [&>svg]:fill-none"
           >
-            <EyeIcon className="w-4 h-4 mr-2 " />
+            <BookmarkX className="w-4 h-4 mr-2 " />
             Sold Out
           </ToggleGroupItem>
           <ToggleGroupItem
