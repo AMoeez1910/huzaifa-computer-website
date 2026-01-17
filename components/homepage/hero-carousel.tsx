@@ -12,9 +12,6 @@ const slides = [
     id: 1,
     title: "Heavy Performance Affordable Price",
     subtitle: "Get enterprise-level printing without the heavy price tag.",
-    description:
-      "We stock the best value-for-money printers in Lahore. Perfect for students, remote work, and small businesses.",
-    // Visual: Modern desk with printer
     image:
       "/images/hero-image.jpg",
     cta: "View Best Sellers",
@@ -25,9 +22,7 @@ const slides = [
     id: 2,
     title: "Expert Repairs You Can Actually Trust.",
     subtitle: "Printer not working let us have a look.",
-    description:
-      "We use genuine parts to fix what others can't. Bring your printer in or let us know the issue.",
-    // Visual: Technician hands fixing hardware
+    
     image:
      "/images/hero-image-2.jpg",
     cta: "Get Support",
@@ -38,9 +33,6 @@ const slides = [
     id: 3,
     title: "Browse Online. Call to Order.",
     subtitle: "From Our Warehouse , Delivered to your door.",
-    description:
-      "Found the perfect printer? Give us a call to confirm stock and we'll have it shipped to you in 24-48 hours (in Lahore).",
-    // Visual: Delivery service / Box
     image:
      "/images/hero-image-3.jpg",
     cta: "Browse Collection",
@@ -87,7 +79,7 @@ export function HeroCarousel() {
                       alt={slide.title}
                       fill
                       className="object-cover"
-                      priority={slide.id === 1}
+                      priority
                       unoptimized 
                       />
                   </div>
@@ -100,9 +92,7 @@ export function HeroCarousel() {
                       <p className="text-base lg:text-xl mb-3 lg:mb-4 text-primary/90 lg:text-white/95 font-medium lg:drop-shadow-md lg:text-right">
                         {slide.subtitle}
                       </p>
-                      <p className="text-sm lg:text-lg mb-6 lg:mb-8 text-primary/80 lg:text-white/90 lg:drop-shadow-md lg:text-right">
-                        {slide.description}
-                      </p>
+                      
                       <NavigationButton
                         asChild
                         size="default"
@@ -135,9 +125,6 @@ export function HeroCarousel() {
                       <p className="text-base lg:text-xl mb-3 lg:mb-4 text-primary/90 font-medium">
                         {slide.subtitle}
                       </p>
-                      <p className="text-sm lg:text-lg mb-6 lg:mb-8 text-primary/80">
-                        {slide.description}
-                      </p>
                       <NavigationButton
                         asChild
                         size="default"
@@ -153,7 +140,7 @@ export function HeroCarousel() {
               {/* Variant 3: Split Layout - Image Left, Text Right */}
               {slide.variant === "split-right" && (
                 <div className="relative h-110 lg:h-175 flex flex-col lg:flex-row lg:bg-white">
-                  <div className="relative flex-8 h-64 lg:h-full">
+                  <div className="relative flex-10 h-64 lg:h-full">
                     <Image
                       src={slide.image}
                       alt={slide.title}
@@ -169,9 +156,6 @@ export function HeroCarousel() {
                       </h1>
                       <p className="text-base lg:text-xl mb-3 lg:mb-4 text-primary/90 font-medium">
                         {slide.subtitle}
-                      </p>
-                      <p className="text-sm lg:text-lg mb-6 lg:mb-8 text-primary/80">
-                        {slide.description}
                       </p>
                       <NavigationButton
                         asChild

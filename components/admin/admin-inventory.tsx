@@ -30,6 +30,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Link from "next/link";
+import { toast } from "sonner";
 
 type TabType = "printers" | "accessories";
 
@@ -62,8 +63,8 @@ export function AdminInventory() {
 
     try {
       const [printersRes, accessoriesRes] = await Promise.all([
-        fetch("/api/printers"),
-        fetch("/api/accessories"),
+        fetch("/api/printers?admin=true"),
+        fetch("/api/accessories?admin=true"),
       ]);
 
       if (!printersRes.ok) throw new Error("Failed to fetch printers");
@@ -98,14 +99,23 @@ export function AdminInventory() {
         method: "DELETE",
       });
 
-      if (!response.ok)
+      if (!response.ok) {
+        const errorData = await response.json();
+        toast.error(errorData.error || `Failed to delete ${itemToDelete.type}`);
         throw new Error(`Failed to delete ${itemToDelete.type}`);
+      }
 
       if (itemToDelete.type === "printers") {
         setPrinters(printers.filter((p) => p.id !== itemToDelete.id));
       } else {
         setAccessories(accessories.filter((a) => a.id !== itemToDelete.id));
       }
+
+      toast.success(
+        `${
+          itemToDelete.type === "printers" ? "Printer" : "Accessory"
+        } deleted successfully!`
+      );
 
       setDeleteDialogOpen(false);
       setItemToDelete(null);
@@ -290,18 +300,33 @@ function PrintersTable({
       <Table>
         <TableHeader>
           <TableRow>
+            <TableHead className="w-24"></TableHead>
             <TableHead>Name</TableHead>
+            <TableHead>Brand</TableHead>
             <TableHead>Category</TableHead>
-            <TableHead>Price (PKR)</TableHead>
-            <TableHead>Images</TableHead>
-            <TableHead>Featured</TableHead>
-            <TableHead>Actions</TableHead>
+            <TableHead>Price</TableHead>
+            <TableHead>Status</TableHead>
+            <TableHead className="text-right">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {printers.map((printer) => (
             <TableRow key={printer.id}>
+              <TableCell>
+                {printer.main_image ? (
+                  <img
+                    src={printer.main_image}
+                    alt={printer.name}
+                    className="w-22 h-22 object-contain"
+                  />
+                ) : (
+                  <div className="w-22 h-22 bg-muted flex items-center rounded-full justify-center text-muted-foreground text-xs">
+                    No img
+                  </div>
+                )}
+              </TableCell>
               <TableCell className="font-medium">{printer.name}</TableCell>
+              <TableCell>{printer.brand || "-"}</TableCell>
               <TableCell>
                 <Badge
                   variant="secondary"
@@ -311,38 +336,53 @@ function PrintersTable({
                 </Badge>
               </TableCell>
               <TableCell className="font-semibold">
-                {printer.price.toLocaleString()}
-              </TableCell>
-              <TableCell>
-                <Badge variant="outline">
-                  {printer.images
-                    ? printer.images.length
-                    : printer.main_image
-                    ? 1
-                    : 0}
-                </Badge>
-              </TableCell>
-              <TableCell>
-                {printer.is_featured ? (
-                  <Badge className="bg-primary">Yes</Badge>
-                ) : (
-                  <Badge variant="outline">No</Badge>
+                PKR {printer.price.toLocaleString()}
+                {printer.discount && printer.discount > 0 && (
+                  <span className="ml-2 text-xs text-green-600">
+                    -{printer.discount}%
+                  </span>
                 )}
               </TableCell>
               <TableCell>
-                <div className="flex gap-2">
+                <div className="flex gap-1 flex-wrap">
+                  {printer.is_featured && (
+                    <Badge className="bg-yellow-500 hover:bg-yellow-600 text-xs">
+                      Featured
+                    </Badge>
+                  )}
+                  {printer.is_new && (
+                    <Badge className="bg-green-500 hover:bg-green-600 text-xs">
+                      New
+                    </Badge>
+                  )}
+                  {printer.sold_out && (
+                    <Badge variant="destructive" className="text-xs">
+                      Sold Out
+                    </Badge>
+                  )}
+                  {!printer.is_active && (
+                    <Badge variant="outline" className="text-xs">
+                      Hidden
+                    </Badge>
+                  )}
+                </div>
+              </TableCell>
+              <TableCell>
+                <div className="flex gap-2 justify-end">
                   <Button
                     size="sm"
-                    variant="outline"
+                    variant="ghost"
                     onClick={() => onEdit(printer)}
+                    className="hover:bg-primary/10 hover:text-primary"
                   >
                     <Pencil className="h-4 w-4" />
                   </Button>
                   <Button
                     size="sm"
-                    variant="destructive"
+                    variant="ghost"
                     onClick={() => onDelete(printer)}
                     disabled={deleting === printer.id}
+                    className="hover:bg-destructive/10 hover:text-destructive"
                   >
                     {deleting === printer.id ? (
                       <Spinner className="h-4 w-4" />
@@ -385,18 +425,33 @@ function AccessoriesTable({
       <Table>
         <TableHeader>
           <TableRow>
+            <TableHead className="w-24">Image</TableHead>
             <TableHead>Name</TableHead>
+            <TableHead>Brand</TableHead>
             <TableHead>Category</TableHead>
-            <TableHead>Price (PKR)</TableHead>
-            <TableHead>Discount</TableHead>
-            <TableHead>Images</TableHead>
-            <TableHead>Actions</TableHead>
+            <TableHead>Price</TableHead>
+            <TableHead>Status</TableHead>
+            <TableHead className="text-right">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {accessories.map((accessory) => (
             <TableRow key={accessory.id}>
+              <TableCell>
+                {accessory.main_image ? (
+                  <img
+                    src={accessory.main_image}
+                    alt={accessory.name}
+                    className="w-24 h-24 object-contain"
+                  />
+                ) : (
+                  <div className="w-22 h-22 bg-muted flex items-center rounded-full justify-center text-muted-foreground text-xs">
+                    No img
+                  </div>
+                )}
+              </TableCell>
               <TableCell className="font-medium">{accessory.name}</TableCell>
+              <TableCell>{accessory.brand || "-"}</TableCell>
               <TableCell>
                 <Badge
                   variant="secondary"
@@ -406,38 +461,54 @@ function AccessoriesTable({
                 </Badge>
               </TableCell>
               <TableCell className="font-semibold">
-                {accessory.price.toLocaleString()}
-              </TableCell>
-              <TableCell>
-                {accessory.discount && accessory.discount > 0 ? (
-                  <Badge variant="destructive">{accessory.discount}%</Badge>
+                {accessory.price ? (
+                  <>
+                    PKR {accessory.price.toLocaleString("en-PK")}
+                    {accessory.discount && accessory.discount > 0 && (
+                      <span className="ml-2 text-xs text-green-600">
+                        -{accessory.discount}%
+                      </span>
+                    )}
+                  </>
                 ) : (
                   <span className="text-muted-foreground">-</span>
                 )}
               </TableCell>
               <TableCell>
-                <Badge variant="outline">
-                  {accessory.images
-                    ? accessory.images.length
-                    : accessory.main_image
-                    ? 1
-                    : 0}
-                </Badge>
+                <div className="flex gap-1 flex-wrap">
+                  {accessory.sold_out && (
+                    <Badge variant="destructive" className="text-xs">
+                      Sold Out
+                    </Badge>
+                  )}
+                  {!accessory.is_active && (
+                    <Badge variant="outline" className="text-xs">
+                      Hidden
+                    </Badge>
+                  )}
+                  {accessory.is_active && !accessory.sold_out && (
+                    <Badge className="bg-green-500 hover:bg-green-600 text-xs">
+                      Active
+                    </Badge>
+                  )}
+                </div>
               </TableCell>
               <TableCell>
-                <div className="flex gap-2">
+                <div className="flex gap-2 justify-end">
                   <Button
                     size="sm"
-                    variant="outline"
+                    variant="ghost"
                     onClick={() => onEdit(accessory)}
+                    className="hover:bg-primary/10 hover:text-primary"
                   >
                     <Pencil className="h-4 w-4" />
                   </Button>
                   <Button
                     size="sm"
-                    variant="destructive"
+                    variant="ghost"
                     onClick={() => onDelete(accessory)}
                     disabled={deleting === accessory.id}
+                    className="hover:bg-destructive/10 hover:text-destructive"
                   >
                     {deleting === accessory.id ? (
                       <Spinner className="h-4 w-4" />

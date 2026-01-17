@@ -24,27 +24,31 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const isProduction = process.env.NEXT_PUBLIC_ENVIRONMENT === "Production";
+
   return (
     <html lang="en" className="light" style={{ colorScheme: "light" }}>
       <head>
-        <script
-          async
-          src={`https://www.googletagmanager.com/gtag/js?id=${
-            process.env.NEXT_PUBLIC_GA_ID || "G-XXXXXXXXXX"
-          }`}
-        ></script>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', '${
-                process.env.NEXT_PUBLIC_GA_ID || "G-XXXXXXXXXX"
-              }');
-            `,
-          }}
-        ></script>
+        {isProduction && (
+          <>
+            <meta name="robots" content="index, follow" />
+            <script
+              async
+              src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
+            ></script>
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+                  gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}');
+                `,
+              }}
+            ></script>
+          </>
+        )}
+        {!isProduction && <meta name="robots" content="noindex, nofollow" />}
       </head>
       <body className={`font-sans antialiased`}>
         {children}

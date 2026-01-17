@@ -3,7 +3,6 @@
 import { useState, useRef } from "react";
 import { X, Upload, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 import Image from "next/image";
 import { uploadFile, generateFilePath } from "@/lib/supabase/storage";
 
@@ -13,16 +12,9 @@ export function ImageUpload({
   maxImages = 3,
   disabled = false,
 }: ImageUploadProps) {
-  const [urlInput, setUrlInput] = useState("");
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const addImage = () => {
-    if (urlInput && images.length < maxImages) {
-      onImagesChange([...images, urlInput]);
-      setUrlInput("");
-    }
-  };
 
   const handleFileUpload = async (
     event: React.ChangeEvent<HTMLInputElement>
@@ -126,31 +118,7 @@ export function ImageUpload({
         disabled={disabled || isUploading}
       />
 
-      {images.length < maxImages && (
-        <div className="space-y-2">
-          <Label className="text-sm text-muted-foreground">Or add by URL</Label>
-          <div className="flex gap-2">
-            <input
-              type="url"
-              placeholder="Enter image URL"
-              value={urlInput}
-              onChange={(e) => setUrlInput(e.target.value)}
-              onKeyDown={(e) =>
-                e.key === "Enter" && (e.preventDefault(), addImage())
-              }
-              className="flex-1 px-3 py-2 text-sm rounded-md border border-input bg-background ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-              disabled={disabled || isUploading}
-            />
-            <Button
-              type="button"
-              onClick={addImage}
-              disabled={!urlInput || disabled || isUploading}
-            >
-              Add
-            </Button>
-          </div>
-        </div>
-      )}
+
     </div>
   );
 }

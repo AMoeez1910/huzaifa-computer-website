@@ -2,6 +2,7 @@
 
 import { ProductCard } from "@/components/product-card";
 import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -12,33 +13,85 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import { Filter, X } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Filter, X, Search } from "lucide-react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
 export default function AccessoriesPage() {
+  const searchParams = useSearchParams();
   const [accessories, setAccessories] = useState<Accessory[]>([]);
-  const [filteredAccessories, setFilteredAccessories] = useState<Accessory[]>(
-    []
-  );
   const [loading, setLoading] = useState(true);
+  const [initialized, setInitialized] = useState(false);
 
-  // Multi-select filter states
+  // Static filter options from the form
+  const CATEGORIES = ["Ink Cartridges", "Toner Cartridges", "Paper"];
+  const BRANDS = ["HP", "Canon", "Epson", "Pantum"];
+
+  // Initialize state from URL search params
+  const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-
-  // Sort state
+  const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [sortBy, setSortBy] = useState<string>("newest");
 
+  // Initialize filters from URL on mount
   useEffect(() => {
-    fetchAccessories();
-  }, []);
+    if (!initialized) {
+      const urlSearch = searchParams.get("search");
+      const urlCategories = searchParams.getAll("category");
+      const urlBrands = searchParams.getAll("brand");
+      const urlSort = searchParams.get("sort");
+
+      if (urlSearch) setSearchQuery(urlSearch);
+      if (urlCategories.length > 0) setSelectedCategories(urlCategories);
+      if (urlBrands.length > 0) setSelectedBrands(urlBrands);
+      if (urlSort) setSortBy(urlSort);
+
+      setInitialized(true);
+    }
+  }, [searchParams, initialized]);
 
   useEffect(() => {
-    applyFiltersAndSort();
-  }, [accessories, selectedCategories, sortBy]);
+    if (initialized) {
+      fetchAccessories();
+    }
+  }, [searchQuery, selectedCategories, selectedBrands, sortBy, initialized]);
 
   const fetchAccessories = async () => {
     try {
       setLoading(true);
-      const response = await fetch("/api/accessories");
+
+      // Build query params
+      const params = new URLSearchParams();
+
+      if (searchQuery.trim()) {
+        params.append("search", searchQuery);
+      }
+
+      selectedCategories.forEach((cat) => params.append("category", cat));
+      selectedBrands.forEach((brand) => params.append("brand", brand));
+
+      if (sortBy) {
+        params.append("sort", sortBy);
+      }
+
+      const queryString = params.toString();
+      const url = `/api/accessories${queryString ? `?${queryString}` : ""}`;
+
+      const response = await fetch(url);
       const data = await response.json();
       setAccessories(data.accessories || []);
     } catch (error) {
@@ -49,45 +102,10 @@ export default function AccessoriesPage() {
     }
   };
 
-  const applyFiltersAndSort = () => {
-    let filtered = [...accessories];
-
-    // Apply category filter
-    if (selectedCategories.length > 0) {
-      filtered = filtered.filter((a) =>
-        selectedCategories.includes(a.category)
-      );
-    }
-
-    // Apply sorting
-    switch (sortBy) {
-      case "price-low":
-        filtered.sort((a, b) => a.price - b.price);
-        break;
-      case "price-high":
-        filtered.sort((a, b) => b.price - a.price);
-        break;
-      case "name-asc":
-        filtered.sort((a, b) => a.name.localeCompare(b.name));
-        break;
-      case "name-desc":
-        filtered.sort((a, b) => b.name.localeCompare(a.name));
-        break;
-      case "newest":
-      default:
-        filtered.sort(
-          (a, b) =>
-            new Date(b.created_at || 0).getTime() -
-            new Date(a.created_at || 0).getTime()
-        );
-        break;
-    }
-
-    setFilteredAccessories(filtered);
-  };
-
   const clearFilters = () => {
     setSelectedCategories([]);
+    setSelectedBrands([]);
+    setSearchQuery("");
   };
 
   const toggleFilter = (
@@ -102,48 +120,162 @@ export default function AccessoriesPage() {
     }
   };
 
-  // Get unique categories
-  const categories = Array.from(new Set(accessories.map((a) => a.category)));
+  const hasActiveFilters =
+    searchQuery.trim() ||
+    selectedCategories.length > 0 ||
+    selectedBrands.length > 0;
 
-  const hasActiveFilters = selectedCategories.length > 0;
+  // Filter component for both desktop and mobile
+  const FilterContent = () => (
+    <Accordion type="multiple" defaultValue={["category", "brand"]}>
+      <AccordionItem value="category">
+        <AccordionTrigger className="text-sm font-semibold text-foreground py-3">
+          Category
+        </AccordionTrigger>
+        <AccordionContent>
+          <div className="space-y-2 pt-2">
+            {CATEGORIES.map((cat) => (
+              <div key={cat} className="flex items-center space-x-2">
+                <Checkbox
+                  id={`cat-${cat}`}
+                  checked={selectedCategories.includes(cat)}
+                  onCheckedChange={() =>
+                    toggleFilter(cat, selectedCategories, setSelectedCategories)
+                  }
+                />
+                <Label
+                  htmlFor={`cat-${cat}`}
+                  className="text-sm cursor-pointer font-normal"
+                >
+                  {cat}
+                </Label>
+              </div>
+            ))}
+          </div>
+        </AccordionContent>
+      </AccordionItem>
+
+      <AccordionItem value="brand">
+        <AccordionTrigger className="text-sm font-semibold text-foreground py-3">
+          Brand
+        </AccordionTrigger>
+        <AccordionContent>
+          <div className="space-y-2 pt-2">
+            {BRANDS.map((brand) => (
+              <div key={brand} className="flex items-center space-x-2">
+                <Checkbox
+                  id={`brand-${brand}`}
+                  checked={selectedBrands.includes(brand)}
+                  onCheckedChange={() =>
+                    toggleFilter(brand, selectedBrands, setSelectedBrands)
+                  }
+                />
+                <Label
+                  htmlFor={`brand-${brand}`}
+                  className="text-sm cursor-pointer font-normal"
+                >
+                  {brand}
+                </Label>
+              </div>
+            ))}
+          </div>
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
+  );
 
   return (
-    <main className="flex-1 w-full py-16">
+    <main className="flex-1 w-full py-10">
       <div className="max-w-10xl w-full mx-auto px-4">
-        {/* Header with Sort */}
+        {/* Header with Search and Sort */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-2">Accessories</h1>
-          <p className="text-foreground/60 mb-6">
-            Browse our complete range of printer accessories
-          </p>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+            <div>
+              <h1 className="text-4xl font-bold mb-2">Accessories</h1>
+              <p className="text-foreground/60">
+                Browse our complete range of printer accessories
+              </p>
+            </div>
 
-          {/* Sort Dropdown */}
-          <div className="flex items-center gap-3">
-            <Filter className="h-4 w-4 text-muted-foreground" />
-            <Select value={sortBy} onValueChange={setSortBy}>
-              <SelectTrigger className="w-50">
-                <SelectValue placeholder="Sort by" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="newest">Newest First</SelectItem>
-                <SelectItem value="price-low">Price: Low to High</SelectItem>
-                <SelectItem value="price-high">Price: High to Low</SelectItem>
-                <SelectItem value="name-asc">Name: A to Z</SelectItem>
-                <SelectItem value="name-desc">Name: Z to A</SelectItem>
-              </SelectContent>
-            </Select>
-            <span className="text-sm text-muted-foreground">
-              {filteredAccessories.length} products
-            </span>
+            {/* Search Bar */}
+            <div className="relative w-full sm:w-80">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                type="text"
+                placeholder="Search accessories..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10"
+              />
+            </div>
+          </div>
+
+          {/* Sort and Filter Row */}
+          <div className="flex items-center justify-between gap-3 flex-wrap">
+            <div className="flex items-center gap-3">
+              <Select value={sortBy} onValueChange={setSortBy}>
+                <SelectTrigger className="w-50">
+                  <SelectValue placeholder="Sort by" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="newest">Newest</SelectItem>
+                  <SelectItem value="price-low">Price: Low to High</SelectItem>
+                  <SelectItem value="price-high">Price: High to Low</SelectItem>
+                  <SelectItem value="name-asc">Name: A to Z</SelectItem>
+                  <SelectItem value="name-desc">Name: Z to A</SelectItem>
+                </SelectContent>
+              </Select>
+              <span className="text-sm text-muted-foreground">
+                {accessories.length} products
+              </span>
+            </div>
+
+            {/* Mobile Filter Button */}
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="outline" size="sm" className="lg:hidden gap-2">
+                  <Filter className="h-4 w-4" />
+                  Filters
+                  {hasActiveFilters && (
+                    <span className="ml-1 px-2 py-0.5 bg-primary text-primary-foreground rounded-full text-xs">
+                      Active
+                    </span>
+                  )}
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="left" className="w-80 overflow-y-auto">
+                <SheetHeader>
+                  <SheetTitle>Filters</SheetTitle>
+                  <SheetDescription>
+                    Filter accessories by category and brand
+                  </SheetDescription>
+                </SheetHeader>
+                <div className="px-4">
+                  {hasActiveFilters && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={clearFilters}
+                      className="w-full mb-4"
+                    >
+                      <X className="h-4 w-4 mr-2" />
+                      Clear All Filters
+                    </Button>
+                  )}
+
+                  <FilterContent />
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
 
         <div className="flex flex-col lg:flex-row gap-8">
-          {/* Sticky Filter Sidebar */}
-          <aside className="lg:w-64 shrink-0">
-            <div className="lg:sticky lg:top-4 space-y-6">
+          {/* Desktop Sticky Filter Sidebar */}
+          <aside className="hidden lg:block lg:w-64 shrink-0">
+            <div className="lg:sticky lg:top-26">
               {/* Filter Header */}
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between mb-4">
                 <h2 className="text-lg font-semibold">Filters</h2>
                 {hasActiveFilters && (
                   <Button
@@ -158,35 +290,7 @@ export default function AccessoriesPage() {
                 )}
               </div>
 
-              {/* Category Filter */}
-              <div className="space-y-3">
-                <h3 className="text-sm font-semibold text-foreground">
-                  Category
-                </h3>
-                <div className="space-y-2">
-                  {categories.map((cat) => (
-                    <div key={cat} className="flex items-center space-x-2">
-                      <Checkbox
-                        id={`cat-${cat}`}
-                        checked={selectedCategories.includes(cat)}
-                        onCheckedChange={() =>
-                          toggleFilter(
-                            cat,
-                            selectedCategories,
-                            setSelectedCategories
-                          )
-                        }
-                      />
-                      <Label
-                        htmlFor={`cat-${cat}`}
-                        className="text-sm cursor-pointer font-normal"
-                      >
-                        {cat}
-                      </Label>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <FilterContent />
             </div>
           </aside>
 
@@ -196,7 +300,7 @@ export default function AccessoriesPage() {
               <div className="text-center py-12">
                 <p className="text-foreground/60">Loading accessories...</p>
               </div>
-            ) : filteredAccessories.length === 0 ? (
+            ) : accessories.length === 0 ? (
               <div className="text-center py-12">
                 <p className="text-foreground/60">
                   No accessories found matching your filters
@@ -211,7 +315,7 @@ export default function AccessoriesPage() {
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredAccessories.map((accessory) => (
+                {accessories.map((accessory: Accessory) => (
                   <ProductCard key={accessory.id} product={accessory} />
                 ))}
               </div>

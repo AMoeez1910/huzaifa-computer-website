@@ -24,6 +24,12 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const printerCategories = [
   {
@@ -88,6 +94,10 @@ const printerBrands = [
     href: "/printers?brand=epson",
   },
   {
+    title: "Pantum",
+    href: "/printers?brand=pantum",
+  },
+  {
     title: "View All Brands",
     href: "/printers",
   },
@@ -95,16 +105,12 @@ const printerBrands = [
 
 const accessories = [
   {
-    title: "Toners Cartridges",
-    href: "/accessories?category=Toners",
-  },
-  {
     title: "Ink Cartridges",
     href: "/accessories?category=Ink Cartridges",
   },
   {
-    title: "Drums",
-    href: "/accessories?category=Drums",
+    title: "Toner Cartridges",
+    href: "/accessories?category=Toner Cartridges",
   },
   {
     title: "Paper",
@@ -244,98 +250,103 @@ export function Navbar() {
                 </SheetDescription>
               </SheetHeader>
 
-              <div className="flex flex-col gap-2  ">
-                {/* Printers Section */}
-                <div className="space-y-3 pl-4 pt-0 ">
-                  <div className="flex items-center gap-2">
-                    <h3 className="font-semibold text-lg">Printers</h3>
-                  </div>
+              <div className="flex flex-col gap-2 pt-4">
+                {/* Printers Section with Accordion */}
+                <Accordion type="multiple" className="w-full">
+                  <AccordionItem value="printers">
+                    <AccordionTrigger className="text-lg font-semibold px-4">
+                      Printers
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <div className="space-y-4 px-8">
+                        <div className="space-y-1">
+                          <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
+                            By Category
+                          </p>
+                          {printerCategories.map((item) => (
+                            <SheetClose asChild key={item.title}>
+                              <Link
+                                href={item.href}
+                                className="block text-xs hover:text-primary hover:bg-primary/5 transition-colors py-1 px-2 rounded-md"
+                              >
+                                {item.title}
+                              </Link>
+                            </SheetClose>
+                          ))}
+                        </div>
 
-                  <div className="space-y-4">
-                    <div className="space-y-1">
-                      <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider px-4">
-                        By Category
-                      </p>
-                      {printerCategories.map((item) => (
-                        <SheetClose asChild key={item.title}>
-                          <Link
-                            href={item.href}
-                            className="block text-xs hover:text-primary hover:bg-primary/5 transition-colors py-1 px-4 rounded-md"
-                          >
-                            {item.title}
-                          </Link>
-                        </SheetClose>
-                      ))}
-                    </div>
+                        <div className="space-y-1">
+                          <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
+                            By Type
+                          </p>
+                          {printerTypes.map((item) => (
+                            <SheetClose asChild key={item.title}>
+                              <Link
+                                href={item.href}
+                                className="block text-xs hover:text-primary hover:bg-primary/5 transition-colors py-1 px-2 rounded-md"
+                              >
+                                {item.title}
+                              </Link>
+                            </SheetClose>
+                          ))}
+                        </div>
 
-                    <div className="space-y-1">
-                      <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider px-4">
-                        By Type
-                      </p>
-                      {printerTypes.map((item) => (
-                        <SheetClose asChild key={item.title}>
-                          <Link
-                            href={item.href}
-                            className="block text-xs hover:text-primary hover:bg-primary/5 transition-colors py-1 px-4 rounded-md"
-                          >
-                            {item.title}
-                          </Link>
-                        </SheetClose>
-                      ))}
-                    </div>
+                        <div className="space-y-1">
+                          <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
+                            By Function
+                          </p>
+                          {printerFunctions.map((item) => (
+                            <SheetClose asChild key={item.title}>
+                              <Link
+                                href={item.href}
+                                className="block text-xs hover:text-primary hover:bg-primary/5 transition-colors py-1 px-2 rounded-md"
+                              >
+                                {item.title}
+                              </Link>
+                            </SheetClose>
+                          ))}
+                        </div>
 
-                    <div className="space-y-1">
-                      <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider px-4">
-                        By Function
-                      </p>
-                      {printerFunctions.map((item) => (
-                        <SheetClose asChild key={item.title}>
-                          <Link
-                            href={item.href}
-                            className="block text-xs hover:text-primary hover:bg-primary/5 transition-colors py-1 px-4 rounded-md"
-                          >
-                            {item.title}
-                          </Link>
-                        </SheetClose>
-                      ))}
-                    </div>
+                        <div className="space-y-1">
+                          <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
+                            By Brand
+                          </p>
+                          {printerBrands.map((item) => (
+                            <SheetClose asChild key={item.title}>
+                              <Link
+                                href={item.href}
+                                className="block text-xs hover:text-primary hover:bg-primary/5 transition-colors py-1 px-2 rounded-md"
+                              >
+                                {item.title}
+                              </Link>
+                            </SheetClose>
+                          ))}
+                        </div>
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
 
-                    <div className="space-y-1">
-                      <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider px-4">
-                        By Brand
-                      </p>
-                      {printerBrands.map((item) => (
-                        <SheetClose asChild key={item.title}>
-                          <Link
-                            href={item.href}
-                            className="block text-xs hover:text-primary hover:bg-primary/5 transition-colors py-1 px-4 rounded-md"
-                          >
-                            {item.title}
-                          </Link>
-                        </SheetClose>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Accessories Section */}
-                <div className="space-y-3 pl-4 pt-0">
-                  <div className="flex items-center gap-2">
-                    <h3 className="font-semibold text-lg">Accessories</h3>
-                  </div>
-                  <div className="space-y-1">
-                    {accessories.map((item) => (
-                      <SheetClose asChild key={item.title}>
-                        <Link
-                          href={item.href}
-                          className="block text-xs hover:text-primary hover:bg-primary/5 transition-colors py-1 px-4 rounded-md"
-                        >
-                          {item.title}
-                        </Link>
-                      </SheetClose>
-                    ))}
-                  </div>
-                </div>
+                  {/* Accessories Section */}
+                  <AccordionItem value="accessories">
+                    <AccordionTrigger className="text-lg font-semibold px-4">
+                      Accessories
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <div className="space-y-1 px-4">
+                        {accessories.map((item) => (
+                          <SheetClose asChild key={item.title}>
+                            <Link
+                              href={item.href}
+                              className="block text-xs hover:text-primary hover:bg-primary/5 transition-colors py-1 px-2 rounded-md"
+                            >
+                              {item.title}
+                            </Link>
+                          </SheetClose>
+                        ))}
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
 
                 {/* Action Buttons */}
                 <div className="flex flex-col gap-3 mt-2 p-6 border-t">

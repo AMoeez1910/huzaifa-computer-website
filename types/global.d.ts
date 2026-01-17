@@ -21,10 +21,12 @@ declare global {
     discount?: number; // Percentage (0-100)
     type?: string;
     function?: string;
-    usage?: string;
+    usage?: string[];
     is_new?: boolean;
     images?: string[]; // Additional images
     main_image?: string; // Main thumbnail image
+    sold_out?: boolean;
+    is_active?: boolean;
   }
 
   interface Accessory {
@@ -32,11 +34,14 @@ declare global {
     created_at?: string;
     name: string;
     category: string;
-    price: number;
+    brand?: string;
+    price?: number;
     description?: SerializedEditorState | null;
     discount?: number; // Percentage (0-100)
     images?: string[]; // Additional images
     main_image?: string; // Main thumbnail image
+    sold_out?: boolean;
+    is_active?: boolean;
   }
 
   interface AdminProductFormProps {

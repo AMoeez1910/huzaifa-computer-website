@@ -15,25 +15,29 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { ImageUpload } from "./image-upload";
 import { Editor } from "@/components/ui/blocks/editor-00/editor";
-import { Eye } from "lucide-react";
+import { EyeIcon } from "lucide-react";
 import { toast } from "sonner";
 
-const CATEGORIES = [
-  "Ink Cartridges",
-  "Toner Cartridges",
-  "Printheads",
-  "Paper",
-  "Drums",
-];
+const CATEGORIES = ["Ink Cartridges", "Toner Cartridges", "Paper"];
+const BRANDS = ["HP", "Canon", "Epson", "Pantum"];
+
+type AccessoryFormData = {
+  name: string;
+  category: string;
+  price: string;
+  discount: string;
+  is_active: boolean;
+  sold_out: boolean;
+  brand?: string;
+};
 
 const initialEditorState = {
   root: {
@@ -90,11 +94,14 @@ export function AdminAccessoryForm({
   );
 
   // Initialize formData directly from editAccessory
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<AccessoryFormData>({
     name: editAccessory?.name || "",
     category: editAccessory?.category || "",
     price: editAccessory?.price?.toString() || "",
     discount: editAccessory?.discount?.toString() || "",
+    is_active: editAccessory?.is_active ?? true,
+    sold_out: editAccessory?.sold_out ?? false,
+    brand: editAccessory?.brand || "",
   });
 
   const handleInputChange = (
@@ -111,7 +118,7 @@ export function AdminAccessoryForm({
 
     try {
       // Validate required fields
-      if (!formData.name || !formData.category || !formData.price) {
+      if (!formData.name || !formData.category) {
         toast.error("Please fill in all required fields");
         throw new Error("Please fill in all required fields");
       }
@@ -126,11 +133,15 @@ export function AdminAccessoryForm({
         ...(editAccessory?.id && { id: editAccessory.id }),
         name: formData.name,
         category: formData.category,
-        price: parseFloat(formData.price),
-        discount: hasDiscount ? parseFloat(formData.discount || "0") : 0,
+        price: formData.price ? parseFloat(formData.price) : null,
+        discount:
+          hasDiscount && formData.discount ? parseFloat(formData.discount) : 0,
         description: JSON.stringify(description),
         images,
         main_image: mainImage,
+        is_active: formData.is_active,
+        sold_out: formData.sold_out,
+        brand: formData.brand || null,
       };
 
       // Send request
@@ -156,13 +167,25 @@ export function AdminAccessoryForm({
           ? "Accessory updated successfully!"
           : "Accessory created successfully!"
       );
+      // Reset form
+      setFormData({
+        name: "",
+        brand: "",
+        category: "",
+        price: "",
+        discount: "",
+        is_active: true,
+        sold_out: false,
+      });
+      setImages([]);
+      setMainImage("");
+      setDescription(initialEditorState);
 
       if (onSuccess) {
         onSuccess();
       } else {
         router.push("/admin/dashboard?tab=accessories");
       }
-      router.refresh();
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Failed to save accessory");
     } finally {
@@ -172,92 +195,199 @@ export function AdminAccessoryForm({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6 py-6">
+      <div className="flex w-full md:justify-end">
+        <ToggleGroup
+          type="multiple"
+          variant="outline"
+          spacing={2}
+          size="sm"
+          value={[
+            ...(formData.sold_out ? ["sold_out"] : []),
+            ...(formData.is_active ? ["active"] : []),
+          ]}
+          onValueChange={(values: string[]) => {
+            setFormData({
+              ...formData,
+              is_active: values.includes("active"),
+              sold_out: values.includes("sold_out"),
+            });
+          }}
+        >
+          <ToggleGroupItem
+            value="sold_out"
+            aria-label="Toggle sold out"
+            className="data-[state=on]:bg-primary data-[state=on]:*:[svg]:text-red-600 [&>svg]:fill-none"
+          >
+            <EyeIcon className="w-4 h-4 mr-2 " />
+            Sold Out
+          </ToggleGroupItem>
+          <ToggleGroupItem
+            value="active"
+            aria-label="Toggle active"
+            className="data-[state=on]:bg-primary data-[state=on]:*:[svg]:text-blue-200 [&>svg]:fill-none"
+          >
+            <EyeIcon className="w-4 h-4 mr-2 " />
+            Product Visible
+          </ToggleGroupItem>
+        </ToggleGroup>
+      </div>
       {error && (
         <div className="bg-destructive/10 text-destructive p-3 rounded-md">
           {error}
         </div>
       )}
-
-      {/* Name */}
-      <div className="space-y-2">
-        <Label htmlFor="name">Accessory Name *</Label>
-        <Input
-          id="name"
-          name="name"
-          value={formData.name}
-          onChange={handleInputChange}
-          required
-          placeholder="Enter accessory name"
-        />
-      </div>
-
-      {/* Category */}
-      <div className="space-y-2">
-        <Label htmlFor="category">Category *</Label>
-        <Select
-          value={formData.category}
-          onValueChange={(value) =>
-            setFormData((prev) => ({ ...prev, category: value }))
-          }
-          required
-        >
-          <SelectTrigger>
-            <SelectValue placeholder="Select category" />
-          </SelectTrigger>
-          <SelectContent>
-            {CATEGORIES.map((category) => (
-              <SelectItem key={category} value={category}>
-                {category}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-
-      {/* Price */}
-      <div className="space-y-2">
-        <Label htmlFor="price">Price (PKR) *</Label>
-        <Input
-          id="price"
-          name="price"
-          type="number"
-          step="0.01"
-          value={formData.price}
-          onChange={handleInputChange}
-          required
-          placeholder="Enter price"
-        />
-      </div>
-
-      {/* Discount */}
-      <div className="space-y-2">
-        <div className="flex items-center space-x-2">
-          <input
-            type="checkbox"
-            id="hasDiscount"
-            checked={hasDiscount}
-            onChange={(e) => setHasDiscount(e.target.checked)}
-            className="h-4 w-4 rounded border-gray-300"
-          />
-          <Label htmlFor="hasDiscount" className="cursor-pointer">
-            Add Discount
-          </Label>
-        </div>
-        {hasDiscount && (
+      <div className="grid gap-6 md:grid-cols-3 pt-2">
+        {/* Name */}
+        <div className="space-y-2">
+          <Label htmlFor="name">Accessory Name *</Label>
           <Input
-            id="discount"
-            name="discount"
-            type="number"
-            min="0"
-            max="100"
-            step="1"
-            value={formData.discount}
+            id="name"
+            name="name"
+            value={formData.name}
             onChange={handleInputChange}
-            placeholder="Discount percentage (0-100)"
+            required
+            placeholder="Enter accessory name"
           />
-        )}
-      </div>
+        </div>
 
+        {/* Category */}
+        <div className="space-y-2">
+          <Label htmlFor="category">Category *</Label>
+          <Select
+            value={formData.category}
+            onValueChange={(value) =>
+              setFormData((prev) => ({ ...prev, category: value }))
+            }
+            required
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select category" />
+            </SelectTrigger>
+            <SelectContent>
+              {CATEGORIES.map((category) => (
+                <SelectItem key={category} value={category}>
+                  {category}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        {/* Price */}
+        <div className="space-y-2">
+          <div className="flex w-full justify-between relative">
+            <Label htmlFor="price">Price (PKR)</Label>
+            <div className="space-y-2 md:col-span-2 absolute right-0 -top-4">
+              <div className="flex items-center space-x-2">
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      size={"sm"}
+                      disabled={!formData.price || formData.price.trim() === ""}
+                    >
+                      Apply Discount
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-80">
+                    <div className="grid gap-4">
+                      <div className="flex flex-col gap-2">
+                        <Label htmlFor="discount">Discount Percentage</Label>
+                        <Input
+                          id="discount"
+                          type="number"
+                          placeholder="15"
+                          step="1"
+                          min="0"
+                          max="100"
+                          value={formData.discount}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              discount: e.target.value,
+                            })
+                          }
+                          disabled={isLoading}
+                        />
+                        <p className="text-xs text-muted-foreground mt-1">
+                          Enter percentage (0-100)
+                        </p>
+                      </div>
+
+                      {formData.price &&
+                        formData.discount &&
+                        parseFloat(formData.discount) > 0 && (
+                          <div className="flex-1">
+                            <Label>Discounted Price</Label>
+                            <div className="text-2xl font-bold text-green-600">
+                              PKR{" "}
+                              {(
+                                parseFloat(formData.price) *
+                                (1 - parseFloat(formData.discount) / 100)
+                              ).toLocaleString("en-PK", {
+                                maximumFractionDigits: 0,
+                              })}
+                            </div>
+                            <p className="text-xs text-muted-foreground">
+                              Save PKR{" "}
+                              {(
+                                parseFloat(formData.price) *
+                                (parseFloat(formData.discount) / 100)
+                              ).toLocaleString("en-PK", {
+                                maximumFractionDigits: 0,
+                              })}
+                            </p>
+                          </div>
+                        )}
+                    </div>
+                  </PopoverContent>
+                </Popover>
+              </div>
+            </div>
+          </div>
+          <Input
+            id="price"
+            type="number"
+            placeholder="85000 (optional)"
+            step="0.01"
+            value={formData.price}
+            onChange={(e) =>
+              setFormData({ ...formData, price: e.target.value })
+            }
+            disabled={isLoading}
+          />
+        </div>
+        {/* Description */}
+        <div className="space-y-2">
+          <Label htmlFor="brand">Brand *</Label>
+          <Select
+            value={formData.brand}
+            onValueChange={(value) =>
+              setFormData({ ...formData, brand: value })
+            }
+          >
+            <SelectTrigger id="brand" disabled={isLoading} className="w-full">
+              <SelectValue placeholder="Select brand" />
+            </SelectTrigger>
+            <SelectContent>
+              {BRANDS.map((brand) => (
+                <SelectItem key={brand} value={brand}>
+                  {brand}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="space-y-2 md:col-span-2">
+          <Label>Description</Label>
+
+          <Editor
+            key={`editor-${editAccessory?.id || "new"}`}
+            editorSerializedState={description}
+            onSerializedChange={setDescription}
+          />
+        </div>
+      </div>
       {/* Main Image */}
       <div className="space-y-2">
         <Label>Main Image *</Label>
@@ -278,39 +408,6 @@ export function AdminAccessoryForm({
           maxImages={5}
           disabled={isLoading}
         />
-      </div>
-
-      {/* Description */}
-      <div className="space-y-2">
-        <div className="flex items-center justify-between">
-          <Label>Description</Label>
-          <Dialog open={showPreview} onOpenChange={setShowPreview}>
-            <DialogTrigger asChild>
-              <Button type="button" variant="outline" size="sm">
-                <Eye className="h-4 w-4 mr-2" />
-                Preview
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
-              <DialogHeader>
-                <DialogTitle>Description Preview</DialogTitle>
-              </DialogHeader>
-              <div className="prose prose-sm max-w-none">
-                <Editor
-                  key={`preview-${editAccessory?.id || "new"}`}
-                  editorSerializedState={description}
-                />
-              </div>
-            </DialogContent>
-          </Dialog>
-        </div>
-        <div className="border rounded-md p-4">
-          <Editor
-            key={`editor-${editAccessory?.id || "new"}`}
-            editorSerializedState={description}
-            onSerializedChange={setDescription}
-          />
-        </div>
       </div>
 
       {/* Submit Button */}
