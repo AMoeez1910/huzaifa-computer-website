@@ -63,15 +63,18 @@ export function PrintersContent({
   const [loading, setLoading] = useState(true);
 
   // Initialize state from props (server-side values)
+  // Ensure mutual exclusion: if both new and used are true, prioritize new
   const [searchQuery, setSearchQuery] = useState(initialSearch);
-  const [selectedCategories, setSelectedCategories] = useState<string[]>(initialCategories);
+  const [selectedCategories, setSelectedCategories] =
+    useState<string[]>(initialCategories);
   const [selectedTypes, setSelectedTypes] = useState<string[]>(initialTypes);
-  const [selectedFunctions, setSelectedFunctions] = useState<string[]>(initialFunctions);
+  const [selectedFunctions, setSelectedFunctions] =
+    useState<string[]>(initialFunctions);
   const [selectedUsages, setSelectedUsages] = useState<string[]>(initialUsages);
   const [selectedBrands, setSelectedBrands] = useState<string[]>(initialBrands);
   const [showFeatured, setShowFeatured] = useState(initialFeatured);
   const [showNew, setShowNew] = useState(initialNew);
-  const [showUsed, setShowUsed] = useState(initialUsed);
+  const [showUsed, setShowUsed] = useState(initialUsed && !initialNew);
   const [sortBy, setSortBy] = useState<string>(initialSort);
 
   const fetchPrinters = useCallback(async () => {
@@ -411,9 +414,10 @@ export function PrintersContent({
                       <Checkbox
                         id="new-mobile"
                         checked={showNew}
-                        onCheckedChange={(checked) =>
-                          setShowNew(checked === true)
-                        }
+                        onCheckedChange={(checked) => {
+                          setShowNew(checked === true);
+                          if (checked) setShowUsed(false);
+                        }}
                       />
                       <Label
                         htmlFor="new-mobile"
@@ -426,9 +430,10 @@ export function PrintersContent({
                       <Checkbox
                         id="used-mobile"
                         checked={showUsed}
-                        onCheckedChange={(checked) =>
-                          setShowUsed(checked === true)
-                        }
+                        onCheckedChange={(checked) => {
+                          setShowUsed(checked === true);
+                          if (checked) setShowNew(false);
+                        }}
                       />
                       <Label
                         htmlFor="used-mobile"
@@ -488,7 +493,10 @@ export function PrintersContent({
                   <Checkbox
                     id="new-desktop"
                     checked={showNew}
-                    onCheckedChange={(checked) => setShowNew(checked === true)}
+                    onCheckedChange={(checked) => {
+                      setShowNew(checked === true);
+                      if (checked) setShowUsed(false);
+                    }}
                   />
                   <Label
                     htmlFor="new-desktop"
@@ -501,7 +509,10 @@ export function PrintersContent({
                   <Checkbox
                     id="used-desktop"
                     checked={showUsed}
-                    onCheckedChange={(checked) => setShowUsed(checked === true)}
+                    onCheckedChange={(checked) => {
+                      setShowUsed(checked === true);
+                      if (checked) setShowNew(false);
+                    }}
                   />
                   <Label
                     htmlFor="used-desktop"
