@@ -85,18 +85,25 @@ export function UsageSection({
           ))}
         </div>
 
-        {/* Products Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {/* Products Display */}
+        <div
+          className="
+            flex gap-2 overflow-x-auto snap-x snap-mandatory w-full 
+            md:grid md:grid-cols-3 lg:grid-cols-4 md:gap-6 md:pb-0 md:overflow-visible
+            scrollbar-hide
+          "
+        >
           {activeProducts.length > 0 ? (
             activeProducts.map((product) => (
-              <ProductCard
+              <div
                 key={product.id}
-                product={product}
-                imageFit="object-contain"
-              />
+                className="min-w-70 w-[85%] md:w-auto shrink-0 snap-center"
+              >
+                <ProductCard product={product} imageFit="object-contain" />
+              </div>
             ))
           ) : (
-            <div className="col-span-full text-center py-12">
+            <div className="w-full md:col-span-full text-center py-12">
               <p className="text-muted-foreground text-lg">
                 No {activeTab.toLowerCase()} printers available at the moment
               </p>
@@ -105,7 +112,7 @@ export function UsageSection({
         </div>
 
         {/* View All Button */}
-        <div className="flex justify-center mt-10">
+        <div className="flex justify-center mt-6 md:mt-10">
           <Button asChild size="lg" variant="default">
             <Link href={`/printers?usage=${activeTab}`}>
               View All {activeTab} Printers

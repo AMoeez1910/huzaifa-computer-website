@@ -19,8 +19,8 @@ export function AccessoryDetailClient({ accessory }: { accessory: Accessory }) {
     hasPrice && accessory.discount
       ? accessory.price! * (1 - accessory.discount / 100)
       : hasPrice
-      ? accessory.price!
-      : 0;
+        ? accessory.price!
+        : 0;
 
   const hasDiscount = hasPrice && accessory.discount && accessory.discount > 0;
 
@@ -39,7 +39,7 @@ export function AccessoryDetailClient({ accessory }: { accessory: Accessory }) {
   const description = getDescription();
 
   const whatsappMessage = encodeURIComponent(
-    `Hi, is the ${accessory.name} available? I would like to know more about it.\n${process.env.NEXT_PUBLIC_BASE_URL}/accessories/${accessory.id}`
+    `Hi, is the ${accessory.name} available? I would like to know more about it.\n${process.env.NEXT_PUBLIC_BASE_URL}/accessories/${accessory.id}`,
   );
   const whatsappUrl = `https://wa.me/923009403751?text=${whatsappMessage}`;
 
@@ -56,8 +56,8 @@ export function AccessoryDetailClient({ accessory }: { accessory: Accessory }) {
                     accessory.images && accessory.images.length > 0
                       ? accessory.images
                       : accessory.main_image
-                      ? [accessory.main_image]
-                      : []
+                        ? [accessory.main_image]
+                        : []
                   }
                   productName={accessory.name}
                 />
@@ -66,9 +66,9 @@ export function AccessoryDetailClient({ accessory }: { accessory: Accessory }) {
                 <>
                   <div className="absolute inset-0 bg-black/60 backdrop-blur-sm z-10 rounded-lg pointer-events-none" />
                   <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
-                    <Badge className="text-4xl font-bold py-6 px-12 bg-red-600/90 text-white border-4 border-white shadow-2xl">
+                    <div className="w-full flex justify-center items-center text-2xl font-bold p-2 bg-primary text-white shadow-2xl">
                       SOLD OUT
-                    </Badge>
+                    </div>
                   </div>
                 </>
               )}
@@ -83,9 +83,9 @@ export function AccessoryDetailClient({ accessory }: { accessory: Accessory }) {
                   {accessory.name}
                 </h1>
                 {accessory.sold_out && (
-                  <Badge className="text-lg font-bold py-2 px-4 bg-red-600 text-white">
+                  <div className="w-full flex justify-center items-center text-2xl font-bold p-2 bg-primary text-white shadow-2xl">
                     SOLD OUT
-                  </Badge>
+                  </div>
                 )}
               </div>
 
@@ -93,19 +93,24 @@ export function AccessoryDetailClient({ accessory }: { accessory: Accessory }) {
               {hasPrice && (
                 <div className="flex items-baseline gap-3 mb-6">
                   {hasDiscount ? (
-                    <>
-                      <p className="text-4xl font-bold text-green-600">
-                        PKR{" "}
-                        {discountedPrice.toLocaleString("en-PK", {
-                          maximumFractionDigits: 0,
-                        })}
-                      </p>
-                      <p className="text-2xl font-medium text-muted-foreground line-through">
-                        PKR {accessory.price!.toLocaleString()}
-                      </p>
-                    </>
+                    <div className="flex flex-col justify-center gap-2">
+                      <div className="flex gap-4 items-center">
+                        <p className="text-3xl font-semibold text-primary">
+                          PKR{" "}
+                          {discountedPrice.toLocaleString("en-PK", {
+                            maximumFractionDigits: 0,
+                          })}
+                        </p>
+                        <p className="text-xl font-medium text-muted-foreground line-through">
+                          PKR {accessory.price?.toLocaleString()}
+                        </p>
+                      </div>
+                      <Badge variant={"secondary"}>
+                        {accessory.discount}% Off
+                      </Badge>
+                    </div>
                   ) : (
-                    <p className="text-4xl font-bold text-primary">
+                    <p className="text-3xl font-semibold text-primary">
                       PKR {accessory.price!.toLocaleString()}
                     </p>
                   )}
@@ -146,31 +151,6 @@ export function AccessoryDetailClient({ accessory }: { accessory: Accessory }) {
                         </p>
                         <p className="font-semibold">{accessory.brand}</p>
                       </div>
-                    )}
-                    {hasPrice && hasDiscount && (
-                      <>
-                        <div>
-                          <p className="text-sm text-muted-foreground mb-1">
-                            Discount
-                          </p>
-                          <p className="font-semibold text-green-600">
-                            {accessory.discount}% OFF
-                          </p>
-                        </div>
-                        <div>
-                          <p className="text-sm text-muted-foreground mb-1">
-                            You Save
-                          </p>
-                          <p className="font-semibold text-green-600">
-                            PKR{" "}
-                            {(
-                              accessory.price! - discountedPrice
-                            ).toLocaleString("en-PK", {
-                              maximumFractionDigits: 0,
-                            })}
-                          </p>
-                        </div>
-                      </>
                     )}
                   </div>
                 </CardContent>

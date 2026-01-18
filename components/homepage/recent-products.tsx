@@ -8,7 +8,11 @@ import { ArrowRight } from "lucide-react";
 export async function RecentProducts() {
   const supabase = await createClient();
 
-  const recentProducts = await getPrinters({ featured: true, limit: 10 });
+  const recentProducts = await getPrinters({
+    featured: true,
+    sold_out: false,
+    limit: 10,
+  });
 
   return (
     <section className="w-full py-8 pb-2 md:py-12 md:pb-4 bg-white">

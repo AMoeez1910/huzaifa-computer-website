@@ -27,6 +27,7 @@ import { ImageUpload } from "./image-upload";
 import { Editor } from "@/components/ui/blocks/editor-00/editor";
 import { toast } from "sonner";
 import { BookmarkX, CheckCircle2, EyeIcon, StarIcon } from "lucide-react";
+import { Badge } from "../ui/badge";
 
 const CATEGORIES = ["Inkjet", "LaserJet", "Scanner"];
 const FUNCTIONS = ["Printer", "Printer-Scanner", "All-in-One", "Scan"];
@@ -79,7 +80,7 @@ export function AdminProductForm({
   // Initialize images directly from editProduct
   const [images, setImages] = useState<string[]>(editProduct?.images || []);
   const [mainImage, setMainImage] = useState<string>(
-    editProduct?.main_image || ""
+    editProduct?.main_image || "",
   );
 
   // Initialize description - parse if it's a string
@@ -95,7 +96,7 @@ export function AdminProductForm({
   };
 
   const [description, setDescription] = useState<SerializedEditorState>(
-    getInitialDescription()
+    getInitialDescription(),
   );
 
   // Initialize formData directly from editProduct
@@ -115,7 +116,7 @@ export function AdminProductForm({
 
   // Separate state for multi-select usage
   const [selectedUsages, setSelectedUsages] = useState<string[]>(
-    editProduct?.usage || []
+    editProduct?.usage || [],
   );
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -203,7 +204,7 @@ export function AdminProductForm({
       setError(
         err instanceof Error
           ? err.message
-          : `Failed to ${editProduct ? "update" : "add"} product`
+          : `Failed to ${editProduct ? "update" : "add"} product`,
       );
     } finally {
       setIsLoading(false);
@@ -212,7 +213,7 @@ export function AdminProductForm({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="flex w-full md:justify-end">
+      <div className="flex w-full md:justify-end ">
         <ToggleGroup
           type="multiple"
           variant="outline"
@@ -224,6 +225,7 @@ export function AdminProductForm({
             ...(formData.is_active ? ["active"] : []),
             ...(formData.sold_out ? ["sold_out"] : []),
           ]}
+          className="flex-wrap"
           onValueChange={(values: string[]) => {
             setFormData({
               ...formData,
@@ -327,7 +329,12 @@ export function AdminProductForm({
           </Select>
         </div>
 
-        <div className="space-y-2">
+        <div className="space-y-2 relative">
+          {formData.discount && Number(formData.discount) > 0 && (
+            <Badge className="absolute right-0 -bottom-6">
+              {Number(formData.discount) > 0 && `${formData.discount}% off`}
+            </Badge>
+          )}
           <div className="flex w-full justify-between relative">
             <Label htmlFor="price">Price (PKR) *</Label>
             <div className="space-y-2 md:col-span-2 absolute right-0 -top-4">
@@ -339,7 +346,9 @@ export function AdminProductForm({
                       size={"sm"}
                       disabled={!formData.price || formData.price.trim() === ""}
                     >
-                      Apply Discount
+                      {formData.discount && Number(formData.discount) > 0
+                        ? "Edit Discount"
+                        : "Apply Discount"}
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-80">
@@ -469,7 +478,7 @@ export function AdminProductForm({
                       setSelectedUsages([...selectedUsages, usage]);
                     } else {
                       setSelectedUsages(
-                        selectedUsages.filter((u) => u !== usage)
+                        selectedUsages.filter((u) => u !== usage),
                       );
                     }
                   }}
@@ -536,8 +545,8 @@ export function AdminProductForm({
               ? "Updating..."
               : "Adding..."
             : editProduct
-            ? "Update Product"
-            : "Add Product"}
+              ? "Update Product"
+              : "Add Product"}
         </Button>
 
         {editProduct && (
