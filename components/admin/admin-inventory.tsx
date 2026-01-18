@@ -31,6 +31,7 @@ import {
 } from "@/components/ui/card";
 import Link from "next/link";
 import { toast } from "sonner";
+import Image from "next/image";
 
 type TabType = "printers" | "accessories";
 
@@ -314,10 +315,12 @@ function PrintersTable({
             <TableRow key={printer.id}>
               <TableCell>
                 {printer.main_image ? (
-                  <img
+                  <Image
                     src={printer.main_image}
                     alt={printer.name}
-                    className="w-24 h-24 object-contain bg-white rounded-md p-1"
+                    width={96}
+                    height={96}
+                    className="w-24 h-24 object-contain bg-white rounded-md "
                   />
                 ) : (
                   <div className="w-24 h-24 bg-muted rounded-md flex items-center justify-center text-muted-foreground text-xs">
@@ -443,10 +446,12 @@ function AccessoriesTable({
               <TableCell>
                 {accessory.main_image ? (
                   // FIX: Added bg/rounded for consistency
-                  <img
+                  <Image
                     src={accessory.main_image}
                     alt={accessory.name}
-                    className="w-24 h-24 object-contain bg-white rounded-md p-1"
+                    width={96}
+                    height={96}
+                    className="w-24 h-24 object-contain bg-white rounded-md "
                   />
                 ) : (
                   // FIX: Updated placeholder style
@@ -471,11 +476,12 @@ function AccessoriesTable({
                 {accessory.price ? (
                   <>
                     PKR {accessory.price.toLocaleString("en-PK")}
-                    {typeof accessory.discount === "number" && accessory.discount > 0 && (
-                      <span className="ml-2 text-xs text-green-600">
-                        -{accessory.discount}%
-                      </span>
-                    )}
+                    {typeof accessory.discount === "number" &&
+                      accessory.discount > 0 && (
+                        <span className="ml-2 text-xs text-green-600">
+                          -{accessory.discount}%
+                        </span>
+                      )}
                   </>
                 ) : (
                   <span className="text-muted-foreground">-</span>
