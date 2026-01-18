@@ -109,9 +109,9 @@ export function ProductCard({
             <>
               <div className="absolute inset-0 bg-black/60 backdrop-blur-sm z-10" />
               <div className="absolute inset-0 flex items-center justify-center z-20">
-                <Badge className="text-2xl font-bold py-3 px-8 bg-red-600/90 text-white border-2 border-white shadow-2xl">
+                <div className="w-full flex justify-center items-center text-2xl font-bold p-2 bg-primary text-white shadow-2xl">
                   SOLD OUT
-                </Badge>
+                </div>
               </div>
             </>
           )}
@@ -159,18 +159,18 @@ export function ProductCard({
             <div className="w-full flex items-center gap-2 justify-center flex-wrap">
               {discountedPrice ? (
                 <>
-                  <p className="text-2xl font-bold text-green-600">
+                  <p className="text-2xl font-semibold text-primary">
                     PKR{" "}
                     {discountedPrice.toLocaleString("en-PK", {
                       maximumFractionDigits: 0,
                     })}
                   </p>
-                  <p className="text-lg font-medium text-muted-foreground line-through">
+                  <p className="text-md font-medium text-muted-foreground line-through">
                     PKR {product.price!.toLocaleString()}
                   </p>
                 </>
               ) : (
-                <p className="text-2xl font-bold text-primary">
+                <p className="text-2xl font-semibold text-primary">
                   PKR {product.price!.toLocaleString()}
                 </p>
               )}

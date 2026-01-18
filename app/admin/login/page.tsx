@@ -43,7 +43,7 @@ export default function AdminLoginPage() {
   return (
     <div className="flex min-h-screen w-full items-center justify-center p-4 md:p-10 bg-linear-to-br from-slate-50 to-slate-100">
       <div className="w-full max-w-md">
-        <Card className="shadow-lg">
+        <Card className="shadow-lg py-6">
           <CardHeader className="space-y-2 text-center">
             <CardTitle className="text-3xl font-bold text-primary">Admin Portal</CardTitle>
             <CardDescription>Huzaifa Computers Management</CardDescription>

@@ -19,10 +19,11 @@ export interface ProductFilters {
   usage?: string | string[];
   limit?: number;
   sortBy?: "price-low" | "price-high" | "name-asc" | "name-desc" | "newest";
+  sold_out?: boolean;
 }
 
 export async function getPrinters(
-  filters?: ProductFilters
+  filters?: ProductFilters,
 ): Promise<Product[]> {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
@@ -35,6 +36,8 @@ export async function getPrinters(
     if (filters?.type) params.append("type", filters.type);
     if (filters?.brand) params.append("brand", filters.brand);
     if (filters?.is_new) params.append("is_new", "true");
+    if (filters?.sold_out !== undefined)
+      params.append("sold_out", filters.sold_out.toString());
     if (filters?.usage) {
       const usages = Array.isArray(filters.usage)
         ? filters.usage
@@ -47,7 +50,6 @@ export async function getPrinters(
     const url = `${baseUrl}/api/printers${
       queryString ? `?${queryString}` : ""
     }`;
-
     const res = await fetch(url, { cache: "no-store" });
 
     if (!res.ok) {

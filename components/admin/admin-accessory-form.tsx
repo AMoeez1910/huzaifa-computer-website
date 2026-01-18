@@ -25,6 +25,7 @@ import { ImageUpload } from "./image-upload";
 import { Editor } from "@/components/ui/blocks/editor-00/editor";
 import { BookmarkX, EyeIcon } from "lucide-react";
 import { toast } from "sonner";
+import { Badge } from "../ui/badge";
 
 const CATEGORIES = ["Ink Cartridges", "Toner Cartridges", "Paper"];
 const BRANDS = ["HP", "Canon", "Epson", "Pantum"];
@@ -59,6 +60,12 @@ const initialEditorState = {
   },
 } as unknown as SerializedEditorState;
 
+// Note: Ensure you define or import AdminAccessoryFormProps
+interface AdminAccessoryFormProps {
+  onSuccess?: () => void;
+  editAccessory?: any; // Replace 'any' with your actual Accessory type
+}
+
 export function AdminAccessoryForm({
   onSuccess,
   editAccessory,
@@ -70,7 +77,7 @@ export function AdminAccessoryForm({
   // Initialize images directly from editAccessory
   const [images, setImages] = useState<string[]>(editAccessory?.images || []);
   const [mainImage, setMainImage] = useState<string>(
-    editAccessory?.main_image || ""
+    editAccessory?.main_image || "",
   );
 
   // Initialize description - parse if it's a string
@@ -86,11 +93,7 @@ export function AdminAccessoryForm({
   };
 
   const [description, setDescription] = useState<SerializedEditorState>(
-    getInitialDescription()
-  );
-  const [showPreview, setShowPreview] = useState(false);
-  const [hasDiscount, setHasDiscount] = useState(
-    !!editAccessory?.discount && editAccessory.discount > 0
+    getInitialDescription(),
   );
 
   // Initialize formData directly from editAccessory
@@ -105,7 +108,7 @@ export function AdminAccessoryForm({
   });
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -128,14 +131,19 @@ export function AdminAccessoryForm({
         throw new Error("Please upload a main image");
       }
 
+      // Calculate discount safely
+      const discountValue = parseFloat(formData.discount);
+      const finalDiscount =
+        !isNaN(discountValue) && discountValue > 0 ? discountValue : 0;
+
       // Prepare accessory data
       const accessoryData = {
         ...(editAccessory?.id && { id: editAccessory.id }),
         name: formData.name,
         category: formData.category,
         price: formData.price ? parseFloat(formData.price) : null,
-        discount:
-          hasDiscount && formData.discount ? parseFloat(formData.discount) : 0,
+        // FIX: Removed the 'hasDiscount' check. We just check the value directly.
+        discount: finalDiscount,
         description: JSON.stringify(description),
         images,
         main_image: mainImage,
@@ -165,7 +173,7 @@ export function AdminAccessoryForm({
       toast.success(
         editAccessory
           ? "Accessory updated successfully!"
-          : "Accessory created successfully!"
+          : "Accessory created successfully!",
       );
       // Reset form
       setFormData({
@@ -274,7 +282,13 @@ export function AdminAccessoryForm({
         </div>
 
         {/* Price */}
-        <div className="space-y-2">
+        <div className="space-y-2 relative">
+          {/* Badge Display Fix */}
+          {formData.discount && Number(formData.discount) > 0 && (
+            <Badge className="absolute right-0 -bottom-6">
+              {formData.discount}% off
+            </Badge>
+          )}
           <div className="flex w-full justify-between relative">
             <Label htmlFor="price">Price (PKR)</Label>
             <div className="space-y-2 md:col-span-2 absolute right-0 -top-4">
@@ -286,7 +300,9 @@ export function AdminAccessoryForm({
                       size={"sm"}
                       disabled={!formData.price || formData.price.trim() === ""}
                     >
-                      Apply Discount
+                      {formData.discount && Number(formData.discount) > 0
+                        ? "Edit Discount"
+                        : "Apply Discount"}
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-80">
@@ -357,7 +373,7 @@ export function AdminAccessoryForm({
             disabled={isLoading}
           />
         </div>
-        {/* Description */}
+        {/* Brand */}
         <div className="space-y-2">
           <Label htmlFor="brand">Brand *</Label>
           <Select
@@ -426,8 +442,8 @@ export function AdminAccessoryForm({
               ? "Updating..."
               : "Creating..."
             : editAccessory
-            ? "Update Accessory"
-            : "Create Accessory"}
+              ? "Update Accessory"
+              : "Create Accessory"}
         </Button>
       </div>
     </form>

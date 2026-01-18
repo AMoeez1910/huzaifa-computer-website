@@ -114,7 +114,7 @@ export function AdminInventory() {
       toast.success(
         `${
           itemToDelete.type === "printers" ? "Printer" : "Accessory"
-        } deleted successfully!`
+        } deleted successfully!`,
       );
 
       setDeleteDialogOpen(false);
@@ -123,7 +123,7 @@ export function AdminInventory() {
       setError(
         err instanceof Error
           ? err.message
-          : `Failed to delete ${itemToDelete.type}`
+          : `Failed to delete ${itemToDelete.type}`,
       );
     } finally {
       setDeleting(null);
@@ -300,7 +300,7 @@ function PrintersTable({
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-24"></TableHead>
+            <TableHead className="w-24 min-w-25">Image</TableHead>
             <TableHead>Name</TableHead>
             <TableHead>Brand</TableHead>
             <TableHead>Category</TableHead>
@@ -317,25 +317,27 @@ function PrintersTable({
                   <img
                     src={printer.main_image}
                     alt={printer.name}
-                    className="w-22 h-22 object-contain"
+                    className="w-24 h-24 object-contain bg-white rounded-md p-1"
                   />
                 ) : (
-                  <div className="w-22 h-22 bg-muted flex items-center rounded-full justify-center text-muted-foreground text-xs">
-                    No img
+                  <div className="w-24 h-24 bg-muted rounded-md flex items-center justify-center text-muted-foreground text-xs">
+                    No image
                   </div>
                 )}
               </TableCell>
-              <TableCell className="font-medium">{printer.name}</TableCell>
+              <TableCell className="font-medium whitespace-nowrap md:whitespace-normal">
+                {printer.name}
+              </TableCell>
               <TableCell>{printer.brand || "-"}</TableCell>
               <TableCell>
                 <Badge
                   variant="secondary"
-                  className="bg-primary/10 text-primary border-0"
+                  className="bg-primary/10 text-primary border-0 whitespace-nowrap"
                 >
                   {printer.category}
                 </Badge>
               </TableCell>
-              <TableCell className="font-semibold">
+              <TableCell className="font-semibold whitespace-nowrap">
                 PKR {printer.price.toLocaleString()}
                 {printer.discount && printer.discount > 0 && (
                   <span className="ml-2 text-xs text-green-600">
@@ -344,7 +346,7 @@ function PrintersTable({
                 )}
               </TableCell>
               <TableCell>
-                <div className="flex gap-1 flex-wrap">
+                <div className="flex gap-1 flex-wrap w-30 md:w-auto">
                   {printer.is_featured && (
                     <Badge className="bg-yellow-500 hover:bg-yellow-600 text-xs">
                       Featured
@@ -419,13 +421,14 @@ function AccessoriesTable({
       </div>
     );
   }
-
+  console.log(accessories);
   return (
     <div className="overflow-x-auto">
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-24">Image</TableHead>
+            {/* FIX: Added min-w-[100px] to prevent shrinking */}
+            <TableHead className="w-24 min-w-25">Image</TableHead>
             <TableHead>Name</TableHead>
             <TableHead>Brand</TableHead>
             <TableHead>Category</TableHead>
@@ -439,32 +442,36 @@ function AccessoriesTable({
             <TableRow key={accessory.id}>
               <TableCell>
                 {accessory.main_image ? (
+                  // FIX: Added bg/rounded for consistency
                   <img
                     src={accessory.main_image}
                     alt={accessory.name}
-                    className="w-24 h-24 object-contain"
+                    className="w-24 h-24 object-contain bg-white rounded-md p-1"
                   />
                 ) : (
-                  <div className="w-22 h-22 bg-muted flex items-center rounded-full justify-center text-muted-foreground text-xs">
-                    No img
+                  // FIX: Updated placeholder style
+                  <div className="w-24 h-24 bg-muted rounded-md flex items-center justify-center text-muted-foreground text-xs">
+                    No image
                   </div>
                 )}
               </TableCell>
-              <TableCell className="font-medium">{accessory.name}</TableCell>
+              <TableCell className="font-medium whitespace-nowrap md:whitespace-normal">
+                {accessory.name}
+              </TableCell>
               <TableCell>{accessory.brand || "-"}</TableCell>
               <TableCell>
                 <Badge
                   variant="secondary"
-                  className="bg-primary/10 text-primary border-0"
+                  className="bg-primary/10 text-primary border-0 whitespace-nowrap"
                 >
                   {accessory.category}
                 </Badge>
               </TableCell>
-              <TableCell className="font-semibold">
+              <TableCell className="font-semibold whitespace-nowrap">
                 {accessory.price ? (
                   <>
                     PKR {accessory.price.toLocaleString("en-PK")}
-                    {accessory.discount && accessory.discount > 0 && (
+                    {typeof accessory.discount === "number" && accessory.discount > 0 && (
                       <span className="ml-2 text-xs text-green-600">
                         -{accessory.discount}%
                       </span>
@@ -475,7 +482,7 @@ function AccessoriesTable({
                 )}
               </TableCell>
               <TableCell>
-                <div className="flex gap-1 flex-wrap">
+                <div className="flex gap-1 flex-wrap w-30 md:w-auto">
                   {accessory.sold_out && (
                     <Badge variant="destructive" className="text-xs">
                       Sold Out
