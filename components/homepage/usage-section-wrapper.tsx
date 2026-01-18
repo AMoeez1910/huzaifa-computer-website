@@ -5,9 +5,9 @@ export async function UsageSectionWrapper() {
   // Fetch featured products for each usage type
   const [homeProducts, businessProducts, enterpriseProducts] =
     await Promise.all([
-      getPrinters({ usage: "Home", limit: 4 }),
-      getPrinters({ usage: "Business", limit: 4 }),
-      getPrinters({ usage: "Enterprise", limit: 4 }),
+      getPrinters({ usage: "Home", sold_out: false, limit: 4 }),
+      getPrinters({ usage: "Business", sold_out: false, limit: 4 }),
+      getPrinters({ usage: "Enterprise", sold_out: false, limit: 4 }),
     ]);
   return (
     <UsageSection

@@ -145,7 +145,7 @@ export function PrintersContent({
   const toggleFilter = (
     value: string,
     selected: string[],
-    setSelected: React.Dispatch<React.SetStateAction<string[]>>
+    setSelected: React.Dispatch<React.SetStateAction<string[]>>,
   ) => {
     if (selected.includes(value)) {
       setSelected(selected.filter((v) => v !== value));
@@ -169,9 +169,36 @@ export function PrintersContent({
   const FilterContent = () => (
     <Accordion
       type="multiple"
-      defaultValue={["category", "type"]}
+      defaultValue={["brand","category", "type"]}
       className="space-y-0"
     >
+      {/* Brands */}
+      <AccordionItem value="brand">
+        <AccordionTrigger className="text-sm font-semibold text-foreground py-3">
+          Brand
+        </AccordionTrigger>
+        <AccordionContent>
+          <div className="space-y-2 pt-2">
+            {BRANDS.map((brand) => (
+              <div key={brand} className="flex items-center space-x-2">
+                <Checkbox
+                  id={`brand-${brand}`}
+                  checked={selectedBrands.includes(brand)}
+                  onCheckedChange={() =>
+                    toggleFilter(brand, selectedBrands, setSelectedBrands)
+                  }
+                />
+                <Label
+                  htmlFor={`brand-${brand}`}
+                  className="text-sm cursor-pointer font-normal"
+                >
+                  {brand}
+                </Label>
+              </div>
+            ))}
+          </div>
+        </AccordionContent>
+      </AccordionItem>
       {/* Categories */}
       <AccordionItem value="category">
         <AccordionTrigger className="text-sm font-semibold text-foreground py-3">
@@ -277,34 +304,6 @@ export function PrintersContent({
                   className="text-sm cursor-pointer font-normal"
                 >
                   {usage}
-                </Label>
-              </div>
-            ))}
-          </div>
-        </AccordionContent>
-      </AccordionItem>
-
-      {/* Brands */}
-      <AccordionItem value="brand">
-        <AccordionTrigger className="text-sm font-semibold text-foreground py-3">
-          Brand
-        </AccordionTrigger>
-        <AccordionContent>
-          <div className="space-y-2 pt-2">
-            {BRANDS.map((brand) => (
-              <div key={brand} className="flex items-center space-x-2">
-                <Checkbox
-                  id={`brand-${brand}`}
-                  checked={selectedBrands.includes(brand)}
-                  onCheckedChange={() =>
-                    toggleFilter(brand, selectedBrands, setSelectedBrands)
-                  }
-                />
-                <Label
-                  htmlFor={`brand-${brand}`}
-                  className="text-sm cursor-pointer font-normal"
-                >
-                  {brand}
                 </Label>
               </div>
             ))}
@@ -471,7 +470,7 @@ export function PrintersContent({
               )}
             </div>
 
-            <div className="space-y-3 pb-4 border-b mb-4">
+            <div className="space-y-3 pb-4 border-b">
               <h3 className="text-sm font-semibold">Quick Filters</h3>
               <div className="space-y-2">
                 <div className="flex items-center space-x-2">

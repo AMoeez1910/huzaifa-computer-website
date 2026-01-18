@@ -22,7 +22,7 @@ export function ProductDetailClient({ product }: { product: Product | null }) {
   ];
 
   const whatsappMessage = encodeURIComponent(
-    `Hi, is the ${product.name} available? I would like to know more about it.\n${process.env.NEXT_PUBLIC_BASE_URL}/printers/${product.id}`
+    `Hi, is the ${product.name} available? I would like to know more about it.\n${process.env.NEXT_PUBLIC_BASE_URL}/printers/${product.id}`,
   );
   const whatsappUrl = `https://wa.me/923009403751?text=${whatsappMessage}`;
 
@@ -51,9 +51,9 @@ export function ProductDetailClient({ product }: { product: Product | null }) {
                 <>
                   <div className="absolute inset-0 bg-black/60 backdrop-blur-sm z-10 rounded-lg pointer-events-none" />
                   <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
-                    <Badge className="text-4xl font-bold py-6 px-12 bg-red-600/90 text-white border-4 border-white shadow-2xl">
+                    <div className="w-full flex justify-center items-center text-2xl font-bold p-2 bg-primary text-white shadow-2xl">
                       SOLD OUT
-                    </Badge>
+                    </div>
                   </div>
                 </>
               )}
@@ -68,28 +68,31 @@ export function ProductDetailClient({ product }: { product: Product | null }) {
                   {product.name}
                 </h1>
                 {product.sold_out && (
-                  <Badge className="text-lg font-bold py-2 px-4 bg-red-600 text-white">
+                  <div className="w-full flex justify-center items-center text-2xl font-bold p-2 bg-primary text-white shadow-2xl">
                     SOLD OUT
-                  </Badge>
+                  </div>
                 )}
               </div>
 
               {/* Price Section */}
               <div className="flex items-baseline gap-3 mb-6">
                 {discountedPrice ? (
-                  <>
-                    <p className="text-4xl font-bold text-green-600">
-                      PKR{" "}
-                      {discountedPrice.toLocaleString("en-PK", {
-                        maximumFractionDigits: 0,
-                      })}
-                    </p>
-                    <p className="text-2xl font-medium text-muted-foreground line-through">
-                      PKR {product.price.toLocaleString()}
-                    </p>
-                  </>
+                  <div className="flex flex-col justify-center gap-2">
+                    <div className="flex gap-4 items-center">
+                      <p className="text-3xl font-semibold text-primary">
+                        PKR{" "}
+                        {discountedPrice.toLocaleString("en-PK", {
+                          maximumFractionDigits: 0,
+                        })}
+                      </p>
+                      <p className="text-xl font-medium text-muted-foreground line-through">
+                        PKR {product.price.toLocaleString()}
+                      </p>
+                    </div>
+                    <Badge variant={"secondary"}>{product.discount}% Off</Badge>
+                  </div>
                 ) : (
-                  <p className="text-4xl font-bold text-primary">
+                  <p className="text-3xl font-semibold text-primary">
                     PKR {product.price.toLocaleString()}
                   </p>
                 )}
@@ -153,32 +156,6 @@ export function ProductDetailClient({ product }: { product: Product | null }) {
                           {product.usage.join(", ")}
                         </p>
                       </div>
-                    )}
-                    {discountPercentage && discountPercentage > 0 && (
-                      <>
-                        <div>
-                          <p className="text-sm text-muted-foreground mb-1">
-                            Discount
-                          </p>
-                          <p className="font-semibold text-green-600">
-                            {discountPercentage}% OFF
-                          </p>
-                        </div>
-                        {discountedPrice && (
-                          <div>
-                            <p className="text-sm text-muted-foreground mb-1">
-                              You Save
-                            </p>
-                            <p className="font-semibold text-green-600">
-                              PKR{" "}
-                              {(product.price - discountedPrice).toLocaleString(
-                                "en-PK",
-                                { maximumFractionDigits: 0 }
-                              )}
-                            </p>
-                          </div>
-                        )}
-                      </>
                     )}
                   </div>
                 </CardContent>

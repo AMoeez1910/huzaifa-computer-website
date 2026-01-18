@@ -21,7 +21,7 @@ export async function GET(request: Request) {
     if (searchQuery) {
       // Searches name, brand, or category.
       query = query.or(
-        `name.ilike.%${searchQuery}%,brand.ilike.%${searchQuery}%,category.ilike.%${searchQuery}%`
+        `name.ilike.%${searchQuery}%,brand.ilike.%${searchQuery}%,category.ilike.%${searchQuery}%`,
       );
     }
 
@@ -68,6 +68,14 @@ export async function GET(request: Request) {
       query = query.eq("is_new", false);
     }
 
+    // 6. Handle Sold Out Filter
+    const soldOut = searchParams.get("sold_out");
+    if (soldOut === "true") {
+      query = query.eq("sold_out", true);
+    } else if (soldOut === "false") {
+      query = query.eq("sold_out", false);
+    }
+
     // 7. Handle Sorting
     const sort = searchParams.get("sort") || "newest";
 
@@ -101,7 +109,6 @@ export async function GET(request: Request) {
     if (limit) {
       query = query.limit(parseInt(limit, 10));
     }
-
     const { data, error } = await query;
 
     if (error) {
@@ -114,7 +121,7 @@ export async function GET(request: Request) {
     console.error("Server Error:", error);
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

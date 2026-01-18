@@ -22,7 +22,7 @@ const categories = [
     name: "Accessories",
     description: "Toners, ink cartridges, and more",
     img: "/images/toner-refil-1.jpg",
-    href: "/printers?category=Office",
+    href: "/accessories",
   },
   {
     id: "4",
