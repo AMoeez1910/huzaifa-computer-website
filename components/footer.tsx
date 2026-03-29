@@ -24,7 +24,7 @@ export function Footer() {
             {/* Logo */}
             <Link href="/" className="flex gap-2 items-center">
               <Image
-                src="/images/logo/hc-logo.png"
+                src="/images/logo/hc-logo.webp"
                 alt="Huzaifa Computer"
                 width={200}
                 height={100}

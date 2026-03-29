@@ -7,6 +7,7 @@ declare global {
   interface ProductImageCarouselProps {
     images: string[];
     productName: string;
+    isSoldOut?: boolean;
   }
 
   interface Product {

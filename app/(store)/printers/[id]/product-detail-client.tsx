@@ -40,23 +40,13 @@ export function ProductDetailClient({ product }: { product: Product | null }) {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
           {/* Product Image Carousel */}
           <div className="flex items-center justify-center">
-            <div className="relative w-full">
-              <div className={product.sold_out ? "grayscale opacity-70" : ""}>
+            <div className="relative w-full flex justify-center">
                 <ProductImageCarousel
                   images={productImages}
                   productName={product.name}
+                  isSoldOut={product.sold_out}
                 />
-              </div>
-              {product.sold_out && (
-                <>
-                  <div className="absolute inset-0 bg-black/60 backdrop-blur-sm z-10 rounded-lg pointer-events-none" />
-                  <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
-                    <div className="w-full flex justify-center items-center text-2xl font-bold p-2 bg-primary text-white shadow-2xl">
-                      SOLD OUT
-                    </div>
-                  </div>
-                </>
-              )}
+              
             </div>
           </div>
 
@@ -67,11 +57,6 @@ export function ProductDetailClient({ product }: { product: Product | null }) {
                 <h1 className="text-3xl md:text-4xl font-bold">
                   {product.name}
                 </h1>
-                {product.sold_out && (
-                  <div className="w-full flex justify-center items-center text-2xl font-bold p-2 bg-primary text-white shadow-2xl">
-                    SOLD OUT
-                  </div>
-                )}
               </div>
 
               {/* Price Section */}
@@ -165,8 +150,8 @@ export function ProductDetailClient({ product }: { product: Product | null }) {
             {/* CTA Buttons */}
             <div className="flex flex-col gap-3 pt-8 border-t border-border">
               {product.sold_out && (
-                <div className="bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-800 rounded-lg p-4 mb-2">
-                  <p className="text-red-800 dark:text-red-200 font-medium text-center">
+                <div className="bg-red-50 dark:bg-red-950/20 border border-red-200  rounded-lg p-4 mb-2">
+                  <p className="text-red-800 font-medium text-center">
                     This product is currently sold out. Contact us for
                     availability or similar products.
                   </p>
