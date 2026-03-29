@@ -22,7 +22,7 @@ export function AdminNavbar() {
       <div className="max-w-10xl w-full mx-auto px-4 py-4 flex justify-between items-center">
         <Link href="/admin/dashboard" className="relative">
           <Image
-            src="/images/logo/hc-logo.png"
+            src="/images/logo/hc-logo.webp"
             alt="Logo"
             width={68}
             height={68}

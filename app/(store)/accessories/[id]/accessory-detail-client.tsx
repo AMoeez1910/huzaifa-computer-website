@@ -62,16 +62,6 @@ export function AccessoryDetailClient({ accessory }: { accessory: Accessory }) {
                   productName={accessory.name}
                 />
               </div>
-              {accessory.sold_out && (
-                <>
-                  <div className="absolute inset-0 bg-black/60 backdrop-blur-sm z-10 rounded-lg pointer-events-none" />
-                  <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
-                    <div className="w-full flex justify-center items-center text-2xl font-bold p-2 bg-primary text-white shadow-2xl">
-                      SOLD OUT
-                    </div>
-                  </div>
-                </>
-              )}
             </div>
           </div>
 

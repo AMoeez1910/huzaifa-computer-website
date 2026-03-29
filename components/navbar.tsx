@@ -132,7 +132,7 @@ export function Navbar() {
           className="flex items-center gap-2 font-bold text-xl text-primary"
         >
           <Image
-            src="/images/logo/hc-logo.png"
+            src="/images/logo/hc-logo.webp"
             alt="Logo"
             width={68}
             height={68}
@@ -145,7 +145,7 @@ export function Navbar() {
             <NavigationMenuList>
               {/* Printers */}
               <NavigationMenuItem>
-                <NavigationMenuTrigger>Printers</NavigationMenuTrigger>
+                <NavigationMenuTrigger><Link href={"/printers"}>Printers</Link></NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <ul className="grid gap-3 p-4 md:w-112.5 lg:w-137.5 lg:grid-cols-3">
                     <div className="flex flex-col gap-2">
@@ -200,7 +200,7 @@ export function Navbar() {
 
               {/* Accessories */}
               <NavigationMenuItem>
-                <NavigationMenuTrigger>Accessories</NavigationMenuTrigger>
+                <NavigationMenuTrigger><Link href={"/accessories"}>Accessories</Link></NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <ul className="grid w-75 gap-2 p-4">
                     {accessories.map((item) => (

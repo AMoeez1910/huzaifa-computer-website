@@ -9,6 +9,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 export function ProductImageCarousel({
   images,
   productName,
+  isSoldOut = false,
 }: ProductImageCarouselProps) {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
@@ -52,7 +53,7 @@ export function ProductImageCarousel({
           src="/placeholder.svg?height=400&width=400&query=printer"
           alt={productName}
           fill
-          className="object-cover"
+          className="object-contain"
         />
       </div>
     );
@@ -60,13 +61,20 @@ export function ProductImageCarousel({
 
   if (images.length === 1) {
     return (
-      <div className="relative aspect-square w-full max-w-lg bg-linear-to-br from-secondary/30 to-secondary/10 rounded-lg overflow-hidden shadow-lg">
+      <div className="relative flex justify-center items-center aspect-square w-full max-w-lg bg-linear-to-br from-secondary/30 to-secondary/10 rounded-lg overflow-hidden shadow-lg">
         <Image
           src={images[0]}
           alt={productName}
           fill
-          className="object-cover"
+          className="object-contain"
         />
+        {isSoldOut && (
+                <>
+                    <div className="absolute z-10 w-full flex justify-center items-center text-2xl font-bold p-2 bg-primary text-white ">
+                      SOLD OUT
+                    </div>
+                </>
+              )}
       </div>
     );
   }
@@ -84,9 +92,17 @@ export function ProductImageCarousel({
                     src={image}
                     alt={`${productName} - Image ${index + 1}`}
                     fill
-                    className="object-cover"
+                    className="object-contain"
                     priority={index === 0}
                   />
+                  {isSoldOut && (
+                <>
+                  <div className="absolute inset-0 z-10 rounded-lg pointer-events-none" />
+                    <div className="w-full flex justify-center items-center text-2xl font-bold p-2 bg-primary text-white shadow-2xl">
+                      SOLD OUT
+                    </div>
+                </>
+              )}
                 </div>
               </div>
             ))}
@@ -143,8 +159,15 @@ export function ProductImageCarousel({
               src={image}
               alt={`Thumbnail ${index + 1}`}
               fill
-              className="object-cover"
+              className="object-contain"
             />
+             {isSoldOut && (
+                <>
+                    <div className="w-full flex justify-center items-center text-2xl font-bold p-2 bg-primary text-white shadow-2xl">
+                      SOLD OUT
+                    </div>
+                </>
+              )}
           </button>
         ))}
       </div>

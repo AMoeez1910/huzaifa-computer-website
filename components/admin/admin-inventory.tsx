@@ -424,7 +424,6 @@ function AccessoriesTable({
       </div>
     );
   }
-  console.log(accessories);
   return (
     <div className="overflow-x-auto">
       <Table>

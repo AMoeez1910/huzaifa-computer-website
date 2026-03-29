@@ -3,7 +3,7 @@ import { createClient } from "@/lib/supabase/client";
 /**
  * Upload a file to Supabase Storage
  * @param file - The file to upload
- * @param path - The path within the bucket (e.g., 'products/image.jpg')
+ * @param path - The path within the bucket (e.g., 'products/image.webp')
  * @returns The public URL of the uploaded file
  */
 export async function uploadFile(

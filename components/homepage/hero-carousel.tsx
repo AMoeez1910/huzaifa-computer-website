@@ -13,7 +13,7 @@ const slides = [
     title: "Heavy Performance Affordable Price",
     subtitle: "Get enterprise-level printing without the heavy price tag.",
     image:
-      "/images/hero-image.jpg",
+      "/images/hero-image.webp",
     cta: "View Best Sellers",
     href: "/printers",
     variant: "full-image" as const,
@@ -24,7 +24,7 @@ const slides = [
     subtitle: "Printer not working let us have a look.",
     
     image:
-     "/images/hero-image-2.jpg",
+     "/images/hero-image-2.webp",
     cta: "Get Support",
     href: "tel:03009403751",
     variant: "split-left" as const,
@@ -34,7 +34,7 @@ const slides = [
     title: "Browse Online. Call to Order.",
     subtitle: "From Our Warehouse , Delivered to your door.",
     image:
-     "/images/hero-image-3.jpg",
+     "/images/hero-image-3.webp",
     cta: "Browse Collection",
     href: "/printers",
     variant: "split-right" as const,

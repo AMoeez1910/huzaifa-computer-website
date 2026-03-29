@@ -107,12 +107,9 @@ export function ProductCard({
           {/* Sold Out Overlay */}
           {product.sold_out && (
             <>
-              <div className="absolute inset-0 bg-black/60 backdrop-blur-sm z-10" />
-              <div className="absolute inset-0 flex items-center justify-center z-20">
-                <div className="w-full flex justify-center items-center text-2xl font-bold p-2 bg-primary text-white shadow-2xl">
+                <div className="z-10 top-1/2 absolute w-full flex justify-center items-center text-2xl font-bold p-2 bg-primary text-white">
                   SOLD OUT
                 </div>
-              </div>
             </>
           )}
 
@@ -126,9 +123,7 @@ export function ProductCard({
             }
             alt={product.name}
             fill
-            className={`${imageFit} bg-white ${ 
-              product.sold_out ? "grayscale opacity-50" : ""
-            } group-hover:scale-105 transition-transform duration-300`}
+            className={`${imageFit} bg-white group-hover:scale-105 transition-transform duration-300`}
           />
         </div>
 
